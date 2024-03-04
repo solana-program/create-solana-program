@@ -1,13 +1,8 @@
 export type PackageManager = "npm" | "yarn" | "pnpm";
 
 export function getPackageManager(): PackageManager {
-  // Supported package managers: pnpm > yarn > npm
-  const userAgent = process.env.npm_config_user_agent ?? "";
-  return /pnpm/.test(userAgent)
-    ? "pnpm"
-    : /yarn/.test(userAgent)
-      ? "yarn"
-      : "npm";
+  // For now, we only support pnpm.
+  return "pnpm";
 }
 
 export function getPackageManagerCommand(

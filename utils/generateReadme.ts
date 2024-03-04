@@ -7,10 +7,10 @@ export function generateReadme(ctx: RenderContext): string {
 TODO
 
 \`\`\`sh
-${ctx.getCommand("run", "programs:build")}
-${ctx.getCommand("run", "programs:test")}
-${ctx.getCommand("run", "programs:format")}
-${ctx.getCommand("run", "programs:lint")}
+${ctx.getCommand("programs:build")}
+${ctx.getCommand("programs:test")}
+${ctx.getCommand("programs:format")}
+${ctx.getCommand("programs:lint")}
 \`\`\`
 
 TODO`;

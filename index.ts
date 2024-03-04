@@ -11,14 +11,8 @@ import {
 } from "./utils/directoryTraverse";
 import { generateReadme } from "./utils/generateReadme";
 import { consoleLogBanner } from "./utils/getBanner";
-import { getInputs } from "./utils/getInputs";
-import { Language, getLanguage } from "./utils/getLanguage";
-import {
-  getPackageManager,
-  getPackageManagerCommand,
-} from "./utils/getPackageManager";
-import renderTemplate from "./utils/renderTemplate";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
+import renderTemplate from "./utils/renderTemplate";
 
 init().catch((e) => {
   console.error(e);
@@ -30,7 +24,7 @@ async function init() {
 
   // Gather user inputs.
   const ctx = await getRenderContext();
-  console.log(ctx);
+  // console.log(ctx);
 
   // Prepare the target directory.
   createOrEmptyTargetDirectory(ctx);
@@ -98,7 +92,7 @@ async function init() {
   console.log(`  ${chalk.bold(chalk.green(installCommand))}`);
 
   // Log next steps: Generate Idls and clients.
-  const generateCommand = ctx.getCommand("run", "generate");
+  const generateCommand = ctx.getCommand("generate");
   console.log(`  ${chalk.bold(chalk.green(generateCommand))}`);
 
   // Final line break.

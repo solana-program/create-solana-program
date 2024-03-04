@@ -1,0 +1,8 @@
+.DS_Store
+**/.DS_Store
+**/target
+**/*.rs.bk
+node_modules
+dist
+outfile.cjs
+playground

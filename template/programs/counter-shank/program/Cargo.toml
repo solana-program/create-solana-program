@@ -1,0 +1,25 @@
+[package]
+name = "acme-counter"
+version = "0.1.0"
+edition = "2021"
+readme = "./README.md"
+license-file = "../LICENSE"
+publish = false
+
+[package.metadata.solana]
+program-id = "MyProgram1111111111111111111111111111111111"
+program-dependencies = [
+  "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s",
+  "noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV",
+]
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+borsh = "^0.10"
+shank = "^0.4.2"
+num-derive = "^0.3"
+num-traits = "^0.2"
+solana-program = "~1.16"
+thiserror = "^1.0"

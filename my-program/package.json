@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "scripts": {
+    "programs:build": "./scripts/program/build.mjs",
+    "programs:test": "./scripts/program/test.mjs",
+    "programs:debug": "./scripts/program/test.mjs",
+    "programs:clean": "./scripts/program/clean.mjs",
+    "programs:format": "./scripts/program/format.mjs",
+    "programs:lint": "./scripts/program/lint.mjs",
+    "generate:idls": "./scripts/generate-idls.mjs"
+  },
+  "devDependencies": {
+    "@iarna/toml": "^2.2.5",
+    "@metaplex-foundation/shank-js": "^0.1.7",
+    "typescript": "^5.3.3",
+    "zx": "^7.2.3"
+  },
+  "packageManager": "pnpm@8.9.0"
+}

@@ -1,0 +1,71 @@
+{
+  "programName": {
+    "message": "Nom du program\u00a0:"
+  },
+  "shouldOverride": {
+    "dirForPrompts": {
+      "current": "Répertoire courant",
+      "target": "Répertoire cible"
+    },
+    "message": "n'est pas vide. Supprimer les fichiers existants et continuer\u00a0?"
+  },
+  "organizationName": {
+    "message": "Nom de l'organisation\u00a0:"
+  },
+  "programCrateName": {
+    "message": "Nom du crate pour le program\u00a0:"
+  },
+  "programAddress": {
+    "message": "Address du program\u00a0:"
+  },
+  "programFramework": {
+    "message": "Program framework\u00a0:",
+    "selectOptions": {
+      "shank": {
+        "title": "Shank",
+        "desc": "Solana program pure avec des macros Shank pour générer les IDLs"
+      },
+      "anchor": {
+        "title": "Anchor"
+      }
+    }
+  },
+  "clients": {
+    "message": "Clients générés\u00a0:",
+    "selectOptions": {
+      "js": {
+        "title": "Client JavaScript",
+        "desc": "Une librairie TypeScript compatible avec le nouveau web3.js"
+      },
+      "rust": {
+        "title": "Client Rust",
+        "desc": "Une librairie Rust pour interagir avec le program"
+      }
+    }
+  },
+  "jsClientPackageName": {
+    "message": "Nom du package pour le client JavaScript\u00a0:"
+  },
+  "rustClientCrateName": {
+    "message": "Nom du crate pour le client Rust\u00a0:"
+  },
+  "needsTypeScript": {
+    "message": "Ajouter TypeScript\u00a0?"
+  },
+  "errors": {
+    "operationCancelled": "Operation annulée",
+    "cannotOverrideDirectory": "Impossible de remplacer le répertoire cible \"$targetDirectory\". Exécutez avec l'option --force pour remplacer."
+  },
+  "defaultToggleOptions": {
+    "active": "Oui",
+    "inactive": "Non"
+  },
+  "instructions": {
+    "select": "[↑/↓]: Sélectionner / [entrée]: Valider",
+    "multiselect": "[↑/↓]: Sélectionner / [espace]: Basculer la sélection / [a]: Basculer tout / [entrée]: Valider"
+  },
+  "infos": {
+    "scaffolding": "Génération du projet dans",
+    "done": "Terminé. Exécutez maintenant\u00a0:"
+  }
+}

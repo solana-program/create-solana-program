@@ -1,0 +1,48 @@
+{
+  "name": "create-solana-program",
+  "version": "0.1.0",
+  "description": "An easy way to start a Solana program",
+  "type": "module",
+  "bin": {
+    "create-solana-program": "dist/index.cjs"
+  },
+  "files": [
+    "dist",
+    "locales",
+    "template"
+  ],
+  "engines": {
+    "node": ">=v18.0.0"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "build": "zx ./scripts/build.mjs",
+    "snapshot": "zx ./scripts/snapshot.mjs",
+    "pretest": "pnpm build snapshot",
+    "test": "zx ./scripts/test.mjs",
+    "prepublishOnly": "zx ./scripts/prepublish.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solana-program/create-solana-program.git"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/solana-program/create-solana-program/issues"
+  },
+  "homepage": "https://github.com/solana-program/create-solana-program#readme",
+  "devDependencies": {
+    "@tsconfig/node20": "^20.1.2",
+    "@types/eslint": "^8.56.5",
+    "@types/node": "^20.11.24",
+    "@types/prompts": "^2.4.9",
+    "chalk": "^5.3.0",
+    "ejs": "^3.1.9",
+    "esbuild": "^0.18.20",
+    "gradient-string": "^2.0.2",
+    "prettier": "^3.2.5",
+    "prompts": "^2.4.2",
+    "zx": "^7.2.3"
+  }
+}

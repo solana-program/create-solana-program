@@ -1,0 +1,68 @@
+{
+  "programName": {
+    "message": "Program name:"
+  },
+  "shouldOverride": {
+    "dirForPrompts": {
+      "current": "Current directory",
+      "target": "Target directory"
+    },
+    "message": "is not empty. Remove existing files and continue?"
+  },
+  "organizationName": {
+    "message": "Organization name:"
+  },
+  "programCrateName": {
+    "message": "Program crate name:"
+  },
+  "programAddress": {
+    "message": "Program address:"
+  },
+  "programFramework": {
+    "message": "Program framework:",
+    "selectOptions": {
+      "shank": {
+        "title": "Shank",
+        "desc": "Vanilla Solana program with Shank macros to generate IDLs"
+      },
+      "anchor": {
+        "title": "Anchor"
+      }
+    }
+  },
+  "clients": {
+    "message": "Generated clients:",
+    "selectOptions": {
+      "js": {
+        "title": "JavaScript Client",
+        "desc": "A TypeScript library compatible with the new web3.js"
+      },
+      "rust": {
+        "title": "Rust Client",
+        "desc": "A Rust crate allowing consumers to interact with the program"
+      }
+    }
+  },
+  "jsClientPackageName": {
+    "message": "JavaScript client package name:"
+  },
+  "rustClientCrateName": {
+    "message": "Rust client crate name:"
+  },
+  "errors": {
+    "operationCancelled": "Operation cancelled",
+    "cannotOverrideDirectory": "Cannot override target directory \"$targetDirectory\". Run with option --force to override."
+  },
+  "defaultToggleOptions": {
+    "active": "Yes",
+    "inactive": "No"
+  },
+  "instructions": {
+    "select": "[↑/↓]: Select / [enter]: Submit answer",
+    "multiselect": "[↑/↓]: Select / [space]: Toggle selection / [a]: Toggle all / [enter]: Submit answer"
+  },
+  "infos": {
+    "scaffolding": "Scaffolding project in",
+    "done": "Done. Now run:"
+  }
+}

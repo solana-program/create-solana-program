@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "generate": "pnpm generate:idls && pnpm generate:clients",
+    "generate:clients": "./scripts/generate-clients.mjs",
+    "validator": "./scripts/start-validator.mjs",
+    "validator:stop": "./scripts/stop-validator.mjs"
+  },
+  "devDependencies": {
+    "@metaplex-foundation/kinobi": "^0.17.4"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "clients:rust:test": "./scripts/client/test-rust.mjs"
+  }
+}

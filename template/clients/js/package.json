@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "clients:js:test": "./scripts/client/test-js.mjs"
+  }
+}

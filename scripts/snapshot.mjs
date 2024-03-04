@@ -4,27 +4,26 @@ import "zx/globals";
 
 $.verbose = false;
 
-if (!/pnpm/.test(process.env.npm_config_user_agent ?? ""))
-  throw new Error(
-    "Please use pnpm ('pnpm run snapshot') to generate snapshots!"
-  );
+const projects = {
+  "counter-shank": ["--shank"],
+  "counter-anchor": ["--shank"],
+};
 
 const playgroundDir = path.resolve(__dirname, "../playground/");
+const bin = path.resolve(__dirname, "../outfile.cjs");
 cd(playgroundDir);
 
-// remove all previous combinations
-for (const flags of flagCombinations) {
-  const projectName = flags.join("-");
+for (const projectName in projects) {
+  const projectArgs = projects[projectName];
 
-  console.log(`Removing previously generated project ${projectName}`);
-  fs.rmSync(projectName, { recursive: true, force: true });
+  const projectExists = fs.existsSync(projectName);
+  if (projectExists) {
+    fs.rmSync(projectName, { recursive: true, force: true });
+  }
+
+  const verb = projectExists ? "Re-creating" : "Creating";
+  echo(`${verb} project ${projectName}...`);
+  await $`node ${[bin, projectName, ...projectArgs, "--force", "--default"]}`;
 }
 
-const bin = path.posix.relative("../playground/", "../outfile.cjs");
-
-for (const flags of flagCombinations) {
-  const projectName = flags.join("-");
-
-  console.log(`Creating project ${projectName}`);
-  await $`node ${[bin, projectName, ...flags.map((flag) => `--${flag}`), "--force"]}`;
-}
+echo(chalk.green("All projects were created successfully!"));

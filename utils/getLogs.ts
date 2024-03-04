@@ -23,11 +23,11 @@ export function logEnd(ctx: RenderContext) {
   }
 
   // Log next steps: Install dependencies.
-  const installCommand = ctx.getCommand("install");
+  const installCommand = ctx.getNpmCommand("install");
   console.log(`  ${chalk.bold(chalk.green(installCommand))}`);
 
   // Log next steps: Generate Idls and clients.
-  const generateCommand = ctx.getCommand("generate");
+  const generateCommand = ctx.getNpmCommand("generate");
   console.log(`  ${chalk.bold(chalk.green(generateCommand))}`);
 
   // Final line break.

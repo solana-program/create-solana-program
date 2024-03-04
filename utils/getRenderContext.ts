@@ -11,7 +11,7 @@ import {
 export type RenderContext = Inputs & {
   clients: Client[];
   currentDirectory: string;
-  getCommand: (scriptName: string, args?: string) => string;
+  getNpmCommand: (scriptName: string, args?: string) => string;
   language: Language;
   packageManager: PackageManager;
   targetDirectory: string;
@@ -25,7 +25,7 @@ export async function getRenderContext(): Promise<RenderContext> {
   const clients = allClients.flatMap((client) =>
     inputs[`${client}Client`] ? [client] : []
   );
-  const getCommand: RenderContext["getCommand"] = (...args) =>
+  const getNpmCommand: RenderContext["getNpmCommand"] = (...args) =>
     getPackageManagerCommand(packageManager, ...args);
 
   // Directories.
@@ -40,7 +40,7 @@ export async function getRenderContext(): Promise<RenderContext> {
     ...inputs,
     clients,
     currentDirectory,
-    getCommand,
+    getNpmCommand,
     language,
     packageManager,
     targetDirectory,

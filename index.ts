@@ -5,7 +5,6 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 
 import { postOrderDirectoryTraverse } from "./utils/directoryTraverse";
-import { generateReadme } from "./utils/generateReadme";
 import { logBanner, logEnd, logStart } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
 import { renderTemplate } from "./utils/renderTemplate";
@@ -33,12 +32,6 @@ async function init() {
   // if (needsJsx) {
   //   render("config/jsx");
   // }
-
-  // README generation
-  fs.writeFileSync(
-    path.resolve(ctx.targetDirectory, "README.md"),
-    generateReadme(ctx)
-  );
 
   // Log end of scaffolding.
   logEnd(ctx);

@@ -1,14 +1,14 @@
 {
   "name": "create-solana-program",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An easy way to start a Solana program",
   "type": "module",
   "bin": {
-    "create-solana-program": "dist/index.cjs"
+    "create-solana-program": "outfile.cjs"
   },
   "files": [
-    "dist",
     "locales",
+    "outfile.cjs",
     "template"
   ],
   "engines": {

@@ -4,10 +4,9 @@ import chalk from "chalk";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-import { postOrderDirectoryTraverse } from "./utils/directoryTraverse";
 import { logBanner, logEnd, logStart } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
-import { renderTemplate } from "./utils/renderTemplate";
+import { renderTemplate } from "./utils/renderTemplates";
 
 init().catch((e) => {
   console.error(e);
@@ -41,11 +40,7 @@ function createOrEmptyTargetDirectory(ctx: RenderContext) {
   if (!fs.existsSync(ctx.targetDirectory)) {
     fs.mkdirSync(ctx.targetDirectory);
   } else if (ctx.shouldOverride) {
-    postOrderDirectoryTraverse(
-      ctx.targetDirectory,
-      (dir) => fs.rmdirSync(dir),
-      (file) => fs.unlinkSync(file)
-    );
+    emptyDirectory(ctx.targetDirectory);
   } else {
     const message = ctx.language.errors.cannotOverrideDirectory.replace(
       "$targetDirectory",
@@ -53,5 +48,17 @@ function createOrEmptyTargetDirectory(ctx: RenderContext) {
     );
     console.log(chalk.red("✖") + ` ${message}`);
     process.exit(1);
+  }
+}
+
+function emptyDirectory(directory: string) {
+  for (const filename of fs.readdirSync(directory)) {
+    if (filename === ".git") continue;
+    const fullpath = path.resolve(directory, filename);
+    if (fs.lstatSync(fullpath).isDirectory()) {
+      fs.rmdirSync(fullpath);
+    } else {
+      fs.unlinkSync(fullpath);
+    }
   }
 }

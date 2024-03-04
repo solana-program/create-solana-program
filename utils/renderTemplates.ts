@@ -2,16 +2,15 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import nunjucks, { ConfigureOptions } from "nunjucks";
 
-import { deepMerge } from "./deepMerge";
 import { RenderContext } from "./getRenderContext";
-import { sortDependencies } from "./sortDependencies";
+import { deepMerge, sortDependencies } from "./objectHelpers";
 import {
   camelCase,
   kebabCase,
   pascalCase,
   snakeCase,
   titleCase,
-} from "./strings";
+} from "./stringHelpers";
 
 /**
  * Renders a template folder/file to the provided destination,

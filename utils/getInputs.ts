@@ -4,7 +4,7 @@ import { parseArgs } from "node:util";
 import prompts from "prompts";
 
 import { Language } from "./getLanguage";
-import { kebabCase } from "./strings";
+import { kebabCase } from "./stringHelpers";
 
 export const allClients = ["js", "rust"] as const;
 export type Client = (typeof allClients)[number];

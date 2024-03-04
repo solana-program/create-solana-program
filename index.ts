@@ -10,7 +10,7 @@ import {
   preOrderDirectoryTraverse,
 } from "./utils/directoryTraverse";
 import { generateReadme } from "./utils/generateReadme";
-import { consoleLogBanner } from "./utils/getBanner";
+import { logBanner, logEnd, logStart } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
 import renderTemplate from "./utils/renderTemplate";
 
@@ -19,20 +19,10 @@ init().catch((e) => {
 });
 
 async function init() {
-  // Welcome message.
-  consoleLogBanner();
-
-  // Gather user inputs.
+  logBanner();
   const ctx = await getRenderContext();
-  // console.log(ctx);
-
-  // Prepare the target directory.
   createOrEmptyTargetDirectory(ctx);
-
-  // Log start of scaffolding.
-  console.log(
-    `\n${ctx.language.infos.scaffolding} ${ctx.targetDirectoryName}...`
-  );
+  logStart(ctx);
 
   // Prepare rendering function and accumulate callbacks.
   const callbacks = [];
@@ -79,24 +69,7 @@ async function init() {
   );
 
   // Log end of scaffolding.
-  console.log(`\n${ctx.language.infos.done}\n`);
-
-  // Log next steps: Cd into the target directory.
-  if (ctx.targetDirectory !== ctx.currentDirectory) {
-    const cdCommand = `cd ${ctx.targetDirectoryName.includes(" ") ? `"${ctx.targetDirectoryName}"` : ctx.targetDirectoryName}`;
-    console.log(`  ${chalk.bold(chalk.green(cdCommand))}`);
-  }
-
-  // Log next steps: Install dependencies.
-  const installCommand = ctx.getCommand("install");
-  console.log(`  ${chalk.bold(chalk.green(installCommand))}`);
-
-  // Log next steps: Generate Idls and clients.
-  const generateCommand = ctx.getCommand("generate");
-  console.log(`  ${chalk.bold(chalk.green(generateCommand))}`);
-
-  // Final line break.
-  console.log();
+  logEnd(ctx);
 }
 
 function createOrEmptyTargetDirectory(ctx: RenderContext) {

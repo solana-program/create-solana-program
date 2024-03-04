@@ -295,17 +295,19 @@ function getDefaultInputs(partialInputs: Partial<Inputs>): Inputs {
       partialInputs.targetDirectoryName ??
       "my-program"
   );
+  const programCrateName =
+    partialInputs.programCrateName ?? `${organizationName}-${programName}`;
 
   return {
     jsClient: true,
     jsClientPackageName: `@${organizationName}/${programName}`,
     organizationName,
     programAddress: "MyProgram1111111111111111111111111111111111",
-    programCrateName: `${organizationName}-${programName}`,
+    programCrateName,
     programFramework: "shank",
     programName,
     rustClient: true,
-    rustClientCrateName: `${organizationName}-${programName}-client`,
+    rustClientCrateName: `${programCrateName}-client`,
     shouldOverride: false,
     targetDirectoryName: programName,
     useDefaults: false,

@@ -8,32 +8,36 @@ import { logBanner, logEnd, logStart } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
 import { renderTemplate } from "./utils/renderTemplates";
 
-init().catch((e) => {
-  console.error(e);
-});
-
-async function init() {
+(async function init() {
   logBanner();
   const ctx = await getRenderContext();
   createOrEmptyTargetDirectory(ctx);
   logStart(ctx);
+  renderTemplates(ctx);
+  logEnd(ctx);
+})().catch((e) => console.error(e));
 
-  // Prepare rendering function and accumulate callbacks.
-  const render = function render(templateName: string) {
+function renderTemplates(ctx: RenderContext) {
+  const render = (templateName: string) => {
     const directory = path.resolve(ctx.templateDirectory, templateName);
     renderTemplate(ctx, directory, ctx.targetDirectory);
   };
 
-  // Render base template.
   render("base");
 
-  // Add configs.
-  // if (needsJsx) {
-  //   render("config/jsx");
-  // }
+  if (ctx.programFramework === "anchor") {
+    render("programs/counter-anchor");
+  } else {
+    render("programs/counter-shank");
+  }
 
-  // Log end of scaffolding.
-  logEnd(ctx);
+  if (ctx.clients.length > 0) {
+    render("clients/base");
+  }
+
+  ctx.clients.forEach((client) => {
+    render(`clients/${client}`);
+  });
 }
 
 function createOrEmptyTargetDirectory(ctx: RenderContext) {

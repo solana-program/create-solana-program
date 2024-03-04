@@ -1,18 +1,14 @@
 #!/usr/bin/env node
 
 import chalk from "chalk";
-import ejs from "ejs";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-import {
-  postOrderDirectoryTraverse,
-  preOrderDirectoryTraverse,
-} from "./utils/directoryTraverse";
+import { postOrderDirectoryTraverse } from "./utils/directoryTraverse";
 import { generateReadme } from "./utils/generateReadme";
 import { logBanner, logEnd, logStart } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
-import renderTemplate from "./utils/renderTemplate";
+import { renderTemplate } from "./utils/renderTemplate";
 
 init().catch((e) => {
   console.error(e);
@@ -25,10 +21,9 @@ async function init() {
   logStart(ctx);
 
   // Prepare rendering function and accumulate callbacks.
-  const callbacks = [];
   const render = function render(templateName: string) {
     const directory = path.resolve(ctx.templateDirectory, templateName);
-    renderTemplate(directory, ctx.targetDirectory, callbacks);
+    renderTemplate(ctx, directory, ctx.targetDirectory);
   };
 
   // Render base template.
@@ -38,29 +33,6 @@ async function init() {
   // if (needsJsx) {
   //   render("config/jsx");
   // }
-
-  // An external data store for callbacks to share data
-  const dataStore = {};
-  // Process callbacks
-  for (const cb of callbacks) {
-    await cb(dataStore);
-  }
-
-  // EJS template rendering
-  preOrderDirectoryTraverse(
-    ctx.targetDirectory,
-    () => {},
-    (filepath) => {
-      if (filepath.endsWith(".ejs")) {
-        const template = fs.readFileSync(filepath, "utf-8");
-        const dest = filepath.replace(/\.ejs$/, "");
-        const content = ejs.render(template, dataStore[dest]);
-
-        fs.writeFileSync(dest, content);
-        fs.unlinkSync(filepath);
-      }
-    }
-  );
 
   // README generation
   fs.writeFileSync(

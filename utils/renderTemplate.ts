@@ -1,44 +1,48 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { pathToFileURL } from "node:url";
+import nunjucks, { ConfigureOptions } from "nunjucks";
 
 import { deepMerge } from "./deepMerge";
+import { RenderContext } from "./getRenderContext";
 import { sortDependencies } from "./sortDependencies";
+import {
+  camelCase,
+  kebabCase,
+  pascalCase,
+  snakeCase,
+  titleCase,
+} from "./strings";
 
 /**
- * Renders a template folder/file to the file system,
- * by recursively copying all files under the `src` directory,
+ * Renders a template folder/file to the provided destination,
+ * by recursively copying all files under the source directory,
  * with the following exception:
- *   - `_filename` should be renamed to `.filename`
- *   - Fields in `package.json` should be recursively merged
- * @param {string} src source filename to copy
- * @param {string} dest destination filename of the copy operation
+ *   - `_filename` are renamed to `.filename`.
+ *   - `package.json` files are merged.
+ *   - `.gitignore` files are concatenated.
+ *   - `.njk` files are rendered as nunjucks templates
+ *     and saved without the `.njk` extension.
  */
-function renderTemplate(src: string, dest: string, callbacks: Array<Function>) {
+export function renderTemplate(ctx: RenderContext, src: string, dest: string) {
   const stats = fs.statSync(src);
 
+  // Recursively render directories.
   if (stats.isDirectory()) {
-    // skip node_module
-    if (path.basename(src) === "node_modules") {
-      return;
-    }
+    // Skip node_module.
+    if (path.basename(src) === "node_modules") return;
 
-    // if it's a directory, render its subdirectories and files recursively
+    // Render its subdirectories and files recursively.
     fs.mkdirSync(dest, { recursive: true });
     for (const file of fs.readdirSync(src)) {
-      renderTemplate(
-        path.resolve(src, file),
-        path.resolve(dest, file),
-        callbacks
-      );
+      renderTemplate(ctx, path.resolve(src, file), path.resolve(dest, file));
     }
     return;
   }
 
   const filename = path.basename(src);
 
+  // Merge package.json files.
   if (filename === "package.json" && fs.existsSync(dest)) {
-    // merge instead of overwriting
     const existing = JSON.parse(fs.readFileSync(dest, "utf8"));
     const newPackage = JSON.parse(fs.readFileSync(src, "utf8"));
     const pkg = sortDependencies(deepMerge(existing, newPackage));
@@ -46,47 +50,45 @@ function renderTemplate(src: string, dest: string, callbacks: Array<Function>) {
     return;
   }
 
-  if (filename === "extensions.json" && fs.existsSync(dest)) {
-    // merge instead of overwriting
-    const existing = JSON.parse(fs.readFileSync(dest, "utf8"));
-    const newExtensions = JSON.parse(fs.readFileSync(src, "utf8"));
-    const extensions = deepMerge(existing, newExtensions);
-    fs.writeFileSync(dest, JSON.stringify(extensions, null, 2) + "\n");
-    return;
-  }
-
+  // Rename `_file` to `.file`.
   if (filename.startsWith("_")) {
-    // rename `_file` to `.file`
     dest = path.resolve(path.dirname(dest), filename.replace(/^_/, "."));
   }
 
+  // Append to existing .gitignore.
   if (filename === "_gitignore" && fs.existsSync(dest)) {
-    // append to existing .gitignore
     const existing = fs.readFileSync(dest, "utf8");
     const newGitignore = fs.readFileSync(src, "utf8");
     fs.writeFileSync(dest, existing + "\n" + newGitignore);
     return;
   }
 
-  // data file for EJS templates
-  if (filename.endsWith(".data.mjs")) {
-    // use dest path as key for the data store
-    dest = dest.replace(/\.data\.mjs$/, "");
-
-    // Add a callback to the array for late usage when template files are being processed
-    callbacks.push(async (dataStore) => {
-      const getData = (await import(pathToFileURL(src).toString())).default;
-
-      // Though current `getData` are all sync, we still retain the possibility of async
-      dataStore[dest] = await getData({
-        oldData: dataStore[dest] || {},
-      });
-    });
-
-    return; // skip copying the data file
+  // Render nunjucks templates.
+  if (filename.endsWith(".njk")) {
+    dest = dest.replace(/\.njk$/, "");
+    fs.writeFileSync(dest, resolveNunjunksTemplate(src, ctx));
+    return;
   }
 
   fs.copyFileSync(src, dest);
 }
 
-export default renderTemplate;
+function resolveNunjunksTemplate(
+  file: string,
+  context?: object,
+  options?: ConfigureOptions
+): string {
+  const directory = path.dirname(file);
+  const filename = path.basename(file);
+  const env = nunjucks.configure(directory, {
+    trimBlocks: true,
+    autoescape: false,
+    ...options,
+  });
+  env.addFilter("pascalCase", pascalCase);
+  env.addFilter("camelCase", camelCase);
+  env.addFilter("snakeCase", snakeCase);
+  env.addFilter("kebabCase", kebabCase);
+  env.addFilter("titleCase", titleCase);
+  return env.render(filename, context);
+}

@@ -19,8 +19,7 @@
     "build": "zx ./scripts/build.mjs",
     "snapshot": "zx ./scripts/snapshot.mjs",
     "pretest": "pnpm build snapshot",
-    "test": "zx ./scripts/test.mjs",
-    "prepublishOnly": "zx ./scripts/prepublish.mjs"
+    "test": "zx ./scripts/test.mjs"
   },
   "repository": {
     "type": "git",

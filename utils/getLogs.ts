@@ -16,14 +16,12 @@ export function logError(message: string) {
   console.log(chalk.red("✖") + ` ${message}`);
 }
 
-export function logStart(ctx: RenderContext) {
-  console.log(
-    `\n${ctx.language.infos.scaffolding} ${ctx.targetDirectoryName}...`
-  );
+export function logStep(message: string) {
+  console.log(chalk.blue("➤") + ` ${message}`);
 }
 
-export function logEnd(ctx: RenderContext) {
-  console.log(`\n${ctx.language.infos.done}\n`);
+export function logDone(ctx: RenderContext) {
+  console.log(chalk.green("✔︎") + ` ${ctx.language.infos.done}\n`);
 
   // Log next steps: Cd into the target directory.
   if (ctx.targetDirectory !== ctx.currentDirectory) {

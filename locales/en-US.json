@@ -63,7 +63,8 @@
     "multiselect": "[↑/↓]: Select / [space]: Toggle selection / [a]: Toggle all / [enter]: Submit answer"
   },
   "infos": {
-    "scaffolding": "Scaffolding project in",
+    "scaffolding": "Scaffolding project in $targetDirectory...",
+    "generatingKeypair": "Generating program keypair...",
     "done": "Done. Now run:"
   }
 }

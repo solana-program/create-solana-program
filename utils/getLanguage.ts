@@ -43,6 +43,7 @@ export interface Language {
   };
   infos: {
     scaffolding: string;
+    generatingKeypair: string;
     done: string;
   };
 }

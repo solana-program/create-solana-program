@@ -4,7 +4,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 
 import { generateKeypair } from "./utils/generateKeypair";
-import { logBanner, logEnd, logErrorAndExit, logStart } from "./utils/getLogs";
+import { logBanner, logDone, logErrorAndExit, logStep } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
 import { renderTemplate } from "./utils/renderTemplates";
 
@@ -12,10 +12,16 @@ import { renderTemplate } from "./utils/renderTemplates";
   logBanner();
   const ctx = await getRenderContext();
   createOrEmptyTargetDirectory(ctx);
-  logStart(ctx);
+  logStep(
+    ctx.language.infos.scaffolding.replace(
+      "$targetDirectory",
+      ctx.targetDirectoryName
+    )
+  );
   renderTemplates(ctx);
+  logStep(ctx.language.infos.generatingKeypair);
   await generateKeypair(ctx);
-  logEnd(ctx);
+  logDone(ctx);
 })().catch((e) => console.error(e));
 
 function renderTemplates(ctx: RenderContext) {

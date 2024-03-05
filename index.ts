@@ -3,6 +3,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
+import { generateKeypair } from "./utils/generateKeypair";
 import { logBanner, logEnd, logErrorAndExit, logStart } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
 import { renderTemplate } from "./utils/renderTemplates";
@@ -13,6 +14,7 @@ import { renderTemplate } from "./utils/renderTemplates";
   createOrEmptyTargetDirectory(ctx);
   logStart(ctx);
   renderTemplates(ctx);
+  await generateKeypair(ctx);
   logEnd(ctx);
 })().catch((e) => console.error(e));
 

@@ -54,7 +54,8 @@
   },
   "errors": {
     "operationCancelled": "Operation annulée",
-    "cannotOverrideDirectory": "Impossible de remplacer le répertoire cible \"$targetDirectory\". Exécutez avec l'option --force pour remplacer."
+    "cannotOverrideDirectory": "Impossible de remplacer le répertoire cible \"$targetDirectory\". Exécutez avec l'option --force pour remplacer.",
+    "solanaKeygenNotFound": "Commande `solana-keygen` indisponible. Veuillez installer Solana dans votre terminal."
   },
   "defaultToggleOptions": {
     "active": "Oui",

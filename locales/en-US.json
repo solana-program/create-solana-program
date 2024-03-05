@@ -51,7 +51,8 @@
   },
   "errors": {
     "operationCancelled": "Operation cancelled",
-    "cannotOverrideDirectory": "Cannot override target directory \"$targetDirectory\". Run with option --force to override."
+    "cannotOverrideDirectory": "Cannot override target directory \"$targetDirectory\". Run with option --force to override.",
+    "solanaKeygenNotFound": "Command `solana-keygen` unavailable. Please install the Solana CLI."
   },
   "defaultToggleOptions": {
     "active": "Yes",

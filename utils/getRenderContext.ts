@@ -9,10 +9,12 @@ import {
 } from "./getPackageManager";
 
 export type RenderContext = Inputs & {
+  clientDirectory: string;
   clients: Client[];
   currentDirectory: string;
   getNpmCommand: (scriptName: string, args?: string) => string;
   language: Language;
+  programDirectory: string;
   packageManager: PackageManager;
   targetDirectory: string;
   templateDirectory: string;
@@ -35,14 +37,18 @@ export async function getRenderContext(): Promise<RenderContext> {
     currentDirectory,
     inputs.targetDirectoryName
   );
+  const programDirectory = path.join(targetDirectory, "program");
+  const clientDirectory = path.join(targetDirectory, "client");
 
   return {
     ...inputs,
+    clientDirectory,
     clients,
     currentDirectory,
     getNpmCommand,
     language,
     packageManager,
+    programDirectory,
     targetDirectory,
     templateDirectory,
   };

@@ -31,6 +31,7 @@ export interface Language {
   errors: {
     operationCancelled: string;
     cannotOverrideDirectory: string;
+    solanaKeygenNotFound: string;
   };
   defaultToggleOptions: {
     active: string;

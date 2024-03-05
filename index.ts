@@ -59,10 +59,6 @@ function emptyDirectory(directory: string) {
   for (const filename of fs.readdirSync(directory)) {
     if (filename === ".git") continue;
     const fullpath = path.resolve(directory, filename);
-    if (fs.lstatSync(fullpath).isDirectory()) {
-      fs.rmdirSync(fullpath);
-    } else {
-      fs.unlinkSync(fullpath);
-    }
+    fs.rmSync(fullpath, { recursive: true });
   }
 }

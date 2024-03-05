@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
-import chalk from "chalk";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-import { logBanner, logEnd, logStart } from "./utils/getLogs";
+import { logBanner, logEnd, logErrorAndExit, logStart } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
 import { renderTemplate } from "./utils/renderTemplates";
 
@@ -46,12 +45,12 @@ function createOrEmptyTargetDirectory(ctx: RenderContext) {
   } else if (ctx.shouldOverride) {
     emptyDirectory(ctx.targetDirectory);
   } else {
-    const message = ctx.language.errors.cannotOverrideDirectory.replace(
-      "$targetDirectory",
-      ctx.targetDirectoryName
+    logErrorAndExit(
+      ctx.language.errors.cannotOverrideDirectory.replace(
+        "$targetDirectory",
+        ctx.targetDirectoryName
+      )
     );
-    console.log(chalk.red("✖") + ` ${message}`);
-    process.exit(1);
   }
 }
 

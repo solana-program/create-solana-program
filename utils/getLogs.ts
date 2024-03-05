@@ -7,6 +7,15 @@ export function logBanner() {
   console.log(`\n${getBanner()}\n`);
 }
 
+export function logErrorAndExit(message: string) {
+  logError(message);
+  process.exit(1);
+}
+
+export function logError(message: string) {
+  console.log(chalk.red("✖") + ` ${message}`);
+}
+
 export function logStart(ctx: RenderContext) {
   console.log(
     `\n${ctx.language.infos.scaffolding} ${ctx.targetDirectoryName}...`

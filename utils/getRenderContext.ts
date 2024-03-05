@@ -1,6 +1,12 @@
 import * as path from "node:path";
 
-import { Client, Inputs, allClients, getInputs } from "./getInputs";
+import {
+  Client,
+  Inputs,
+  allClients,
+  getDefaultInputs,
+  getInputs,
+} from "./getInputs";
 import { Language, getLanguage } from "./getLanguage";
 import {
   PackageManager,
@@ -13,6 +19,7 @@ export type RenderContext = Inputs & {
   clients: Client[];
   currentDirectory: string;
   getNpmCommand: (scriptName: string, args?: string) => string;
+  hasCustomProgramAddress: boolean;
   language: Language;
   programDirectory: string;
   packageManager: PackageManager;
@@ -27,6 +34,8 @@ export async function getRenderContext(): Promise<RenderContext> {
   const clients = allClients.flatMap((client) =>
     inputs[`${client}Client`] ? [client] : []
   );
+  const hasCustomProgramAddress =
+    inputs.programAddress !== getDefaultInputs({}).programAddress;
   const getNpmCommand: RenderContext["getNpmCommand"] = (...args) =>
     getPackageManagerCommand(packageManager, ...args);
 
@@ -46,6 +55,7 @@ export async function getRenderContext(): Promise<RenderContext> {
     clients,
     currentDirectory,
     getNpmCommand,
+    hasCustomProgramAddress,
     language,
     packageManager,
     programDirectory,

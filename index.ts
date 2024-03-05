@@ -10,10 +10,18 @@ import { renderTemplate } from "./utils/renderTemplates";
 
 (async function init() {
   logBanner();
+
+  // Get the args inputs, prompt inputs and computed values.
   const ctx = await getRenderContext();
   createOrEmptyTargetDirectory(ctx);
-  logStep(ctx.language.infos.generatingKeypair);
-  await generateKeypair(ctx);
+
+  // Generate a keypair if needed.
+  if (!ctx.hasCustomProgramAddress) {
+    logStep(ctx.language.infos.generatingKeypair);
+    await generateKeypair(ctx);
+  }
+
+  // Render the templates.
   logStep(
     ctx.language.infos.scaffolding.replace(
       "$targetDirectory",
@@ -21,6 +29,8 @@ import { renderTemplate } from "./utils/renderTemplates";
     )
   );
   renderTemplates(ctx);
+
+  // Done.
   logDone(ctx);
 })().catch((e) => console.error(e));
 

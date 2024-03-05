@@ -281,7 +281,7 @@ function getInputsFromArgs(): Partial<Inputs> {
   } as ArgInputs);
 }
 
-function getDefaultInputs(partialInputs: Partial<Inputs>): Inputs {
+export function getDefaultInputs(partialInputs: Partial<Inputs>): Inputs {
   const organizationName = kebabCase(
     partialInputs.organizationName ?? "solana-program"
   );

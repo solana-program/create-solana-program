@@ -44,7 +44,6 @@ async function getInputsFromPrompts(
     shouldOverride?: boolean;
     organizationName?: string;
     programCrateName?: string;
-    programAddress?: string;
     programFramework?: "shank" | "anchor";
     clients?: Array<"js" | "rust">;
     jsClientPackageName?: string;
@@ -63,8 +62,6 @@ async function getInputsFromPrompts(
       inputs.organizationName = promptInputs.organizationName;
     if (promptInputs.programCrateName)
       inputs.programCrateName = promptInputs.programCrateName;
-    if (promptInputs.programAddress)
-      inputs.programAddress = promptInputs.programAddress;
     if (promptInputs.programFramework)
       inputs.programFramework = promptInputs.programFramework;
     if (promptInputs.clients !== undefined) {
@@ -134,12 +131,6 @@ async function getInputsFromPrompts(
             defaultInputs = parsePromptInputs(values);
             return defaultInputs.programCrateName;
           },
-        },
-        {
-          name: "programAddress",
-          type: argInputs.programAddress ? null : "text",
-          message: language.programAddress.message,
-          initial: () => defaultInputs.programAddress,
         },
         {
           name: "programFramework",

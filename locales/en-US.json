@@ -15,9 +15,6 @@
   "programCrateName": {
     "message": "Program crate name:"
   },
-  "programAddress": {
-    "message": "Program address:"
-  },
   "programFramework": {
     "message": "Program framework:",
     "selectOptions": {

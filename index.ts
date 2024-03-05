@@ -12,6 +12,8 @@ import { renderTemplate } from "./utils/renderTemplates";
   logBanner();
   const ctx = await getRenderContext();
   createOrEmptyTargetDirectory(ctx);
+  logStep(ctx.language.infos.generatingKeypair);
+  await generateKeypair(ctx);
   logStep(
     ctx.language.infos.scaffolding.replace(
       "$targetDirectory",
@@ -19,8 +21,6 @@ import { renderTemplate } from "./utils/renderTemplates";
     )
   );
   renderTemplates(ctx);
-  logStep(ctx.language.infos.generatingKeypair);
-  await generateKeypair(ctx);
   logDone(ctx);
 })().catch((e) => console.error(e));
 

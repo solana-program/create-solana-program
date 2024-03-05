@@ -18,7 +18,7 @@ export async function generateKeypair(ctx: RenderContext): Promise<string> {
     "new",
     "--no-bip39-passphrase",
     "--outfile",
-    `${ctx.programDirectory}/keygen.json`,
+    `${ctx.programDirectory}/keypair.json`,
   ]);
 
   // Wait for the command to finish and read the stdout.

@@ -49,7 +49,7 @@ function renderTemplates(ctx: RenderContext) {
 
 function createOrEmptyTargetDirectory(ctx: RenderContext) {
   if (!fs.existsSync(ctx.targetDirectory)) {
-    fs.mkdirSync(ctx.targetDirectory);
+    fs.mkdirSync(ctx.targetDirectory, { recursive: true });
   } else if (ctx.shouldOverride) {
     emptyDirectory(ctx.targetDirectory);
   } else {

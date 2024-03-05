@@ -84,7 +84,7 @@ async function getInputsFromPrompts(
       [
         {
           name: "programName",
-          type: argInputs.targetDirectoryName ? null : "text",
+          type: argInputs.programName ? null : "text",
           message: language.programName.message,
           initial: () => defaultInputs.programName,
         },
@@ -209,6 +209,10 @@ async function getInputsFromPrompts(
         },
       }
     );
+
+    // Add a line break after the prompts
+    console.log("");
+
     return parsePromptInputs(promptInputs);
   } catch (cancelled) {
     console.log(cancelled.message);
@@ -290,10 +294,11 @@ function getDefaultInputs(partialInputs: Partial<Inputs>): Inputs {
   const organizationName = kebabCase(
     partialInputs.organizationName ?? "solana-program"
   );
+  const parsedTargetDirectoryName = partialInputs.targetDirectoryName
+    ? partialInputs.targetDirectoryName.split("/").pop()
+    : "";
   const programName = kebabCase(
-    partialInputs.programName ??
-      partialInputs.targetDirectoryName ??
-      "my-program"
+    partialInputs.programName ?? (parsedTargetDirectoryName || "my-program")
   );
   const programCrateName =
     partialInputs.programCrateName ?? `${organizationName}-${programName}`;

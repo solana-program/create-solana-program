@@ -5,8 +5,7 @@ $.verbose = false;
 
 const CLIENTS = ["js", "rust"];
 const PROJECTS = {
-  "counter-shank": ["--shank"],
-  "counter-anchor": ["--shank"],
+  "counter-shank": ["counter", "--shank"],
 };
 
 // Parse CLI arguments.

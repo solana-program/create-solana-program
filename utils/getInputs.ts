@@ -213,12 +213,13 @@ async function getInputsFromPrompts(
 
 function getInputsFromArgs(): Partial<Inputs> {
   type ArgInputs = {
-    address: string;
+    address?: string;
     anchorProgram: boolean;
     clients: Array<"js" | "rust">;
     force: boolean;
     noClients: boolean;
-    organizationName: string;
+    organizationName?: string;
+    programName?: string;
     shankProgram: boolean;
     useDefaults: boolean;
     targetDirectoryName?: string;
@@ -232,6 +233,8 @@ function getInputsFromArgs(): Partial<Inputs> {
     if (argInputs.address) inputs.programAddress = argInputs.address;
     if (argInputs.organizationName)
       inputs.organizationName = kebabCase(argInputs.organizationName);
+    if (argInputs.programName)
+      inputs.programName = kebabCase(argInputs.programName);
     if (argInputs.force) inputs.shouldOverride = true;
     if (argInputs.useDefaults) inputs.useDefaults = true;
 
@@ -275,6 +278,7 @@ function getInputsFromArgs(): Partial<Inputs> {
     force: options.force ?? false,
     noClients: options["no-clients"] ?? false,
     organizationName: options.org,
+    programName: positionals[1],
     shankProgram: options.shank ?? false,
     useDefaults: options.default ?? false,
     targetDirectoryName: positionals[0],

@@ -5,6 +5,7 @@ import prompts from "prompts";
 
 import { Language } from "./getLanguage";
 import { kebabCase } from "./stringHelpers";
+import { toMinorSolanaVersion } from "./solanaCli";
 
 export const allClients = ["js", "rust"] as const;
 export type Client = (typeof allClients)[number];
@@ -13,19 +14,20 @@ export type Inputs = {
   jsClient: boolean;
   jsClientPackageName: string;
   organizationName: string;
-  programAddress: string;
+  programAddress?: string;
   programCrateName: string;
   programFramework: "shank" | "anchor";
   programName: string;
   rustClient: boolean;
   rustClientCrateName: string;
   shouldOverride: boolean;
+  solanaVersion?: string;
   targetDirectoryName: string;
   useDefaults: boolean;
 };
 
 export async function getInputs(language: Language): Promise<Inputs> {
-  const argInputs = getInputsFromArgs();
+  const argInputs = getInputsFromArgs(language);
   const defaultInputs = getDefaultInputs(argInputs);
 
   if (argInputs.useDefaults) {
@@ -97,8 +99,8 @@ async function getInputsFromPrompts(
           message: () => {
             const dirForPrompt =
               defaultInputs.targetDirectoryName === "."
-                ? language.shouldOverride.dirForPrompts.current
-                : `${language.shouldOverride.dirForPrompts.target} "${defaultInputs.targetDirectoryName}"`;
+                ? language.shouldOverride.dirForPrompts!.current
+                : `${language.shouldOverride.dirForPrompts!.target} "${defaultInputs.targetDirectoryName}"`;
 
             return `${dirForPrompt} ${language.shouldOverride.message}`;
           },
@@ -140,13 +142,13 @@ async function getInputsFromPrompts(
           initial: 0,
           choices: [
             {
-              title: language.programFramework.selectOptions.shank.title,
-              description: language.programFramework.selectOptions.shank.desc,
+              title: language.programFramework.selectOptions!.shank.title,
+              description: language.programFramework.selectOptions!.shank.desc,
               value: "shank",
             },
             {
-              title: language.programFramework.selectOptions.anchor.title,
-              description: language.programFramework.selectOptions.anchor.desc,
+              title: language.programFramework.selectOptions!.anchor.title,
+              description: language.programFramework.selectOptions!.anchor.desc,
               value: "anchor",
               disabled: true,
             },
@@ -165,8 +167,8 @@ async function getInputsFromPrompts(
           hint: language.clients.hint,
           instructions: language.instructions.multiselect,
           choices: allClients.map((client) => ({
-            title: language.clients.selectOptions[client].title,
-            description: language.clients.selectOptions[client].desc,
+            title: language.clients.selectOptions![client].title,
+            description: language.clients.selectOptions![client].desc,
             value: client,
             selected: true,
           })),
@@ -206,12 +208,12 @@ async function getInputsFromPrompts(
 
     return parsePromptInputs(promptInputs);
   } catch (cancelled) {
-    console.log(cancelled.message);
+    console.log((cancelled as Error).message);
     process.exit(1);
   }
 }
 
-function getInputsFromArgs(): Partial<Inputs> {
+function getInputsFromArgs(language: Language): Partial<Inputs> {
   type ArgInputs = {
     address?: string;
     anchorProgram: boolean;
@@ -221,6 +223,7 @@ function getInputsFromArgs(): Partial<Inputs> {
     organizationName?: string;
     programName?: string;
     shankProgram: boolean;
+    solanaVersion?: string;
     useDefaults: boolean;
     targetDirectoryName?: string;
   };
@@ -228,13 +231,18 @@ function getInputsFromArgs(): Partial<Inputs> {
   function parseArgInputs(argInputs: ArgInputs): Partial<Inputs> {
     const inputs = {} as Partial<Inputs>;
 
-    if (argInputs.targetDirectoryName)
-      inputs.targetDirectoryName = argInputs.targetDirectoryName;
     if (argInputs.address) inputs.programAddress = argInputs.address;
     if (argInputs.organizationName)
       inputs.organizationName = kebabCase(argInputs.organizationName);
     if (argInputs.programName)
       inputs.programName = kebabCase(argInputs.programName);
+    if (argInputs.solanaVersion)
+      inputs.solanaVersion = toMinorSolanaVersion(
+        language,
+        argInputs.solanaVersion
+      );
+    if (argInputs.targetDirectoryName)
+      inputs.targetDirectoryName = argInputs.targetDirectoryName;
     if (argInputs.force) inputs.shouldOverride = true;
     if (argInputs.useDefaults) inputs.useDefaults = true;
 
@@ -267,6 +275,7 @@ function getInputsFromArgs(): Partial<Inputs> {
       "no-clients": { type: "boolean" },
       org: { type: "string" },
       shank: { type: "boolean" },
+      solana: { type: "string" },
     },
     strict: false,
   });
@@ -280,6 +289,7 @@ function getInputsFromArgs(): Partial<Inputs> {
     organizationName: options.org,
     programName: positionals[1],
     shankProgram: options.shank ?? false,
+    solanaVersion: options.solana,
     useDefaults: options.default ?? false,
     targetDirectoryName: positionals[0],
   } as ArgInputs);
@@ -302,7 +312,6 @@ export function getDefaultInputs(partialInputs: Partial<Inputs>): Inputs {
     jsClient: true,
     jsClientPackageName: `@${organizationName}/${programName}`,
     organizationName,
-    programAddress: "MyProgram1111111111111111111111111111111111",
     programCrateName,
     programFramework: "shank",
     programName,

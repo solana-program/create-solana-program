@@ -5,7 +5,7 @@ export function spawnCommand(
   args: string[] = [],
   options?: SpawnOptions
 ): ChildProcess {
-  return spawn(command, args, options);
+  return spawn(command, args, { ...options });
 }
 
 export async function hasCommand(command: string): Promise<boolean> {

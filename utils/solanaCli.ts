@@ -1,3 +1,4 @@
+import { Language } from "./getLanguage";
 import { RenderContext } from "./getRenderContext";
 import {
   spawnCommand,
@@ -28,7 +29,24 @@ export async function generateKeypair(ctx: RenderContext): Promise<string> {
 
   // Update the render context with the generated address.
   const address = stdout.join("").match(/pubkey: (\w+)/)?.[1];
+  if (!address) {
+    throw new Error(ctx.language.errors.solanaKeygenFailed);
+  }
+
   ctx.programAddress = address;
 
   return address;
+}
+
+export function toMinorSolanaVersion(
+  language: Language,
+  version: string
+): string {
+  const validVersion = version.match(/^(\d+\.\d+)/);
+  if (!validVersion) {
+    throw new Error(
+      language.errors.invalidSolanaVersion.replace("$version", version)
+    );
+  }
+  return validVersion[0];
 }

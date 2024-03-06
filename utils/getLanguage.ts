@@ -29,8 +29,10 @@ export interface Language {
   jsClientPackageName: LanguageItem;
   rustClientCrateName: LanguageItem;
   errors: {
-    operationCancelled: string;
     cannotOverrideDirectory: string;
+    invalidSolanaVersion: string;
+    operationCancelled: string;
+    solanaKeygenFailed: string;
     solanaKeygenNotFound: string;
   };
   defaultToggleOptions: {
@@ -56,28 +58,25 @@ export interface Language {
  * @returns locale that linked with correct name
  */
 function linkLocale(locale: string) {
-  let linkedLocale: string;
   try {
     // @ts-ignore
-    linkedLocale = Intl.getCanonicalLocales(locale)[0];
+    switch (Intl.getCanonicalLocales(locale)[0]) {
+      case "zh-TW":
+      case "zh-HK":
+      case "zh-MO":
+        return "zh-Hant";
+        break;
+      case "zh-CN":
+      case "zh-SG":
+        return "zh-Hans";
+        break;
+      default:
+        return locale;
+    }
   } catch (error) {
-    console.log(`${error.toString()}\n`);
+    console.log(`${(error as Error).toString()}\n`);
+    return locale;
   }
-  switch (linkedLocale) {
-    case "zh-TW":
-    case "zh-HK":
-    case "zh-MO":
-      linkedLocale = "zh-Hant";
-      break;
-    case "zh-CN":
-    case "zh-SG":
-      linkedLocale = "zh-Hans";
-      break;
-    default:
-      linkedLocale = locale;
-  }
-
-  return linkedLocale;
 }
 
 function getLocale() {

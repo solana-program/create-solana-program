@@ -47,8 +47,10 @@
     "message": "Rust client crate name:"
   },
   "errors": {
-    "operationCancelled": "Operation cancelled",
     "cannotOverrideDirectory": "Cannot override target directory \"$targetDirectory\". Run with option --force to override.",
+    "invalidSolanaVersion": "Invalid Solana version: $version.",
+    "operationCancelled": "Operation cancelled",
+    "solanaKeygenFailed": "Failed to generate program keypair",
     "solanaKeygenNotFound": "Command `solana-keygen` unavailable. Please install the Solana CLI."
   },
   "defaultToggleOptions": {

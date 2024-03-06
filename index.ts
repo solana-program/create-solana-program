@@ -3,16 +3,10 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-import { generateKeypair } from "./utils/generateKeypair";
-import {
-  logBanner,
-  logDone,
-  logErrorAndExit,
-  logStep,
-  spinner,
-} from "./utils/getLogs";
+import { logBanner, logDone, logErrorAndExit, logStep } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
 import { renderTemplate } from "./utils/renderTemplates";
+import { generateKeypair } from "./utils/solanaCli";
 
 (async function init() {
   logBanner();

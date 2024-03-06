@@ -50,8 +50,10 @@
     "message": "Ajouter TypeScript\u00a0?"
   },
   "errors": {
-    "operationCancelled": "Operation annulée",
     "cannotOverrideDirectory": "Impossible de remplacer le répertoire cible \"$targetDirectory\". Exécutez avec l'option --force pour remplacer.",
+    "invalidSolanaVersion": "Version Solana invalide\u00a0: $version.",
+    "operationCancelled": "Operation annulée",
+    "solanaKeygenFailed": "La génération de la paire de clés a échoué",
     "solanaKeygenNotFound": "Commande `solana-keygen` indisponible. Veuillez installer Solana dans votre terminal."
   },
   "defaultToggleOptions": {

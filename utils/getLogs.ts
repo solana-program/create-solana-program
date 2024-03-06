@@ -1,4 +1,6 @@
 import chalk from "chalk";
+
+// @ts-ignore
 import gradient from "gradient-string";
 
 import type { RenderContext } from "./getRenderContext";

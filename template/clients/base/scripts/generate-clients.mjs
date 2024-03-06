@@ -9,17 +9,13 @@ const kinobi = k.createFromIdls(getAllProgramIdls());
 // Update accounts.
 kinobi.update(
   k.updateAccountsVisitor({
-    addressLookupTable: {
+    counter: {
       seeds: [
+        k.constantPdaSeedNodeFromString("counter"),
         k.variablePdaSeedNode(
           "authority",
           k.publicKeyTypeNode(),
-          "The address of the LUT's authority"
-        ),
-        k.variablePdaSeedNode(
-          "recentSlot",
-          k.numberTypeNode("u64"),
-          "The recent slot associated with the LUT"
+          "The authority of the counter account"
         ),
       ],
     },
@@ -29,41 +25,29 @@ kinobi.update(
 // Update instructions.
 kinobi.update(
   k.updateInstructionsVisitor({
-    createLookupTable: {
-      byteDeltas: [k.instructionByteDeltaNode(k.numberValueNode(56))],
+    create: {
+      byteDeltas: [k.instructionByteDeltaNode(k.accountLinkNode("counter"))],
       accounts: {
-        address: { defaultValue: k.pdaValueNode("addressLookupTable") },
+        counter: { defaultValue: k.pdaValueNode("counter") },
         payer: { defaultValue: k.accountValueNode("authority") },
       },
-      arguments: {
-        bump: { defaultValue: k.accountBumpValueNode("address") },
-      },
     },
-    extendLookupTable: {
-      byteDeltas: [
-        k.instructionByteDeltaNode(
-          k.resolverValueNode("resolveExtendLookupTableBytes", {
-            dependsOn: [k.argumentValueNode("addresses")],
-          })
-        ),
-      ],
+    increment: {
+      accounts: {
+        counter: { defaultValue: k.pdaValueNode("counter") },
+      },
+      arguments: {
+        amount: { defaultValue: k.noneValueNode() },
+      },
     },
   })
 );
 
 // Set account discriminators.
+const key = (name) => ({ field: "key", value: k.enumValueNode("Key", name) });
 kinobi.update(
   k.setAccountDiscriminatorFromFieldVisitor({
-    addressLookupTable: { field: "discriminator", value: k.numberValueNode(1) },
-  })
-);
-
-// Set default values for structs.
-kinobi.update(
-  k.setStructDefaultValuesVisitor({
-    addressLookupTable: {
-      padding: { value: k.numberValueNode(0), strategy: "omitted" },
-    },
+    counter: key("counter"),
   })
 );
 

@@ -1,0 +1,4 @@
+mod generated;
+
+pub use generated::programs::{{ programName | snakeCase | upper }}_ID as ID;
+pub use generated::*;

@@ -61,6 +61,7 @@ export function renderTemplate(ctx: RenderContext, src: string, dest: string) {
   if (filename.endsWith(".njk")) {
     dest = dest.replace(/\.njk$/, "");
     fs.writeFileSync(dest, resolveNunjunksTemplate(src, ctx));
+    fs.chmodSync(dest, stats.mode);
     return;
   }
 

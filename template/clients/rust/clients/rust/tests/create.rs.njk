@@ -1,13 +1,13 @@
 #![cfg(feature = "test-sbf")]
 
-use acme_counter_client::{accounts::Counter, instructions::CreateBuilder};
+use {{ rustClientCrateName | snakeCase }}::{accounts::Counter, instructions::CreateBuilder};
 use borsh::BorshDeserialize;
 use solana_program_test::{tokio, ProgramTest};
 use solana_sdk::{signature::Signer, transaction::Transaction};
 
 #[tokio::test]
 async fn create() {
-    let mut context = ProgramTest::new("acme_counter", acme_counter_client::ID, None)
+    let mut context = ProgramTest::new("{{ programCrateName | snakeCase }}", {{ rustClientCrateName | snakeCase }}::ID, None)
         .start_with_context()
         .await;
 

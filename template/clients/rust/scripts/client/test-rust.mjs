@@ -3,7 +3,7 @@ import "zx/globals";
 import { workingDirectory } from "../utils.mjs";
 
 // Start the local validator if it's not already running.
-await $`pnpm validator`;
+await $`pnpm validator --force`;
 
 // Run the tests.
 cd(path.join(workingDirectory, "clients", "rust"));

@@ -49,13 +49,8 @@ export function renderTemplate(ctx: RenderContext, src: string, dest: string) {
     return;
   }
 
-  // Rename `_file` to `.file`.
-  if (filename.startsWith("_")) {
-    dest = path.resolve(path.dirname(dest), filename.replace(/^_/, "."));
-  }
-
   // Append to existing .gitignore.
-  if (filename === "_gitignore" && fs.existsSync(dest)) {
+  if (filename === ".gitignore" && fs.existsSync(dest)) {
     const existing = fs.readFileSync(dest, "utf8");
     const newGitignore = fs.readFileSync(src, "utf8");
     fs.writeFileSync(dest, existing + "\n" + newGitignore);

@@ -1,4 +1,3 @@
-import { logErrorAndExit } from "./getLogs";
 import { RenderContext } from "./getRenderContext";
 import {
   spawnCommand,
@@ -10,7 +9,7 @@ import {
 export async function generateKeypair(ctx: RenderContext): Promise<string> {
   const hasSolanaKeygen = await hasCommand("solana-keygen");
   if (!hasSolanaKeygen) {
-    logErrorAndExit(ctx.language.errors.solanaKeygenNotFound);
+    throw new Error(ctx.language.errors.solanaKeygenNotFound);
   }
 
   // Run the solana-keygen command to generate a new keypair.

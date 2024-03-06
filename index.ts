@@ -4,7 +4,13 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 
 import { generateKeypair } from "./utils/generateKeypair";
-import { logBanner, logDone, logErrorAndExit, logStep } from "./utils/getLogs";
+import {
+  logBanner,
+  logDone,
+  logErrorAndExit,
+  logStep,
+  spinner,
+} from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
 import { renderTemplate } from "./utils/renderTemplates";
 
@@ -17,18 +23,19 @@ import { renderTemplate } from "./utils/renderTemplates";
 
   // Generate a keypair if needed.
   if (!ctx.hasCustomProgramAddress) {
-    logStep(ctx.language.infos.generatingKeypair);
-    await generateKeypair(ctx);
+    await logStep(ctx.language.infos.generateKeypair, () =>
+      generateKeypair(ctx)
+    );
   }
 
   // Render the templates.
-  logStep(
-    ctx.language.infos.scaffolding.replace(
+  await logStep(
+    ctx.language.infos.scaffold.replace(
       "$targetDirectory",
       ctx.targetDirectoryName
-    )
+    ),
+    () => renderTemplates(ctx)
   );
-  renderTemplates(ctx);
 
   // Done.
   logDone(ctx);

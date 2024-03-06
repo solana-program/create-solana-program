@@ -42,8 +42,8 @@ export interface Language {
     multiselect: string;
   };
   infos: {
-    scaffolding: string;
-    generatingKeypair: string;
+    scaffold: string;
+    generateKeypair: string;
     done: string;
   };
 }

@@ -63,8 +63,8 @@
     "multiselect": "[↑/↓]: Sélectionner / [espace]: Basculer la sélection / [a]: Basculer tout / [entrée]: Valider"
   },
   "infos": {
-    "scaffolding": "Génération du projet dans $targetDirectory...",
-    "generatingKeypair": "Génération de la paire de clés du program...",
+    "scaffold": "Génére le projet dans $targetDirectory",
+    "generateKeypair": "Génére la paire de clés du program",
     "done": "Terminé. Exécutez maintenant\u00a0:"
   }
 }

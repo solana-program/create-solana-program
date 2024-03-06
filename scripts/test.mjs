@@ -1,37 +1,37 @@
 #!/usr/bin/env zx
 import "zx/globals";
 
-const playgroundDir = path.resolve(__dirname, "../playground/");
+const submodulesDirectory = path.resolve(__dirname, "../submodules/");
+const clients = ["js", "rust"];
+
 let projects = fs
-  .readdirSync(playgroundDir, { withFileTypes: true })
+  .readdirSync(submodulesDirectory, { withFileTypes: true })
   .filter((dirent) => dirent.isDirectory())
   .map((dirent) => dirent.name)
   .filter((name) => !name.startsWith(".") && name !== "node_modules");
 
-if (process.argv[3])
-  projects = projects.filter((project) => project.includes(process.argv[3]));
+if (process.argv[2])
+  projects = projects.filter((project) => project.includes(process.argv[2]));
 
-cd(playgroundDir);
+cd(submodulesDirectory);
 console.log("Installing playground dependencies");
 await $`pnpm install`;
 
 for (const projectName of projects) {
-  cd(path.resolve(playgroundDir, projectName));
-  const packageJSON = require(
-    path.resolve(playgroundDir, projectName, "package.json")
-  );
+  // Go inside the project.
+  const projectDirectory = path.resolve(submodulesDirectory, projectName);
+  cd(projectDirectory);
+  const pkg = require(path.resolve(projectDirectory, "package.json"));
 
-  console.log(`
-  
-#####
-Building ${projectName}
-#####
-  
-  `);
-  await $`pnpm build`;
+  // Test programs.
+  if ("programs:test" in pkg.scripts) {
+    await $`pnpm programs:test`;
+  }
 
-  if ("type-check" in packageJSON.scripts) {
-    console.log(`Running type-check in ${projectName}`);
-    await $`pnpm type-check`;
+  // Test clients.
+  for (const client of clients) {
+    if (`clients:${client}:test` in pkg.scripts) {
+      await $`pnpm clients:${client}:test`;
+    }
   }
 }

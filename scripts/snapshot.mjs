@@ -1,5 +1,4 @@
 #!/usr/bin/env zx
-import fs from "node:fs";
 import "zx/globals";
 
 // $.verbose = false;
@@ -41,7 +40,7 @@ for (const projectName in projects) {
   await $`pnpm install`;
 
   // Generate the clients.
-  if (pkg.scripts.generate) {
+  if ("generate" in pkg.scripts) {
     await $`pnpm generate`;
   }
 }

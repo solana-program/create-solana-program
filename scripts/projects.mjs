@@ -20,15 +20,15 @@ const runTests = !!argv.test;
 
 // Resolve paths.
 const bin = path.resolve(__dirname, "../outfile.cjs");
-const submodulesDirectory = path.resolve(__dirname, "../submodules/");
+const projectsDirectory = path.resolve(__dirname, "../projects/");
 
-if (!fs.existsSync(submodulesDirectory)) {
-  fs.mkdirSync(submodulesDirectory);
+if (!fs.existsSync(projectsDirectory)) {
+  fs.mkdirSync(projectsDirectory);
 }
 
 for (const projectName of projects) {
   // Go the submodules directory before creating each project.
-  cd(submodulesDirectory);
+  cd(projectsDirectory);
 
   // Remove the project if it already exists.
   const projectExists = fs.existsSync(projectName);
@@ -47,7 +47,7 @@ for (const projectName of projects) {
   );
 
   // Go inside the created project.
-  const projectDirectory = path.resolve(submodulesDirectory, projectName);
+  const projectDirectory = path.resolve(projectsDirectory, projectName);
   cd(projectDirectory);
   const pkg = require(path.resolve(projectDirectory, "package.json"));
 

@@ -1,41 +1,44 @@
 import * as path from "node:path";
 
-import {
-  Client,
-  Inputs,
-  allClients,
-  getDefaultInputs,
-  getInputs,
-} from "./getInputs";
-import { Language, getLanguage } from "./getLanguage";
+import { Client, Inputs, allClients } from "./getInputs";
+import { Language } from "./getLanguage";
 import {
   PackageManager,
   getPackageManager,
   getPackageManagerCommand,
 } from "./getPackageManager";
+import { toMinorSolanaVersion } from "./solanaCli";
 
-export type RenderContext = Inputs & {
+export type RenderContext = Omit<Inputs, "programAddress" | "solanaVersion"> & {
   clientDirectory: string;
   clients: Client[];
   currentDirectory: string;
   getNpmCommand: (scriptName: string, args?: string) => string;
-  hasCustomProgramAddress: boolean;
   language: Language;
+  programAddress: string;
   programDirectory: string;
   packageManager: PackageManager;
+  solanaVersion: string;
+  solanaVersionDetected: string;
   targetDirectory: string;
   templateDirectory: string;
 };
 
-export async function getRenderContext(): Promise<RenderContext> {
-  const language = getLanguage();
+export function getRenderContext({
+  inputs,
+  language,
+  programAddress,
+  solanaVersionDetected,
+}: {
+  inputs: Inputs;
+  language: Language;
+  programAddress: string;
+  solanaVersionDetected: string;
+}): RenderContext {
   const packageManager = getPackageManager();
-  const inputs = await getInputs(language);
   const clients = allClients.flatMap((client) =>
     inputs[`${client}Client`] ? [client] : []
   );
-  const hasCustomProgramAddress =
-    inputs.programAddress !== getDefaultInputs({}).programAddress;
   const getNpmCommand: RenderContext["getNpmCommand"] = (...args) =>
     getPackageManagerCommand(packageManager, ...args);
 
@@ -55,10 +58,14 @@ export async function getRenderContext(): Promise<RenderContext> {
     clients,
     currentDirectory,
     getNpmCommand,
-    hasCustomProgramAddress,
     language,
     packageManager,
+    programAddress,
     programDirectory,
+    solanaVersion:
+      inputs.solanaVersion ??
+      toMinorSolanaVersion(language, solanaVersionDetected),
+    solanaVersionDetected,
     targetDirectory,
     templateDirectory,
   };

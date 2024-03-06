@@ -32,8 +32,8 @@ export interface Language {
     cannotOverrideDirectory: string;
     invalidSolanaVersion: string;
     operationCancelled: string;
+    solanaCliNotFound: string;
     solanaKeygenFailed: string;
-    solanaKeygenNotFound: string;
   };
   defaultToggleOptions: {
     active: string;
@@ -44,8 +44,9 @@ export interface Language {
     multiselect: string;
   };
   infos: {
-    scaffold: string;
+    detectSolanaVersion: string;
     generateKeypair: string;
+    scaffold: string;
     done: string;
   };
 }

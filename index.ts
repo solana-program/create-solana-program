@@ -3,30 +3,59 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
+import { getInputs } from "./utils/getInputs";
+import { Language, getLanguage } from "./utils/getLanguage";
 import { logBanner, logDone, logErrorAndExit, logStep } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
 import { renderTemplate } from "./utils/renderTemplates";
-import { generateKeypair } from "./utils/solanaCli";
+import { detectSolanaVersion, generateKeypair } from "./utils/solanaCli";
 
 (async function init() {
   logBanner();
 
-  // Get the args inputs, prompt inputs and computed values.
-  const ctx = await getRenderContext();
-  createOrEmptyTargetDirectory(ctx);
+  // Get arguments from CLI and prompt.
+  const language = getLanguage();
+  const inputs = await getInputs(language);
+
+  // Create or empty the target directory.
+  createOrEmptyTargetDirectory(
+    language,
+    inputs.targetDirectoryName,
+    inputs.shouldOverride
+  );
+
+  // Detect the solana version.
+  const solanaVersionDetected = await logStep(
+    language.infos.detectSolanaVersion,
+    () => detectSolanaVersion(language)
+  );
 
   // Generate a keypair if needed.
-  if (!ctx.hasCustomProgramAddress) {
-    await logStep(ctx.language.infos.generateKeypair, () =>
-      generateKeypair(ctx)
-    );
-  }
+  const programAddress =
+    inputs.programAddress ??
+    (await logStep(language.infos.generateKeypair, () => {
+      const outfile = path.join(
+        process.cwd(),
+        inputs.targetDirectoryName,
+        "program",
+        "keypair.json"
+      );
+      return generateKeypair(language, outfile);
+    }));
+
+  // Get the args inputs, prompt inputs and computed values.
+  const ctx = getRenderContext({
+    language,
+    inputs,
+    programAddress,
+    solanaVersionDetected,
+  });
 
   // Render the templates.
   await logStep(
-    ctx.language.infos.scaffold.replace(
+    language.infos.scaffold.replace(
       "$targetDirectory",
-      ctx.targetDirectoryName
+      inputs.targetDirectoryName
     ),
     () => renderTemplates(ctx)
   );
@@ -58,16 +87,21 @@ function renderTemplates(ctx: RenderContext) {
   });
 }
 
-function createOrEmptyTargetDirectory(ctx: RenderContext) {
-  if (!fs.existsSync(ctx.targetDirectory)) {
-    fs.mkdirSync(ctx.targetDirectory, { recursive: true });
-  } else if (ctx.shouldOverride) {
-    emptyDirectory(ctx.targetDirectory);
+function createOrEmptyTargetDirectory(
+  language: Language,
+  targetDirectoryName: string,
+  shouldOverride: boolean
+) {
+  const targetDirectory = path.join(process.cwd(), targetDirectoryName);
+  if (!fs.existsSync(targetDirectory)) {
+    fs.mkdirSync(targetDirectory, { recursive: true });
+  } else if (shouldOverride) {
+    emptyDirectory(targetDirectory);
   } else {
     logErrorAndExit(
-      ctx.language.errors.cannotOverrideDirectory.replace(
+      language.errors.cannotOverrideDirectory.replace(
         "$targetDirectory",
-        ctx.targetDirectoryName
+        targetDirectoryName
       )
     );
   }

@@ -53,8 +53,8 @@
     "cannotOverrideDirectory": "Impossible de remplacer le répertoire cible \"$targetDirectory\". Exécutez avec l'option --force pour remplacer.",
     "invalidSolanaVersion": "Version Solana invalide\u00a0: $version.",
     "operationCancelled": "Operation annulée",
-    "solanaKeygenFailed": "La génération de la paire de clés a échoué",
-    "solanaKeygenNotFound": "Commande `solana-keygen` indisponible. Veuillez installer Solana dans votre terminal."
+    "solanaCliNotFound": "Commande `$command` indisponible. Veuillez installer Solana dans votre terminal.",
+    "solanaKeygenFailed": "La génération de la paire de clés a échoué"
   },
   "defaultToggleOptions": {
     "active": "Oui",
@@ -65,8 +65,9 @@
     "multiselect": "[↑/↓]: Sélectionner / [espace]: Basculer la sélection / [a]: Basculer tout / [entrée]: Valider"
   },
   "infos": {
-    "scaffold": "Génére le projet dans $targetDirectory",
+    "detectSolanaVersion": "Détect la version de Solana",
     "generateKeypair": "Génére la paire de clés du program",
+    "scaffold": "Génére le projet dans $targetDirectory",
     "done": "Terminé. Exécutez maintenant\u00a0:"
   }
 }

@@ -31,7 +31,6 @@ jobs:
     strategy:
       matrix:
         solana: ["1.17.24", "1.18.4"]
-
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
@@ -42,6 +41,19 @@ jobs:
         with:
           node-version: 18
           cache: "pnpm"
+      - name: Cache cargo crates
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            ./projects/**/.cargo/
+            ./projects/**/target/
+          key: ${{ runner.os }}-solana@${{ matrix.solana }}-${{ hashFiles('./projects/**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-solana@${{ matrix.solana }}
       - name: Install Solana
         uses: metaplex-foundation/actions/install-solana@v1
         with:

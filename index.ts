@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-import * as fs from "node:fs";
 import * as path from "node:path";
 
+import { createOrEmptyTargetDirectory } from "./utils/fsHelpers";
 import { getInputs } from "./utils/getInputs";
-import { Language, getLanguage } from "./utils/getLanguage";
-import { logBanner, logDone, logErrorAndExit, logStep } from "./utils/getLogs";
+import { getLanguage } from "./utils/getLanguage";
+import { logBanner, logDone, logStep } from "./utils/getLogs";
 import { RenderContext, getRenderContext } from "./utils/getRenderContext";
 import { renderTemplate } from "./utils/renderTemplates";
 import { detectSolanaVersion, generateKeypair } from "./utils/solanaCli";
@@ -85,32 +85,4 @@ function renderTemplates(ctx: RenderContext) {
   ctx.clients.forEach((client) => {
     render(`clients/${client}`);
   });
-}
-
-function createOrEmptyTargetDirectory(
-  language: Language,
-  targetDirectoryName: string,
-  shouldOverride: boolean
-) {
-  const targetDirectory = path.join(process.cwd(), targetDirectoryName);
-  if (!fs.existsSync(targetDirectory)) {
-    fs.mkdirSync(targetDirectory, { recursive: true });
-  } else if (shouldOverride) {
-    emptyDirectory(targetDirectory);
-  } else {
-    logErrorAndExit(
-      language.errors.cannotOverrideDirectory.replace(
-        "$targetDirectory",
-        targetDirectoryName
-      )
-    );
-  }
-}
-
-function emptyDirectory(directory: string) {
-  for (const filename of fs.readdirSync(directory)) {
-    if (filename === ".git") continue;
-    const fullpath = path.resolve(directory, filename);
-    fs.rmSync(fullpath, { recursive: true });
-  }
 }

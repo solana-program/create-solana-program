@@ -3,7 +3,6 @@
   "scripts": {
     "programs:build": "zx ./scripts/program/build.mjs",
     "programs:test": "zx ./scripts/program/test.mjs",
-    "programs:debug": "zx ./scripts/program/test.mjs",
     "programs:clean": "zx ./scripts/program/clean.mjs",
     "programs:format": "zx ./scripts/program/format.mjs",
     "programs:lint": "zx ./scripts/program/lint.mjs",

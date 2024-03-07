@@ -10,11 +10,11 @@ import {
 } from './utils.mjs';
 
 // Options and arguments.
-const force = argv['force'];
+const restart = argv['restart'];
 
-// Keep the validator running when not using the force flag.
+// Keep the validator running when not using the restart flag.
 const isValidatorRunning = (await $`lsof -t -i:8899`.quiet().exitCode) === 0;
-if (!force && isValidatorRunning) {
+if (!restart && isValidatorRunning) {
   echo(chalk.yellow('Local validator is already running.'));
   process.exit();
 }

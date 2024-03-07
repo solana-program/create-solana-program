@@ -41,6 +41,8 @@ jobs:
         with:
           node-version: 18
           cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
       - name: Install Solana
         uses: metaplex-foundation/actions/install-solana@v1
         with:
@@ -60,8 +62,6 @@ jobs:
           key: ${{ runner.os }}-solana@${{ matrix.solana }}-${{ hashFiles('./projects/**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-solana@${{ matrix.solana }}
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
       - name: Build and run tests
         run: pnpm test
 

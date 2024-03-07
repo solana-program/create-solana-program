@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [main]
 
+env:
+  SOLANA_VERSION: 1.18.4
+
 jobs:
   lint:
     name: Check styling
@@ -34,6 +37,8 @@ jobs:
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
       - name: Setup Node.js
@@ -75,6 +80,8 @@ jobs:
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
       - name: Setup Node.js
@@ -87,7 +94,7 @@ jobs:
       - name: Install Solana
         uses: metaplex-foundation/actions/install-solana@v1
         with:
-          version: 1.18
+          version: ${{ env.SOLANA_VERSION }}
       - name: Pre-scaffold projects for caching purposes
         run: pnpm snapshot --scaffold-only
       - name: Cache cargo crates
@@ -100,9 +107,9 @@ jobs:
             ~/.cargo/git/db/
             ./projects/**/.cargo/
             ./projects/**/target/
-          key: ${{ runner.os }}-crates-solana-v1.18-${{ hashFiles('projects/**/Cargo.lock') }}
+          key: ${{ runner.os }}-crates-solana-v${{ env.SOLANA_VERSION }}-${{ hashFiles('projects/**/Cargo.lock') }}
           restore-keys: |
-            ${{ runner.os }}-crates-solana-v1.18
+            ${{ runner.os }}-crates-solana-v${{ env.SOLANA_VERSION }}
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1

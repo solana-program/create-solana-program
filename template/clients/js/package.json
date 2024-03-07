@@ -1,5 +1,5 @@
 {
   "scripts": {
-    "clients:js:test": "./scripts/client/test-js.mjs"
+    "clients:js:test": "zx ./scripts/client/test-js.mjs"
   }
 }

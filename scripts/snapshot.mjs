@@ -30,12 +30,6 @@ for (const projectName of projects) {
   // Go the submodules directory before creating each project.
   cd(projectsDirectory);
 
-  // Remove the project if it already exists.
-  const projectExists = fs.existsSync(projectName);
-  if (projectExists) {
-    fs.rmSync(projectName, { recursive: true, force: true });
-  }
-
   // Log project start.
   echo(chalk.blue(chalk.bold(`${projectName}:`)));
 

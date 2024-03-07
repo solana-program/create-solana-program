@@ -16,7 +16,8 @@
   },
   "scripts": {
     "build": "./scripts/build.mjs",
-    "format": "prettier --write .",
+    "lint": "prettier -c .",
+    "lint:fix": "prettier --write .",
     "prepublishOnly": "./scripts/prepublish.mjs",
     "snapshot": "pnpm build && ./scripts/snapshot.mjs",
     "test": "pnpm snapshot --test"

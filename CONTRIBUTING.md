@@ -26,7 +26,8 @@ The following scripts are available:
 pnpm build      # Build the `create-solana-program` package.
 pnpm snapshot   # Update the `projects` directory with the latest pre-defined templates.
 pnpm test       # Runs a snapshot and executes tests against each generated project.
-pnpm format     # Format the code using Prettier.
+pnpm lint       # Check the code using Prettier.
+pnpm lint:fix   # Format the code using Prettier.
 ```
 
 Additionally, a `prepublishOnly` script — that executes before every `pnpm publish` command — exists to update the snapshots and commit their changes to the relevant submodules. This allows us to have various template repositories that are always up-to-date with the latest changes of the `create-solana-program` package.

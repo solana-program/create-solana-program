@@ -29,7 +29,7 @@ export async function patchSolanaDependencies(
   solanaVersion: string
 ): Promise<void> {
   const patchMap: Record<string, string[]> = {
-    '1.17': ['-p ahash@0.8.11 --precise 0.8.6'],
+    '1.17': ['-p ahash@0.8 --precise 0.8.6'],
   };
 
   const patches = patchMap[solanaVersion] ?? [];

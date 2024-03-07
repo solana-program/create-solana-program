@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.1.9
+
+### Patch Changes
+
+- [`4739d2d`](https://github.com/solana-program/create-solana-program/commit/4739d2dedf90a0c6ebdd953001d16fb9a37fde8c) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Remove nightly features from rustfmt.toml
+
 ## 0.1.8
 
 ### Patch Changes

@@ -1,29 +1,34 @@
 #!/usr/bin/env zx
-import 'zx/globals'
+import "zx/globals";
+import { PROJECTS } from "./utils.mjs";
 
-await $`pnpm build`
-await $`pnpm snapshot`
+await $`pnpm snapshot`;
 
-let { version } = JSON.parse(await fs.readFile('./package.json'))
+const { version } = await fs.readJSON("./package.json");
+const projects = Object.keys(PROJECTS);
 
-const playgroundDir = path.resolve(__dirname, '../playground/')
-cd(playgroundDir)
+const rootDirectory = path.resolve(__dirname, "..");
+const projectsDirectory = path.resolve(rootDirectory, "projects");
 
-await $`pnpm install`
-await $`git add -A .`
-try {
-  await $`git commit -m "version ${version} snapshot"`
-} catch (e) {
-  if (!e.stdout.includes('nothing to commit')) {
-    throw e
+for (const projectName of projects) {
+  const projectDirectory = path.resolve(projectsDirectory, projectName);
+  cd(projectDirectory);
+
+  await $`git add -A .`;
+
+  try {
+    await $`git commit -m "version ${version} snapshot"`;
+  } catch (e) {
+    if (!e.stdout.includes("nothing to commit")) {
+      throw e;
+    }
   }
+
+  await $`git tag -m "v${version}" v${version}`;
+  await $`git push --follow-tags`;
 }
 
-await $`git tag -m "v${version}" v${version}`
-await $`git push --follow-tags`
-
-const projectRoot = path.resolve(__dirname, '../')
-cd(projectRoot)
-await $`git add playground`
-await $`git commit -m 'chore: update snapshot' --allow-empty`
-await $`git push --follow-tags`
+cd(rootDirectory);
+await $`git add projects`;
+await $`git commit -m 'Update snapshot' --allow-empty`;
+await $`git push --follow-tags`;

@@ -1,12 +1,8 @@
 #!/usr/bin/env zx
 import "zx/globals";
+import { CLIENTS, PROJECTS, executeStep } from "./utils.mjs";
 
 $.verbose = false;
-
-const CLIENTS = ["js", "rust"];
-const PROJECTS = {
-  "counter-shank": ["counter", "--shank"],
-};
 
 // Parse CLI arguments.
 const selectedProjects = argv._;
@@ -43,7 +39,7 @@ for (const projectName of projects) {
   // Go inside the created project.
   const projectDirectory = path.resolve(projectsDirectory, projectName);
   cd(projectDirectory);
-  const pkg = require(path.resolve(projectDirectory, "package.json"));
+  const pkg = await fs.readJSON(path.resolve(projectDirectory, "package.json"));
 
   // Install project's dependencies.
   await executeStep("install NPM dependencies", async () => {
@@ -87,15 +83,3 @@ for (const projectName of projects) {
 }
 
 echo(chalk.green("All projects were created successfully!"));
-
-async function executeStep(title, fn) {
-  try {
-    const capitalizedTitle = title.charAt(0).toUpperCase() + title.slice(1);
-    await spinner(`${capitalizedTitle}...`, fn);
-    echo(chalk.green("✔︎") + ` ${capitalizedTitle}.`);
-  } catch (e) {
-    echo(chalk.red("✘") + ` Failed to ${title}.\n`);
-    echo(e);
-    process.exit(1);
-  }
-}

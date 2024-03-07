@@ -1,5 +1,13 @@
 # create-solana-program
 
+## 0.1.10
+
+### Patch Changes
+
+- [`c67062b`](https://github.com/solana-program/create-solana-program/commit/c67062badb77fc745c4257095cb94103777ac512) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Write generated READMEs
+
+- [`dfff36a`](https://github.com/solana-program/create-solana-program/commit/dfff36a25ba4a72dcead18de41d89e931b3ec738) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Rename --force option to --restart on the validator
+
 ## 0.1.9
 
 ### Patch Changes

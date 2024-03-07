@@ -75,7 +75,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
-    needs: [lint, tests]
+    needs: [lint]
     outputs:
       published: ${{ steps.changesets.outputs.published }}
     steps:

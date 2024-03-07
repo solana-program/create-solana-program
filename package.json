@@ -17,8 +17,8 @@
   "scripts": {
     "format": "prettier --write .",
     "build": "zx ./scripts/build.mjs",
-    "projects:build": "pnpm build && zx ./scripts/projects.mjs",
-    "projects:test": "pnpm projects:build --test"
+    "snapshot": "pnpm build && zx ./scripts/snapshot.mjs",
+    "test": "pnpm snapshot --test"
   },
   "repository": {
     "type": "git",

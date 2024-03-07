@@ -1,6 +1,6 @@
 #!/usr/bin/env zx
-import "zx/globals";
-import { CLIENTS, PROJECTS, executeStep } from "./utils.mjs";
+import 'zx/globals';
+import { CLIENTS, PROJECTS, executeStep } from './utils.mjs';
 
 $.verbose = false;
 
@@ -15,8 +15,8 @@ const projects =
 const runTests = !!argv.test;
 
 // Resolve paths.
-const bin = path.resolve(__dirname, "../outfile.cjs");
-const projectsDirectory = path.resolve(__dirname, "../projects/");
+const bin = path.resolve(__dirname, '../outfile.cjs');
+const projectsDirectory = path.resolve(__dirname, '../projects/');
 
 if (!fs.existsSync(projectsDirectory)) {
   fs.mkdirSync(projectsDirectory);
@@ -32,38 +32,38 @@ for (const projectName of projects) {
   // Scaffold the project.
   const args = [projectName, ...PROJECTS[projectName]];
   await executeStep(
-    "scaffold the project",
-    () => $`node ${[bin, ...args, "--force", "--default"]}`
+    'scaffold the project',
+    () => $`node ${[bin, ...args, '--force', '--default']}`
   );
 
   // Go inside the created project.
   const projectDirectory = path.resolve(projectsDirectory, projectName);
   cd(projectDirectory);
-  const pkg = await fs.readJSON(path.resolve(projectDirectory, "package.json"));
+  const pkg = await fs.readJSON(path.resolve(projectDirectory, 'package.json'));
 
   // Install project's dependencies.
-  await executeStep("install NPM dependencies", async () => {
+  await executeStep('install NPM dependencies', async () => {
     await $`pnpm install`;
   });
 
   // Generate IDLs.
-  if ("generate:idls" in pkg.scripts) {
-    await executeStep("generate IDLs", async () => {
+  if ('generate:idls' in pkg.scripts) {
+    await executeStep('generate IDLs', async () => {
       await $`pnpm generate:idls`;
     });
   }
 
   // Generate clients.
-  if ("generate:clients" in pkg.scripts) {
-    await executeStep("generate clients", async () => {
+  if ('generate:clients' in pkg.scripts) {
+    await executeStep('generate clients', async () => {
       await $`pnpm generate:clients`;
     });
   }
 
   if (runTests) {
     // Test programs.
-    if ("programs:test" in pkg.scripts) {
-      await executeStep("test programs", async () => {
+    if ('programs:test' in pkg.scripts) {
+      await executeStep('test programs', async () => {
         await $`pnpm programs:test`;
       });
     }
@@ -79,7 +79,7 @@ for (const projectName of projects) {
   }
 
   // Add line break between projects.
-  echo("");
+  echo('');
 }
 
-echo(chalk.green("All projects were created successfully!"));
+echo(chalk.green('All projects were created successfully!'));

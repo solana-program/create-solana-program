@@ -1,28 +1,28 @@
 #!/usr/bin/env zx
-import { spawn } from "node:child_process";
-import fs from "node:fs";
-import "zx/globals";
+import { spawn } from 'node:child_process';
+import fs from 'node:fs';
+import 'zx/globals';
 import {
   getCargo,
   getExternalProgramAddresses,
   getExternalProgramOutputDir,
   getProgramFolders,
-} from "./utils.mjs";
+} from './utils.mjs';
 
 // Options and arguments.
-const force = argv["force"];
+const force = argv['force'];
 
 // Keep the validator running when not using the force flag.
 const isValidatorRunning = (await $`lsof -t -i:8899`.quiet().exitCode) === 0;
 if (!force && isValidatorRunning) {
-  echo(chalk.yellow("Local validator is already running."));
+  echo(chalk.yellow('Local validator is already running.'));
   process.exit();
 }
 
 // Initial message.
-const verb = isValidatorRunning ? "Restarting" : "Starting";
+const verb = isValidatorRunning ? 'Restarting' : 'Starting';
 const programs = [...getPrograms(), ...getExternalPrograms()];
-const programPluralized = programs.length === 1 ? "program" : "programs";
+const programPluralized = programs.length === 1 ? 'program' : 'programs';
 echo(
   `${verb} local validator with ${programs.length} custom ${programPluralized}...`
 );
@@ -34,34 +34,34 @@ if (isValidatorRunning) {
 }
 
 // Global validator arguments.
-const args = [/* Reset ledger */ "-r"];
+const args = [/* Reset ledger */ '-r'];
 
 // Load programs.
 programs.forEach(({ programId, deployPath }) => {
-  args.push(/* Load BPF program */ "--bpf-program", programId, deployPath);
+  args.push(/* Load BPF program */ '--bpf-program', programId, deployPath);
 });
 
 // Start the validator in detached mode.
-const cliLogs = path.join(os.tmpdir(), "validator-cli.log");
-fs.writeFileSync(cliLogs, "", () => {});
-const out = fs.openSync(cliLogs, "a");
-const err = fs.openSync(cliLogs, "a");
-const validator = spawn("solana-test-validator", args, {
+const cliLogs = path.join(os.tmpdir(), 'validator-cli.log');
+fs.writeFileSync(cliLogs, '', () => {});
+const out = fs.openSync(cliLogs, 'a');
+const err = fs.openSync(cliLogs, 'a');
+const validator = spawn('solana-test-validator', args, {
   detached: true,
-  stdio: ["ignore", out, err],
+  stdio: ['ignore', out, err],
 });
 validator.unref();
 
 // Wait for the validator to stabilize.
 const waitForValidator = spinner(
-  "Waiting for local validator to stabilize...",
+  'Waiting for local validator to stabilize...',
   () =>
     new Promise((resolve, reject) => {
       setInterval(() => {
-        const logs = fs.readFileSync(cliLogs, "utf8");
+        const logs = fs.readFileSync(cliLogs, 'utf8');
         if (validator.exitCode !== null) {
           reject(logs);
-        } else if (logs.includes("Confirmed Slot: 1")) {
+        } else if (logs.includes('Confirmed Slot: 1')) {
           resolve();
         }
       }, 1000);
@@ -70,22 +70,22 @@ const waitForValidator = spinner(
 
 try {
   await waitForValidator;
-  echo(chalk.green("Local validator is up and running!"));
+  echo(chalk.green('Local validator is up and running!'));
 } catch (error) {
   echo(error);
-  echo(chalk.red("Could not start local validator."));
+  echo(chalk.red('Could not start local validator.'));
 } finally {
   fs.rmSync(cliLogs);
   process.exit();
 }
 
 function getPrograms() {
-  const binaryDir = path.join(__dirname, "..", "target", "deploy");
+  const binaryDir = path.join(__dirname, '..', 'target', 'deploy');
   return getProgramFolders().map((folder) => {
     const cargo = getCargo(folder);
-    const name = cargo.package.name.replace(/-/g, "_");
+    const name = cargo.package.name.replace(/-/g, '_');
     return {
-      programId: cargo.package.metadata.solana["program-id"],
+      programId: cargo.package.metadata.solana['program-id'],
       deployPath: path.join(binaryDir, `${name}.so`),
     };
   });

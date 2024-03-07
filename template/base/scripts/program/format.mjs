@@ -1,6 +1,6 @@
 #!/usr/bin/env zx
-import "zx/globals";
-import { workingDirectory, getProgramFolders } from "../utils.mjs";
+import 'zx/globals';
+import { workingDirectory, getProgramFolders } from '../utils.mjs';
 
 // Format the programs.
 await Promise.all(

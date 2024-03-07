@@ -1,5 +1,5 @@
-import * as fs from "node:fs";
-import * as path from "node:path";
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
 interface LanguageItem {
   hint?: string;
@@ -62,14 +62,14 @@ function linkLocale(locale: string) {
   try {
     // @ts-ignore
     switch (Intl.getCanonicalLocales(locale)[0]) {
-      case "zh-TW":
-      case "zh-HK":
-      case "zh-MO":
-        return "zh-Hant";
+      case 'zh-TW':
+      case 'zh-HK':
+      case 'zh-MO':
+        return 'zh-Hant';
         break;
-      case "zh-CN":
-      case "zh-SG":
-        return "zh-Hans";
+      case 'zh-CN':
+      case 'zh-SG':
+        return 'zh-Hans';
         break;
       default:
         return locale;
@@ -86,9 +86,9 @@ function getLocale() {
     process.env.LC_MESSAGES ||
     process.env.LANG ||
     Intl.DateTimeFormat().resolvedOptions().locale || // Built-in ECMA-402 support
-    "en-US"; // Default fallback
+    'en-US'; // Default fallback
 
-  return linkLocale(shellLocale.split(".")[0].replace("_", "-"));
+  return linkLocale(shellLocale.split('.')[0].replace('_', '-'));
 }
 
 export function getLanguage() {
@@ -96,13 +96,13 @@ export function getLanguage() {
 
   // Note here __dirname would not be transpiled,
   // so it refers to the __dirname of the file `<repositoryRoot>/outfile.cjs`
-  const localesRoot = path.resolve(__dirname, "locales");
+  const localesRoot = path.resolve(__dirname, 'locales');
   const languageFilePath = path.resolve(localesRoot, `${locale}.json`);
   const doesLanguageExist = fs.existsSync(languageFilePath);
 
   const lang: Language = doesLanguageExist
     ? require(languageFilePath)
-    : require(path.resolve(localesRoot, "en-US.json"));
+    : require(path.resolve(localesRoot, 'en-US.json'));
 
   return lang;
 }

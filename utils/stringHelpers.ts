@@ -5,15 +5,15 @@ export function capitalize(str: string): string {
 
 export function titleCase(str: string): string {
   return str
-    .replace(/([A-Z])/g, " $1")
+    .replace(/([A-Z])/g, ' $1')
     .split(/[-_\s+.]/)
     .filter((word) => word.length > 0)
     .map(capitalize)
-    .join(" ");
+    .join(' ');
 }
 
 export function pascalCase(str: string): string {
-  return titleCase(str).split(" ").join("");
+  return titleCase(str).split(' ').join('');
 }
 
 export function camelCase(str: string): string {
@@ -23,9 +23,9 @@ export function camelCase(str: string): string {
 }
 
 export function kebabCase(str: string): string {
-  return titleCase(str).split(" ").join("-").toLowerCase();
+  return titleCase(str).split(' ').join('-').toLowerCase();
 }
 
 export function snakeCase(str: string): string {
-  return titleCase(str).split(" ").join("_").toLowerCase();
+  return titleCase(str).split(' ').join('_').toLowerCase();
 }

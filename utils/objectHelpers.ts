@@ -1,5 +1,5 @@
 const isObject = (val: unknown): val is object =>
-  !!val && typeof val === "object";
+  !!val && typeof val === 'object';
 
 const mergeArrayWithDedupe = (a: any[], b: any[]) =>
   Array.from(new Set([...a, ...b]));
@@ -31,10 +31,10 @@ export function sortDependencies<T extends object = object>(packageJson: T): T {
   const sorted = {};
 
   const depTypes = [
-    "dependencies",
-    "devDependencies",
-    "peerDependencies",
-    "optionalDependencies",
+    'dependencies',
+    'devDependencies',
+    'peerDependencies',
+    'optionalDependencies',
   ];
 
   for (const depType of depTypes) {

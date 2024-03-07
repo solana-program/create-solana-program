@@ -1,8 +1,8 @@
-export type PackageManager = "npm" | "yarn" | "pnpm";
+export type PackageManager = 'npm' | 'yarn' | 'pnpm';
 
 export function getPackageManager(): PackageManager {
   // For now, we only support pnpm.
-  return "pnpm";
+  return 'pnpm';
 }
 
 export function getPackageManagerCommand(
@@ -10,16 +10,16 @@ export function getPackageManagerCommand(
   scriptName: string,
   args?: string
 ) {
-  if (scriptName === "install") {
-    return packageManager === "yarn" ? "yarn" : `${packageManager} install`;
+  if (scriptName === 'install') {
+    return packageManager === 'yarn' ? 'yarn' : `${packageManager} install`;
   }
 
   if (args) {
-    return packageManager === "npm"
+    return packageManager === 'npm'
       ? `npm run ${scriptName} -- ${args}`
       : `${packageManager} ${scriptName} ${args}`;
   } else {
-    return packageManager === "npm"
+    return packageManager === 'npm'
       ? `npm run ${scriptName}`
       : `${packageManager} ${scriptName}`;
   }

@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-import * as path from "node:path";
+import * as path from 'node:path';
 
-import { createOrEmptyTargetDirectory } from "./utils/fsHelpers";
-import { getInputs } from "./utils/getInputs";
-import { getLanguage } from "./utils/getLanguage";
-import { logBanner, logDone, logStep } from "./utils/getLogs";
-import { RenderContext, getRenderContext } from "./utils/getRenderContext";
-import { renderTemplate } from "./utils/renderTemplates";
-import { detectSolanaVersion, generateKeypair } from "./utils/solanaCli";
+import { createOrEmptyTargetDirectory } from './utils/fsHelpers';
+import { getInputs } from './utils/getInputs';
+import { getLanguage } from './utils/getLanguage';
+import { logBanner, logDone, logStep } from './utils/getLogs';
+import { RenderContext, getRenderContext } from './utils/getRenderContext';
+import { renderTemplate } from './utils/renderTemplates';
+import { detectSolanaVersion, generateKeypair } from './utils/solanaCli';
 
 (async function init() {
   logBanner();
@@ -37,8 +37,8 @@ import { detectSolanaVersion, generateKeypair } from "./utils/solanaCli";
       const outfile = path.join(
         process.cwd(),
         inputs.targetDirectoryName,
-        "program",
-        "keypair.json"
+        'program',
+        'keypair.json'
       );
       return generateKeypair(language, outfile);
     }));
@@ -54,7 +54,7 @@ import { detectSolanaVersion, generateKeypair } from "./utils/solanaCli";
   // Render the templates.
   await logStep(
     language.infos.scaffold.replace(
-      "$targetDirectory",
+      '$targetDirectory',
       inputs.targetDirectoryName
     ),
     () => renderTemplates(ctx)
@@ -70,16 +70,16 @@ function renderTemplates(ctx: RenderContext) {
     renderTemplate(ctx, directory, ctx.targetDirectory);
   };
 
-  render("base");
+  render('base');
 
-  if (ctx.programFramework === "anchor") {
-    render("programs/counter-anchor");
+  if (ctx.programFramework === 'anchor') {
+    render('programs/counter-anchor');
   } else {
-    render("programs/counter-shank");
+    render('programs/counter-shank');
   }
 
   if (ctx.clients.length > 0) {
-    render("clients/base");
+    render('clients/base');
   }
 
   ctx.clients.forEach((client) => {

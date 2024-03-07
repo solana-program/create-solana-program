@@ -1,13 +1,13 @@
-import chalk from "chalk";
-import * as fs from "node:fs";
-import { parseArgs } from "node:util";
-import prompts from "prompts";
+import chalk from 'chalk';
+import * as fs from 'node:fs';
+import { parseArgs } from 'node:util';
+import prompts from 'prompts';
 
-import { Language } from "./getLanguage";
-import { kebabCase } from "./stringHelpers";
-import { toMinorSolanaVersion } from "./solanaCli";
+import { Language } from './getLanguage';
+import { kebabCase } from './stringHelpers';
+import { toMinorSolanaVersion } from './solanaCli';
 
-export const allClients = ["js", "rust"] as const;
+export const allClients = ['js', 'rust'] as const;
 export type Client = (typeof allClients)[number];
 
 export type Inputs = {
@@ -16,7 +16,7 @@ export type Inputs = {
   organizationName: string;
   programAddress?: string;
   programCrateName: string;
-  programFramework: "shank" | "anchor";
+  programFramework: 'shank' | 'anchor';
   programName: string;
   rustClient: boolean;
   rustClientCrateName: string;
@@ -46,8 +46,8 @@ async function getInputsFromPrompts(
     shouldOverride?: boolean;
     organizationName?: string;
     programCrateName?: string;
-    programFramework?: "shank" | "anchor";
-    clients?: Array<"js" | "rust">;
+    programFramework?: 'shank' | 'anchor';
+    clients?: Array<'js' | 'rust'>;
     jsClientPackageName?: string;
     rustClientCrateName?: string;
   };
@@ -67,8 +67,8 @@ async function getInputsFromPrompts(
     if (promptInputs.programFramework)
       inputs.programFramework = promptInputs.programFramework;
     if (promptInputs.clients !== undefined) {
-      inputs.jsClient = promptInputs.clients.includes("js");
-      inputs.rustClient = promptInputs.clients.includes("rust");
+      inputs.jsClient = promptInputs.clients.includes('js');
+      inputs.rustClient = promptInputs.clients.includes('rust');
     }
     if (promptInputs.jsClientPackageName)
       inputs.jsClientPackageName = promptInputs.jsClientPackageName;
@@ -82,23 +82,23 @@ async function getInputsFromPrompts(
     const promptInputs: PromptInputs = await prompts(
       [
         {
-          name: "programName",
-          type: argInputs.programName ? null : "text",
+          name: 'programName',
+          type: argInputs.programName ? null : 'text',
           message: language.programName.message,
           initial: () => defaultInputs.programName,
         },
         {
-          name: "shouldOverride",
+          name: 'shouldOverride',
           type: (_, values) => {
             if (argInputs.shouldOverride) return null;
             defaultInputs = parsePromptInputs(values);
             return canSkipEmptying(defaultInputs.targetDirectoryName)
               ? null
-              : "toggle";
+              : 'toggle';
           },
           message: () => {
             const dirForPrompt =
-              defaultInputs.targetDirectoryName === "."
+              defaultInputs.targetDirectoryName === '.'
                 ? language.shouldOverride.dirForPrompts!.current
                 : `${language.shouldOverride.dirForPrompts!.target} "${defaultInputs.targetDirectoryName}"`;
 
@@ -109,25 +109,25 @@ async function getInputsFromPrompts(
           inactive: language.defaultToggleOptions.inactive,
         },
         {
-          name: "overwriteChecker",
+          name: 'overwriteChecker',
           type: (_, values) => {
             if (values.shouldOverride === false) {
               throw new Error(
-                chalk.red("✖") + ` ${language.errors.operationCancelled}`
+                chalk.red('✖') + ` ${language.errors.operationCancelled}`
               );
             }
             return null;
           },
         },
         {
-          name: "organizationName",
-          type: argInputs.organizationName ? null : "text",
+          name: 'organizationName',
+          type: argInputs.organizationName ? null : 'text',
           message: language.organizationName.message,
           initial: () => defaultInputs.organizationName,
         },
         {
-          name: "programCrateName",
-          type: argInputs.programCrateName ? null : "text",
+          name: 'programCrateName',
+          type: argInputs.programCrateName ? null : 'text',
           message: language.programCrateName.message,
           initial: (_, values) => {
             defaultInputs = parsePromptInputs(values);
@@ -135,8 +135,8 @@ async function getInputsFromPrompts(
           },
         },
         {
-          name: "programFramework",
-          type: argInputs.programFramework ? null : "select",
+          name: 'programFramework',
+          type: argInputs.programFramework ? null : 'select',
           message: language.programFramework.message,
           hint: language.instructions.select,
           initial: 0,
@@ -144,24 +144,24 @@ async function getInputsFromPrompts(
             {
               title: language.programFramework.selectOptions!.shank.title,
               description: language.programFramework.selectOptions!.shank.desc,
-              value: "shank",
+              value: 'shank',
             },
             {
               title: language.programFramework.selectOptions!.anchor.title,
               description: language.programFramework.selectOptions!.anchor.desc,
-              value: "anchor",
+              value: 'anchor',
               disabled: true,
             },
           ],
         },
         {
-          name: "clients",
+          name: 'clients',
           type: () => {
             const hasSelectedClients = [
               argInputs.jsClient,
               argInputs.rustClient,
-            ].every((client) => typeof client === "boolean");
-            return hasSelectedClients ? null : "multiselect";
+            ].every((client) => typeof client === 'boolean');
+            return hasSelectedClients ? null : 'multiselect';
           },
           message: language.clients.message,
           hint: language.clients.hint,
@@ -174,21 +174,21 @@ async function getInputsFromPrompts(
           })),
         },
         {
-          name: "jsClientPackageName",
+          name: 'jsClientPackageName',
           type: (_, values) => {
             if (argInputs.jsClientPackageName) return null;
             defaultInputs = parsePromptInputs(values);
-            return defaultInputs.jsClient ? "text" : null;
+            return defaultInputs.jsClient ? 'text' : null;
           },
           message: language.jsClientPackageName.message,
           initial: () => defaultInputs.jsClientPackageName,
         },
         {
-          name: "rustClientCrateName",
+          name: 'rustClientCrateName',
           type: (_, values) => {
             if (argInputs.rustClientCrateName) return null;
             defaultInputs = parsePromptInputs(values);
-            return defaultInputs.rustClient ? "text" : null;
+            return defaultInputs.rustClient ? 'text' : null;
           },
           message: language.rustClientCrateName.message,
           initial: () => defaultInputs.rustClientCrateName,
@@ -197,14 +197,14 @@ async function getInputsFromPrompts(
       {
         onCancel: () => {
           throw new Error(
-            chalk.red("✖") + ` ${language.errors.operationCancelled}`
+            chalk.red('✖') + ` ${language.errors.operationCancelled}`
           );
         },
       }
     );
 
     // Add a line break after the prompts
-    console.log("");
+    console.log('');
 
     return parsePromptInputs(promptInputs);
   } catch (cancelled) {
@@ -217,7 +217,7 @@ function getInputsFromArgs(language: Language): Partial<Inputs> {
   type ArgInputs = {
     address?: string;
     anchorProgram: boolean;
-    clients: Array<"js" | "rust">;
+    clients: Array<'js' | 'rust'>;
     force: boolean;
     noClients: boolean;
     organizationName?: string;
@@ -247,17 +247,17 @@ function getInputsFromArgs(language: Language): Partial<Inputs> {
     if (argInputs.useDefaults) inputs.useDefaults = true;
 
     if (argInputs.anchorProgram) {
-      inputs.programFramework = "anchor";
+      inputs.programFramework = 'anchor';
     } else if (argInputs.shankProgram) {
-      inputs.programFramework = "shank";
+      inputs.programFramework = 'shank';
     }
 
     if (argInputs.noClients) {
       inputs.jsClient = false;
       inputs.rustClient = false;
     } else if (argInputs.clients) {
-      inputs.jsClient = argInputs.clients.includes("js");
-      inputs.rustClient = argInputs.clients.includes("rust");
+      inputs.jsClient = argInputs.clients.includes('js');
+      inputs.rustClient = argInputs.clients.includes('rust');
     }
 
     return inputs;
@@ -267,15 +267,15 @@ function getInputsFromArgs(language: Language): Partial<Inputs> {
   const { values: options, positionals } = parseArgs({
     args,
     options: {
-      address: { type: "string" },
-      anchor: { type: "boolean" },
-      client: { type: "string", multiple: true },
-      default: { type: "boolean", short: "d" },
-      force: { type: "boolean" },
-      "no-clients": { type: "boolean" },
-      org: { type: "string" },
-      shank: { type: "boolean" },
-      solana: { type: "string" },
+      address: { type: 'string' },
+      anchor: { type: 'boolean' },
+      client: { type: 'string', multiple: true },
+      default: { type: 'boolean', short: 'd' },
+      force: { type: 'boolean' },
+      'no-clients': { type: 'boolean' },
+      org: { type: 'string' },
+      shank: { type: 'boolean' },
+      solana: { type: 'string' },
     },
     strict: false,
   });
@@ -285,7 +285,7 @@ function getInputsFromArgs(language: Language): Partial<Inputs> {
     anchorProgram: options.anchor ?? false,
     clients: options.client,
     force: options.force ?? false,
-    noClients: options["no-clients"] ?? false,
+    noClients: options['no-clients'] ?? false,
     organizationName: options.org,
     programName: positionals[1],
     shankProgram: options.shank ?? false,
@@ -297,13 +297,13 @@ function getInputsFromArgs(language: Language): Partial<Inputs> {
 
 export function getDefaultInputs(partialInputs: Partial<Inputs>): Inputs {
   const organizationName = kebabCase(
-    partialInputs.organizationName ?? "solana-program"
+    partialInputs.organizationName ?? 'solana-program'
   );
   const parsedTargetDirectoryName = partialInputs.targetDirectoryName
-    ? partialInputs.targetDirectoryName.split("/").pop()
-    : "";
+    ? partialInputs.targetDirectoryName.split('/').pop()
+    : '';
   const programName = kebabCase(
-    partialInputs.programName ?? (parsedTargetDirectoryName || "my-program")
+    partialInputs.programName ?? (parsedTargetDirectoryName || 'my-program')
   );
   const programCrateName =
     partialInputs.programCrateName ?? `${organizationName}-${programName}`;
@@ -313,7 +313,7 @@ export function getDefaultInputs(partialInputs: Partial<Inputs>): Inputs {
     jsClientPackageName: `@${organizationName}/${programName}`,
     organizationName,
     programCrateName,
-    programFramework: "shank",
+    programFramework: 'shank',
     programName,
     rustClient: true,
     rustClientCrateName: `${programCrateName}-client`,
@@ -333,7 +333,7 @@ function canSkipEmptying(dir: fs.PathLike) {
   if (files.length === 0) {
     return true;
   }
-  if (files.length === 1 && files[0] === ".git") {
+  if (files.length === 1 && files[0] === '.git') {
     return true;
   }
 

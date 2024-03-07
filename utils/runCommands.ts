@@ -1,4 +1,4 @@
-import { spawn, ChildProcess, SpawnOptions } from "node:child_process";
+import { spawn, ChildProcess, SpawnOptions } from 'node:child_process';
 
 export function spawnCommand(
   command: string,
@@ -10,7 +10,7 @@ export function spawnCommand(
 
 export async function hasCommand(command: string): Promise<boolean> {
   try {
-    await waitForCommand(spawnCommand("which", [command], { stdio: "ignore" }));
+    await waitForCommand(spawnCommand('which', [command], { stdio: 'ignore' }));
     return true;
   } catch {
     return false;
@@ -19,7 +19,7 @@ export async function hasCommand(command: string): Promise<boolean> {
 
 export async function waitForCommand(child: ChildProcess): Promise<number> {
   return new Promise((resolve, reject) => {
-    child.on("close", (code) => {
+    child.on('close', (code) => {
       if (code !== 0) {
         const message = `$(${child}) exited with code ${code}`;
         reject(new Error(message));
@@ -33,9 +33,9 @@ export async function waitForCommand(child: ChildProcess): Promise<number> {
 export async function readStdout(child: ChildProcess): Promise<string[]> {
   const stdout: string[] = [];
   return new Promise((resolve) => {
-    child.stdout?.on("data", (data) => {
+    child.stdout?.on('data', (data) => {
       stdout.push(data.toString());
     });
-    child.on("close", () => resolve(stdout));
+    child.on('close', () => resolve(stdout));
   });
 }

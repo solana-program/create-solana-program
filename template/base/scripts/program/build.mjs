@@ -1,9 +1,9 @@
 #!/usr/bin/env zx
-import "zx/globals";
-import { workingDirectory, getProgramFolders } from "../utils.mjs";
+import 'zx/globals';
+import { workingDirectory, getProgramFolders } from '../utils.mjs';
 
 // Save external programs binaries to the output directory.
-import "./dump.mjs";
+import './dump.mjs';
 
 // Build the programs.
 await Promise.all(

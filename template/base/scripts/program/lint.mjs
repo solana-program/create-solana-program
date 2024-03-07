@@ -1,6 +1,6 @@
 #!/usr/bin/env zx
-import "zx/globals";
-import { workingDirectory, getProgramFolders } from "../utils.mjs";
+import 'zx/globals';
+import { workingDirectory, getProgramFolders } from '../utils.mjs';
 
 // Lint the programs using clippy.
 await Promise.all(

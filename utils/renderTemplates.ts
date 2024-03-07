@@ -1,16 +1,16 @@
-import * as fs from "node:fs";
-import * as path from "node:path";
-import nunjucks, { ConfigureOptions } from "nunjucks";
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import nunjucks, { ConfigureOptions } from 'nunjucks';
 
-import { RenderContext } from "./getRenderContext";
-import { deepMerge, sortDependencies } from "./objectHelpers";
+import { RenderContext } from './getRenderContext';
+import { deepMerge, sortDependencies } from './objectHelpers';
 import {
   camelCase,
   kebabCase,
   pascalCase,
   snakeCase,
   titleCase,
-} from "./stringHelpers";
+} from './stringHelpers';
 
 /**
  * Renders a template folder/file to the provided destination,
@@ -28,7 +28,7 @@ export function renderTemplate(ctx: RenderContext, src: string, dest: string) {
   // Recursively render directories.
   if (stats.isDirectory()) {
     // Skip node_module.
-    if (path.basename(src) === "node_modules") return;
+    if (path.basename(src) === 'node_modules') return;
 
     // Render its subdirectories and files recursively.
     fs.mkdirSync(dest, { recursive: true });
@@ -41,25 +41,25 @@ export function renderTemplate(ctx: RenderContext, src: string, dest: string) {
   const filename = path.basename(src);
 
   // Merge package.json files.
-  if (filename === "package.json" && fs.existsSync(dest)) {
-    const existing = JSON.parse(fs.readFileSync(dest, "utf8"));
-    const newPackage = JSON.parse(fs.readFileSync(src, "utf8"));
+  if (filename === 'package.json' && fs.existsSync(dest)) {
+    const existing = JSON.parse(fs.readFileSync(dest, 'utf8'));
+    const newPackage = JSON.parse(fs.readFileSync(src, 'utf8'));
     const pkg = sortDependencies(deepMerge(existing, newPackage));
-    fs.writeFileSync(dest, JSON.stringify(pkg, null, 2) + "\n");
+    fs.writeFileSync(dest, JSON.stringify(pkg, null, 2) + '\n');
     return;
   }
 
   // Append to existing .gitignore.
-  if (filename === ".gitignore" && fs.existsSync(dest)) {
-    const existing = fs.readFileSync(dest, "utf8");
-    const newGitignore = fs.readFileSync(src, "utf8");
-    fs.writeFileSync(dest, existing + "\n" + newGitignore);
+  if (filename === '.gitignore' && fs.existsSync(dest)) {
+    const existing = fs.readFileSync(dest, 'utf8');
+    const newGitignore = fs.readFileSync(src, 'utf8');
+    fs.writeFileSync(dest, existing + '\n' + newGitignore);
     return;
   }
 
   // Render nunjucks templates.
-  if (filename.endsWith(".njk")) {
-    dest = dest.replace(/\.njk$/, "");
+  if (filename.endsWith('.njk')) {
+    dest = dest.replace(/\.njk$/, '');
     fs.writeFileSync(dest, resolveNunjunksTemplate(src, ctx));
     fs.chmodSync(dest, stats.mode);
     return;
@@ -80,10 +80,10 @@ function resolveNunjunksTemplate(
     autoescape: false,
     ...options,
   });
-  env.addFilter("pascalCase", pascalCase);
-  env.addFilter("camelCase", camelCase);
-  env.addFilter("snakeCase", snakeCase);
-  env.addFilter("kebabCase", kebabCase);
-  env.addFilter("titleCase", titleCase);
+  env.addFilter('pascalCase', pascalCase);
+  env.addFilter('camelCase', camelCase);
+  env.addFilter('snakeCase', snakeCase);
+  env.addFilter('kebabCase', kebabCase);
+  env.addFilter('titleCase', titleCase);
   return env.render(filename, context);
 }

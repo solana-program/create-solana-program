@@ -1,15 +1,15 @@
-import * as path from "node:path";
+import * as path from 'node:path';
 
-import { Client, Inputs, allClients } from "./getInputs";
-import { Language } from "./getLanguage";
+import { Client, Inputs, allClients } from './getInputs';
+import { Language } from './getLanguage';
 import {
   PackageManager,
   getPackageManager,
   getPackageManagerCommand,
-} from "./getPackageManager";
-import { toMinorSolanaVersion } from "./solanaCli";
+} from './getPackageManager';
+import { toMinorSolanaVersion } from './solanaCli';
 
-export type RenderContext = Omit<Inputs, "programAddress" | "solanaVersion"> & {
+export type RenderContext = Omit<Inputs, 'programAddress' | 'solanaVersion'> & {
   clientDirectory: string;
   clients: Client[];
   currentDirectory: string;
@@ -39,18 +39,18 @@ export function getRenderContext({
   const clients = allClients.flatMap((client) =>
     inputs[`${client}Client`] ? [client] : []
   );
-  const getNpmCommand: RenderContext["getNpmCommand"] = (...args) =>
+  const getNpmCommand: RenderContext['getNpmCommand'] = (...args) =>
     getPackageManagerCommand(packageManager, ...args);
 
   // Directories.
-  const templateDirectory = path.resolve(__dirname, "template");
+  const templateDirectory = path.resolve(__dirname, 'template');
   const currentDirectory = process.cwd();
   const targetDirectory = path.join(
     currentDirectory,
     inputs.targetDirectoryName
   );
-  const programDirectory = path.join(targetDirectory, "program");
-  const clientDirectory = path.join(targetDirectory, "client");
+  const programDirectory = path.join(targetDirectory, 'program');
+  const clientDirectory = path.join(targetDirectory, 'client');
 
   return {
     ...inputs,

@@ -1,12 +1,12 @@
 #!/usr/bin/env zx
-import "zx/globals";
+import 'zx/globals';
 import {
   getExternalProgramAddresses,
   getExternalProgramOutputDir,
-} from "../utils.mjs";
+} from '../utils.mjs';
 
 // Get input from environment variables.
-const rpc = process.env.RPC ?? "https://api.mainnet-beta.solana.com";
+const rpc = process.env.RPC ?? 'https://api.mainnet-beta.solana.com';
 const outputDir = getExternalProgramOutputDir();
 await dump();
 
@@ -40,12 +40,12 @@ async function dump() {
 
       if (onChainHash.toString() !== localHash.toString()) {
         echo(
-          chalk.yellow("[ WARNING ]"),
+          chalk.yellow('[ WARNING ]'),
           `on-chain and local binaries are different for '${binary}'`
         );
       } else {
         echo(
-          chalk.green("[ SKIPPED ]"),
+          chalk.green('[ SKIPPED ]'),
           `on-chain and local binaries are the same for '${binary}'`
         );
       }
@@ -57,10 +57,10 @@ async function dump() {
 
 /** Helper function to copy external programs or accounts binaries from the chain. */
 async function copyFromChain(address, binary) {
-  switch (binary.split(".").pop()) {
-    case "bin":
+  switch (binary.split('.').pop()) {
+    case 'bin':
       return $`solana account -u ${rpc} ${address} -o ${outputDir}/${binary} >/dev/null`.quiet();
-    case "so":
+    case 'so':
       return $`solana program dump -u ${rpc} ${address} ${outputDir}/${binary} >/dev/null`.quiet();
     default:
       echo(chalk.red(`[  ERROR  ] unknown account type for '${binary}'`));

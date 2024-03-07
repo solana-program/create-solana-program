@@ -6,6 +6,11 @@
 **/tsconfig.*.json
 **/tsconfig.json
 
+template/**/*.njk
+template/**/*.json
+template/**/*.yaml
+template/**/.gitignore
+
 .prettierrc
 package.json
 README.md

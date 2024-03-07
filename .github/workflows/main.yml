@@ -112,6 +112,10 @@ jobs:
           key: ${{ runner.os }}-crates-solana-v${{ env.SOLANA_VERSION }}-${{ hashFiles('projects/**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-crates-solana-v${{ env.SOLANA_VERSION }}
+      - name: Setup git user
+        run: |
+          git config --global user.email "github@solana.com"
+          git config --global user.name "solana-bot"
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1

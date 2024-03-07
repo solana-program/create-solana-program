@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.1.11
+
+### Patch Changes
+
+- [#6](https://github.com/solana-program/create-solana-program/pull/6) [`52e704a`](https://github.com/solana-program/create-solana-program/commit/52e704a3b2a37bdb3e146272c8469a38a36b1c9b) Thanks [@febo](https://github.com/febo)! - Fixes a typo and small tweak to program label
+
 ## 0.1.10
 
 ### Patch Changes

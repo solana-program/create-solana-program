@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.1.8
+
+### Patch Changes
+
+- [`6c6d6f7`](https://github.com/solana-program/create-solana-program/commit/6c6d6f733027a181c5acb2f6b1b7b1820a337d22) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Test another publish cycle
+
 ## 0.1.7
 
 ### Patch Changes

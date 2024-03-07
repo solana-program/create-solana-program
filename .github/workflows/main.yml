@@ -49,6 +49,11 @@ jobs:
           version: ${{ matrix.solana }}
       - name: Pre-scaffold projects for caching purposes
         run: pnpm snapshot --scaffold-only
+      - name: Debug
+        run: |
+          ls -a projects/**/Cargo.lock
+          ls -a ./projects/**/Cargo.lock
+          echo "${{ hashFiles('projects/**/Cargo.lock') }}"
       - name: Cache cargo crates
         uses: actions/cache@v4
         with:
@@ -59,9 +64,9 @@ jobs:
             ~/.cargo/git/db/
             ./projects/**/.cargo/
             ./projects/**/target/
-          key: ${{ runner.os }}-solana@${{ matrix.solana }}-${{ hashFiles('./projects/**/Cargo.lock') }}
+          key: ${{ runner.os }}-crates-solana-v${{ matrix.solana }}-${{ hashFiles('projects/**/Cargo.lock') }}
           restore-keys: |
-            ${{ runner.os }}-solana@${{ matrix.solana }}
+            ${{ runner.os }}-crates-solana-v${{ matrix.solana }}
       - name: Build and run tests
         run: pnpm test
 

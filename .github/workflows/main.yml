@@ -84,6 +84,25 @@ jobs:
           cache: "pnpm"
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
+      - name: Install Solana
+        uses: metaplex-foundation/actions/install-solana@v1
+        with:
+          version: 1.18
+      - name: Pre-scaffold projects for caching purposes
+        run: pnpm snapshot --scaffold-only
+      - name: Cache cargo crates
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            ./projects/**/.cargo/
+            ./projects/**/target/
+          key: ${{ runner.os }}-crates-solana-v1.18-${{ hashFiles('projects/**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-crates-solana-v1.18
       - name: Create Release Pull Request or Publish
         id: changesets
         uses: changesets/action@v1

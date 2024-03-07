@@ -8,7 +8,11 @@ import { getLanguage } from './utils/getLanguage';
 import { logBanner, logDone, logStep } from './utils/getLogs';
 import { RenderContext, getRenderContext } from './utils/getRenderContext';
 import { renderTemplate } from './utils/renderTemplates';
-import { detectSolanaVersion, generateKeypair } from './utils/solanaCli';
+import {
+  detectSolanaVersion,
+  generateKeypair,
+  patchSolanaDependencies,
+} from './utils/solanaCli';
 
 (async function init() {
   logBanner();
@@ -57,7 +61,10 @@ import { detectSolanaVersion, generateKeypair } from './utils/solanaCli';
       '$targetDirectory',
       inputs.targetDirectoryName
     ),
-    () => renderTemplates(ctx)
+    async () => {
+      renderTemplates(ctx);
+      await patchSolanaDependencies(ctx.targetDirectory, ctx.solanaVersion);
+    }
   );
 
   // Done.

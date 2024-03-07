@@ -24,6 +24,26 @@ export async function detectSolanaVersion(language: Language): Promise<string> {
   return version!;
 }
 
+export async function patchSolanaDependencies(
+  targetDirectory: string,
+  solanaVersion: string
+): Promise<void> {
+  const patchMap: Record<string, string[]> = {
+    '1.17': ['-p ahash@0.8.11 --precise 0.8.6'],
+  };
+
+  const patches = patchMap[solanaVersion] ?? [];
+  await Promise.all(
+    patches.map((patch) =>
+      waitForCommand(
+        spawnCommand('cargo', ['update', ...patch.split(' ')], {
+          cwd: targetDirectory,
+        })
+      )
+    )
+  );
+}
+
 export function toMinorSolanaVersion(
   language: Language,
   version: string

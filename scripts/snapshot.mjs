@@ -60,6 +60,13 @@ for (const projectName of projects) {
     });
   }
 
+  // Build programs.
+  if ('programs:build' in pkg.scripts) {
+    await executeStep('build programs', async () => {
+      await $`pnpm programs:build`;
+    });
+  }
+
   if (runTests) {
     // Test programs.
     if ('programs:test' in pkg.scripts) {

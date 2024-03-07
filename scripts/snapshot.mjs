@@ -13,6 +13,7 @@ const projects =
       )
     : Object.keys(PROJECTS);
 const runTests = !!argv.test;
+const scaffoldOnly = !!argv['scaffold-only'];
 
 // Resolve paths.
 const bin = path.resolve(__dirname, '../outfile.cjs');
@@ -35,6 +36,8 @@ for (const projectName of projects) {
     'scaffold the project',
     () => $`node ${[bin, ...args, '--force', '--default']}`
   );
+
+  if (scaffoldOnly) continue;
 
   // Go inside the created project.
   const projectDirectory = path.resolve(projectsDirectory, projectName);
@@ -67,21 +70,21 @@ for (const projectName of projects) {
     });
   }
 
-  if (runTests) {
-    // Test programs.
-    if ('programs:test' in pkg.scripts) {
-      await executeStep('test programs', async () => {
-        await $`pnpm programs:test`;
-      });
-    }
+  if (!runTests) continue;
 
-    // Test clients.
-    for (const client of CLIENTS) {
-      if (`clients:${client}:test` in pkg.scripts) {
-        await executeStep(`test ${client} clients`, async () => {
-          await $`pnpm clients:${client}:test`;
-        });
-      }
+  // Test programs.
+  if ('programs:test' in pkg.scripts) {
+    await executeStep('test programs', async () => {
+      await $`pnpm programs:test`;
+    });
+  }
+
+  // Test clients.
+  for (const client of CLIENTS) {
+    if (`clients:${client}:test` in pkg.scripts) {
+      await executeStep(`test ${client} clients`, async () => {
+        await $`pnpm clients:${client}:test`;
+      });
     }
   }
 

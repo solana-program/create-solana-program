@@ -1,5 +1,13 @@
 # create-solana-program
 
+## 0.1.13
+
+### Patch Changes
+
+- [`363da94`](https://github.com/solana-program/create-solana-program/commit/363da942a8bc38ac3667c7b45d72522d84a8a618) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Generate description in JS client package.json
+
+- [`7c846d0`](https://github.com/solana-program/create-solana-program/commit/7c846d070903031d2b171e61564b5a7ca091e12b) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Urlencode README badges
+
 ## 0.1.12
 
 ### Patch Changes

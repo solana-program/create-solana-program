@@ -1,6 +1,7 @@
+export const COUNTER_ADDRESS = 'CounterProgram111111111111111111111111111111';
 export const CLIENTS = ['js', 'rust'];
 export const PROJECTS = {
-  'counter-shank': ['counter', '--shank'],
+  'counter-shank': ['counter', '--shank', '--address', COUNTER_ADDRESS],
 };
 
 export async function executeStep(title, fn) {

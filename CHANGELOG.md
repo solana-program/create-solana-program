@@ -1,5 +1,19 @@
 # create-solana-program
 
+## 0.1.12
+
+### Patch Changes
+
+- [#11](https://github.com/solana-program/create-solana-program/pull/11) [`097d08a`](https://github.com/solana-program/create-solana-program/commit/097d08a412d0019208bf9982f7ed1ca2f6cba1c9) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Rename validator scripts
+
+- [`a7e46b7`](https://github.com/solana-program/create-solana-program/commit/a7e46b7d060faab7b29d977438a4bce359a7fea4) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Prefix dot files with \_. in templates
+
+- [#9](https://github.com/solana-program/create-solana-program/pull/9) [`2b62bf0`](https://github.com/solana-program/create-solana-program/commit/2b62bf02d198ce6b479c48e68f145e664a6735df) Thanks [@steveluscher](https://github.com/steveluscher)! - Update `@solana/web3.js` to `^2.0.0-preview` – a relative version range that targets the newest version of the preview line
+
+- [#12](https://github.com/solana-program/create-solana-program/pull/12) [`e254142`](https://github.com/solana-program/create-solana-program/commit/e25414264e493f568e5e87e748ca46805dd58c73) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Use fixed counter address in snapshots
+
+  This prevents new keypairs from being generated and avoids having lots of unnecessary address changes between snapshots.
+
 ## 0.1.11
 
 ### Patch Changes

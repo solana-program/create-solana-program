@@ -32,25 +32,46 @@ async function dump() {
         return;
       }
 
-      await copyFromChain(address, `onchain-${binary}`);
-      const [onChainHash, localHash] = await Promise.all([
-        $`sha256sum -b ${outputDir}/onchain-${binary} | cut -d ' ' -f 1`.quiet(),
-        $`sha256sum -b ${outputDir}/${binary} | cut -d ' ' -f 1`.quiet(),
-      ]);
+      let sha = 'sha256sum';
+      let options = [];
+      let hasShaChecksum = await which('sha256sum', { nothrow: true });
 
-      if (onChainHash.toString() !== localHash.toString()) {
-        echo(
-          chalk.yellow('[ WARNING ]'),
-          `on-chain and local binaries are different for '${binary}'`
-        );
-      } else {
-        echo(
-          chalk.green('[ SKIPPED ]'),
-          `on-chain and local binaries are the same for '${binary}'`
-        );
+      // We might not have sha256sum on some systems, so we try shasum as well.
+      if (!hasShaChecksum) {
+        hasShaChecksum = await which('shasum', { nothrow: true });
+
+        if (hasShaChecksum) {
+          sha = 'shasum';
+          options = ['-a', '256'];
+        }
       }
 
-      await $`rm ${outputDir}/onchain-${binary}`.quiet();
+      if (hasShaChecksum) {
+        await copyFromChain(address, `onchain-${binary}`);
+        const [onChainHash, localHash] = await Promise.all([
+          $`${sha} ${options} -b ${outputDir}/onchain-${binary} | cut -d ' ' -f 1`.quiet(),
+          $`${sha} ${options} -b ${outputDir}/${binary} | cut -d ' ' -f 1`.quiet(),
+        ]);
+
+        if (onChainHash.toString() !== localHash.toString()) {
+          echo(
+            chalk.yellow('[ WARNING ]'),
+            `on-chain and local binaries are different for '${binary}'`
+          );
+        } else {
+          echo(
+            chalk.green('[ SKIPPED ]'),
+            `on-chain and local binaries are the same for '${binary}'`
+          );
+        }
+
+        await $`rm ${outputDir}/onchain-${binary}`.quiet();
+      } else {
+        echo(
+          chalk.yellow('[ WARNING ]'),
+          `skipped check for '${binary}' (missing 'sha256sum' command)`
+        );
+      }
     })
   );
 }

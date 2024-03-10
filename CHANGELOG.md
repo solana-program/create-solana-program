@@ -1,5 +1,17 @@
 # create-solana-program
 
+## 0.1.14
+
+### Patch Changes
+
+- [`20f4619`](https://github.com/solana-program/create-solana-program/commit/20f46195dcde3c23f9080e2c941121221eeacd1d) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Upgrade Kinobi to 0.17.8
+
+- [#16](https://github.com/solana-program/create-solana-program/pull/16) [`7fd2f2e`](https://github.com/solana-program/create-solana-program/commit/7fd2f2ea99c89d48f71771aa984ffb833b70055c) Thanks [@febo](https://github.com/febo)! - Switch initial package/crate version to 0.0.0
+
+- [#17](https://github.com/solana-program/create-solana-program/pull/17) [`5a7ff73`](https://github.com/solana-program/create-solana-program/commit/5a7ff73f47f4f2c9030fbc97ff73866cb35a8533) Thanks [@febo](https://github.com/febo)! - Add fallback logic for sha checksum
+
+- [#14](https://github.com/solana-program/create-solana-program/pull/14) [`f86fa27`](https://github.com/solana-program/create-solana-program/commit/f86fa279ebf5cfb64d71a55f5feeb61ddf8e1d6c) Thanks [@febo](https://github.com/febo)! - Not start validator for Rust client tests
+
 ## 0.1.13
 
 ### Patch Changes

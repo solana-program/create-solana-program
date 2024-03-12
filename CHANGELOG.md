@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.1.15
+
+### Patch Changes
+
+- [#18](https://github.com/solana-program/create-solana-program/pull/18) [`8fb8cec`](https://github.com/solana-program/create-solana-program/commit/8fb8cecf166875f67e5e614889065522d9ac83cf) Thanks [@steveluscher](https://github.com/steveluscher)! - Point to correct location for TypeScript definitions
+
 ## 0.1.14
 
 ### Patch Changes

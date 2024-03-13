@@ -21,7 +21,7 @@ export default defineConfig(() => [
     ...SHARED_OPTIONS,
     bundle: false,
     entry: ['./test/*.ts'],
-    format: 'cjs',
+    format: 'esm',
     outDir: './dist/test',
   },
 ]);

@@ -1,5 +1,13 @@
 # create-solana-program
 
+## 0.1.16
+
+### Patch Changes
+
+- [#22](https://github.com/solana-program/create-solana-program/pull/22) [`6d5164b`](https://github.com/solana-program/create-solana-program/commit/6d5164b0287d3adbf6e5f7582ad2c51a4ba9d11d) Thanks [@steveluscher](https://github.com/steveluscher)! - Use `cargo-build-sbf` instead of `cargo build-sbf` when building clients
+
+- [#21](https://github.com/solana-program/create-solana-program/pull/21) [`a25f252`](https://github.com/solana-program/create-solana-program/commit/a25f252e4493850fbb91a73ca955f54dff8df909) Thanks [@steveluscher](https://github.com/steveluscher)! - Generated clients can now be imported into ESM projects
+
 ## 0.1.15
 
 ### Patch Changes

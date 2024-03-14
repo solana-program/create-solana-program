@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.1.17
+
+### Patch Changes
+
+- [#24](https://github.com/solana-program/create-solana-program/pull/24) [`289ccfd`](https://github.com/solana-program/create-solana-program/commit/289ccfd287b38c4cb2614db8805643b898f0a6c9) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Fix exported extensions in package.json
+
 ## 0.1.16
 
 ### Patch Changes

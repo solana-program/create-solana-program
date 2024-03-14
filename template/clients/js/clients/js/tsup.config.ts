@@ -7,6 +7,7 @@ const SHARED_OPTIONS: Options = {
   entry: ['./src/index.ts'],
   inject: [path.resolve(__dirname, 'env-shim.ts')],
   outDir: './dist/src',
+  outExtension: ({ format }) => ({ js: format === 'cjs' ? '.cjs' : '.js' }),
   sourcemap: true,
   treeshake: true,
 };

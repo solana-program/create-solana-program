@@ -7,6 +7,6 @@
     "validator:stop": "zx ./scripts/stop-validator.mjs"
   },
   "devDependencies": {
-    "@metaplex-foundation/kinobi": "^0.17.8"
+    "@metaplex-foundation/kinobi": "^0.17.10"
   }
 }

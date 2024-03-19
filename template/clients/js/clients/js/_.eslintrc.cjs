@@ -20,5 +20,5 @@ module.exports = {
     'func-names': 'off',
     'prefer-destructuring': 'off',
   },
-  ignorePatterns: ['dist/**', '.eslintrc.js', 'tsup.config.ts', 'env-shim.ts'],
+  ignorePatterns: ['dist/**', '.eslintrc.cjs', 'tsup.config.ts', 'env-shim.ts'],
 };

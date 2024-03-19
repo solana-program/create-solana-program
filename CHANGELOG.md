@@ -1,5 +1,15 @@
 # create-solana-program
 
+## 0.1.18
+
+### Patch Changes
+
+- [#29](https://github.com/solana-program/create-solana-program/pull/29) [`b55bf91`](https://github.com/solana-program/create-solana-program/commit/b55bf917df3a7fc534ddfb06f02f1c8aa4d7214e) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Use `@solana/eslint-config-solana` preset
+
+- [#27](https://github.com/solana-program/create-solana-program/pull/27) [`43c7662`](https://github.com/solana-program/create-solana-program/commit/43c7662d6c19e69bc7a759483f0368654aad227a) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Remove typedoc-plugin-expand-object-like-types from JS client
+
+- [#26](https://github.com/solana-program/create-solana-program/pull/26) [`990ddce`](https://github.com/solana-program/create-solana-program/commit/990ddcec4d46bd9c899b31a66acb68b5daa57039) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Fix linting for JS clients
+
 ## 0.1.17
 
 ### Patch Changes

@@ -70,9 +70,6 @@ devDependencies:
   typedoc:
     specifier: ^0.25.12
     version: 0.25.12(typescript@5.4.2)
-  typedoc-plugin-expand-object-like-types:
-    specifier: ^0.1.2
-    version: 0.1.2(typedoc@0.25.12)
   typedoc-plugin-missing-exports:
     specifier: ^2.2.0
     version: 2.2.0(typedoc@0.25.12)
@@ -3997,14 +3994,6 @@ packages:
       has-proto: 1.0.3
       is-typed-array: 1.1.13
       possible-typed-array-names: 1.0.0
-    dev: true
-
-  /typedoc-plugin-expand-object-like-types@0.1.2(typedoc@0.25.12):
-    resolution: {integrity: sha512-RRMOCWMElQHBOVraWMWrh/0tDqCdS5oxYwaWMZBB3KlUUUUCxKllpvJPsRH/uFLO1nOuy28CbJxGVU1umv7LOQ==}
-    peerDependencies:
-      typedoc: 0.22.x || 0.23.x
-    dependencies:
-      typedoc: 0.25.12(typescript@5.4.2)
     dev: true
 
   /typedoc-plugin-missing-exports@2.2.0(typedoc@0.25.12):

@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.1.19
+
+### Patch Changes
+
+- [#31](https://github.com/solana-program/create-solana-program/pull/31) [`6c6256f`](https://github.com/solana-program/create-solana-program/commit/6c6256fce97d3599ae5bd7bd0f33e0736dc80bde) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Update Kinobi to 0.18.0
+
 ## 0.1.18
 
 ### Patch Changes

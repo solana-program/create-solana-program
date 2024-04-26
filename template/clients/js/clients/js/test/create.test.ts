@@ -1,4 +1,8 @@
-import { appendTransactionInstruction, pipe } from '@solana/web3.js';
+import {
+  Account,
+  appendTransactionMessageInstruction,
+  pipe,
+} from '@solana/web3.js';
 import test from 'ava';
 import {
   Counter,
@@ -21,7 +25,7 @@ test('it creates a new counter account', async (t) => {
   const createIx = await getCreateInstructionAsync({ authority });
   await pipe(
     await createDefaultTransaction(client, authority),
-    (tx) => appendTransactionInstruction(createIx, tx),
+    (tx) => appendTransactionMessageInstruction(createIx, tx),
     (tx) => signAndSendTransaction(client, tx)
   );
 
@@ -29,7 +33,7 @@ test('it creates a new counter account', async (t) => {
   const counter = await fetchCounterFromSeeds(client.rpc, {
     authority: authority.address,
   });
-  t.like(counter, <Counter>{
+  t.like(counter, <Account<Counter>>{
     data: {
       authority: authority.address,
       value: 0,

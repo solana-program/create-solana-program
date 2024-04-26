@@ -1,6 +1,16 @@
-import { appendTransactionInstruction, lamports, pipe } from '@solana/web3.js';
+import {
+  SOLANA_ERROR__JSON_RPC__SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE,
+  appendTransactionMessageInstruction,
+  isProgramError,
+  isSolanaError,
+  lamports,
+  pipe,
+} from '@solana/web3.js';
 import test from 'ava';
 import {
+  {{ programName | snakeCase | upper }}_ERROR__INVALID_PDA,
+  {{ programName | snakeCase | upper }}_ERROR__INVALID_PROGRAM_OWNER,
+  {{ programName | snakeCase | upper }}_PROGRAM_ADDRESS,
   fetchCounter,
   findCounterPda,
   getIncrementInstruction,
@@ -26,7 +36,7 @@ test('it increments an existing counter by 1 by default', async (t) => {
   const incrementIx = await getIncrementInstructionAsync({ authority });
   await pipe(
     await createDefaultTransaction(client, authority),
-    (tx) => appendTransactionInstruction(incrementIx, tx),
+    (tx) => appendTransactionMessageInstruction(incrementIx, tx),
     (tx) => signAndSendTransaction(client, tx)
   );
 
@@ -49,7 +59,7 @@ test('it can increment an existing counter by a specified amount', async (t) => 
   });
   await pipe(
     await createDefaultTransaction(client, authority),
-    (tx) => appendTransactionInstruction(incrementIx, tx),
+    (tx) => appendTransactionMessageInstruction(incrementIx, tx),
     (tx) => signAndSendTransaction(client, tx)
   );
 
@@ -67,20 +77,27 @@ test('it cannot increment a counter that does not exist', async (t) => {
 
   // When we try to increment the inexistent counter account.
   const incrementIx = await getIncrementInstructionAsync({ authority });
-  const promise = pipe(
+  const transactionMessage = pipe(
     await createDefaultTransaction(client, authority),
-    (tx) => appendTransactionInstruction(incrementIx, tx),
-    (tx) => signAndSendTransaction(client, tx)
+    (tx) => appendTransactionMessageInstruction(incrementIx, tx)
   );
+  const promise = signAndSendTransaction(client, transactionMessage);
 
   // Then we expect the program to throw an error.
-  const error = await t.throwsAsync<Error & { data: { logs: string[] } }>(
-    promise,
-    { message: /Error processing Instruction 0: custom program error: 0x2/ }
+  const error = await t.throwsAsync(promise);
+  t.true(
+    isSolanaError(
+      error,
+      SOLANA_ERROR__JSON_RPC__SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE
+    )
   );
-  t.regex(
-    error.data.logs.join('\n'),
-    /Account "counter" \[.+\] expected program owner \[{{ programAddress }}\], got \[11111111111111111111111111111111\]/
+  t.true(
+    isProgramError(
+      error.cause,
+      transactionMessage,
+      {{ programName | snakeCase | upper }}_PROGRAM_ADDRESS,
+      {{ programName | snakeCase | upper }}_ERROR__INVALID_PROGRAM_OWNER
+    )
   );
 });
 
@@ -99,19 +116,26 @@ test('it cannot increment a counter that belongs to another authority', async (t
     authority: authorityB,
     counter: counterPda,
   });
-  const promise = pipe(
+  const transactionMessage = pipe(
     await createDefaultTransaction(client, authorityB),
-    (tx) => appendTransactionInstruction(incrementIx, tx),
-    (tx) => signAndSendTransaction(client, tx)
+    (tx) => appendTransactionMessageInstruction(incrementIx, tx)
   );
+  const promise = signAndSendTransaction(client, transactionMessage);
 
   // Then we expect the program to throw an error.
-  const error = await t.throwsAsync<Error & { data: { logs: string[] } }>(
-    promise,
-    { message: /Error processing Instruction 0: custom program error: 0x3/ }
+  const error = await t.throwsAsync(promise);
+  t.true(
+    isSolanaError(
+      error,
+      SOLANA_ERROR__JSON_RPC__SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE
+    )
   );
-  t.regex(
-    error.data.logs.join('\n'),
-    /Account "counter" \[.+\] is an invalid PDA. Expected the following valid PDA \[.+\]/
+  t.true(
+    isProgramError(
+      error.cause,
+      transactionMessage,
+      {{ programName | snakeCase | upper }}_PROGRAM_ADDRESS,
+      {{ programName | snakeCase | upper }}_ERROR__INVALID_PDA
+    )
   );
 });

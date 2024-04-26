@@ -4,7 +4,8 @@ import * as k from "@metaplex-foundation/kinobi";
 import { getAllProgramIdls } from "./utils.mjs";
 
 // Instanciate Kinobi.
-const kinobi = k.createFromIdls(getAllProgramIdls());
+const [idl, ...additionalIdls] = getAllProgramIdls();
+const kinobi = k.createFromIdl(idl, additionalIdls);
 
 // Update programs.
 kinobi.update(
@@ -18,7 +19,7 @@ kinobi.update(
   k.updateAccountsVisitor({
     counter: {
       seeds: [
-        k.constantPdaSeedNodeFromString("counter"),
+        k.constantPdaSeedNodeFromString("utf8", "counter"),
         k.variablePdaSeedNode(
           "authority",
           k.publicKeyTypeNode(),

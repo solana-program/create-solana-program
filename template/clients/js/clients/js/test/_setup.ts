@@ -1,8 +1,8 @@
 import {
   Address,
   Commitment,
-  CompilableTransaction,
-  ITransactionWithBlockhashLifetime,
+  CompilableTransactionMessage,
+  TransactionMessageWithBlockhashLifetime,
   ProgramDerivedAddress,
   Rpc,
   RpcSubscriptions,
@@ -10,18 +10,18 @@ import {
   SolanaRpcSubscriptionsApi,
   TransactionSigner,
   airdropFactory,
-  appendTransactionInstruction,
+  appendTransactionMessageInstruction,
   createSolanaRpc,
   createSolanaRpcSubscriptions,
-  createTransaction,
+  createTransactionMessage,
   generateKeyPairSigner,
   getSignatureFromTransaction,
   lamports,
   pipe,
   sendAndConfirmTransactionFactory,
-  setTransactionFeePayerSigner,
-  setTransactionLifetimeUsingBlockhash,
-  signTransactionWithSigners,
+  setTransactionMessageFeePayerSigner,
+  setTransactionMessageLifetimeUsingBlockhash,
+  signTransactionMessageWithSigners,
 } from '@solana/web3.js';
 import { findCounterPda, getCreateInstructionAsync } from '../src/index.js';
 
@@ -57,18 +57,20 @@ export const createDefaultTransaction = async (
     .getLatestBlockhash()
     .send();
   return pipe(
-    createTransaction({ version: 0 }),
-    (tx) => setTransactionFeePayerSigner(feePayer, tx),
-    (tx) => setTransactionLifetimeUsingBlockhash(latestBlockhash, tx)
+    createTransactionMessage({ version: 0 }),
+    (tx) => setTransactionMessageFeePayerSigner(feePayer, tx),
+    (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx)
   );
 };
 
 export const signAndSendTransaction = async (
   client: Client,
-  transaction: CompilableTransaction & ITransactionWithBlockhashLifetime,
+  transactionMessage: CompilableTransactionMessage &
+    TransactionMessageWithBlockhashLifetime,
   commitment: Commitment = 'confirmed'
 ) => {
-  const signedTransaction = await signTransactionWithSigners(transaction);
+  const signedTransaction =
+    await signTransactionMessageWithSigners(transactionMessage);
   const signature = getSignatureFromTransaction(signedTransaction);
   await sendAndConfirmTransactionFactory(client)(signedTransaction, {
     commitment,
@@ -91,7 +93,7 @@ export const createCounterForAuthority = async (
   ]);
   await pipe(
     transaction,
-    (tx) => appendTransactionInstruction(createIx, tx),
+    (tx) => appendTransactionMessageInstruction(createIx, tx),
     (tx) => signAndSendTransaction(client, tx)
   );
   return counterPda;

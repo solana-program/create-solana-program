@@ -25,7 +25,8 @@
     "lint": "eslint --ext js,ts,tsx src",
     "lint:fix": "eslint --fix --ext js,ts,tsx src",
     "format": "prettier --check src test",
-    "format:fix": "prettier --write src test"
+    "format:fix": "prettier --write src test",
+    "prepublishOnly": "pnpm build"
   },
   "publishConfig": {
     "access": "public",

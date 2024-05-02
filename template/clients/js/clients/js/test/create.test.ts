@@ -8,13 +8,13 @@ import {
   Counter,
   fetchCounterFromSeeds,
   getCreateInstructionAsync,
-} from '../src/index.js';
+} from '../src';
 import {
   createDefaultSolanaClient,
   createDefaultTransaction,
   generateKeyPairSignerWithSol,
   signAndSendTransaction,
-} from './_setup.js';
+} from './_setup';
 
 test('it creates a new counter account', async (t) => {
   // Given an authority key pair with some SOL.

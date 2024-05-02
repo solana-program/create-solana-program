@@ -15,7 +15,7 @@ import {
   findCounterPda,
   getIncrementInstruction,
   getIncrementInstructionAsync,
-} from '../src/index.js';
+} from '../src';
 import {
   createCounterForAuthority,
   createDefaultSolanaClient,
@@ -23,7 +23,7 @@ import {
   generateKeyPairSignerWithSol,
   getBalance,
   signAndSendTransaction,
-} from './_setup.js';
+} from './_setup';
 
 test('it increments an existing counter by 1 by default', async (t) => {
   // Given an authority key pair with an associated counter account of value 0.

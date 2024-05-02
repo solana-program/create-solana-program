@@ -23,7 +23,7 @@ import {
   setTransactionMessageLifetimeUsingBlockhash,
   signTransactionMessageWithSigners,
 } from '@solana/web3.js';
-import { findCounterPda, getCreateInstructionAsync } from '../src/index.js';
+import { findCounterPda, getCreateInstructionAsync } from '../src';
 
 type Client = {
   rpc: Rpc<SolanaRpcApi>;

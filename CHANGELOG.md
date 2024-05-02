@@ -1,5 +1,13 @@
 # create-solana-program
 
+## 0.2.1
+
+### Patch Changes
+
+- [#36](https://github.com/solana-program/create-solana-program/pull/36) [`900ed38`](https://github.com/solana-program/create-solana-program/commit/900ed38281e25f33559c77cc838ff635ebdc0d35) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Use commonjs package type for JS client
+
+- [`41d47d0`](https://github.com/solana-program/create-solana-program/commit/41d47d06339d3af4074ccdbd9de35a63655cff11) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add prepublishOnly script to JS client
+
 ## 0.2.0
 
 ### Minor Changes

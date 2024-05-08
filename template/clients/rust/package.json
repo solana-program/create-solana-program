@@ -1,5 +1,8 @@
 {
   "scripts": {
     "clients:rust:test": "zx ./scripts/client/test-rust.mjs"
+  },
+  "devDependencies": {
+    "@kinobi-so/renderers-rust": "^0.20.3"
   }
 }

@@ -14,4 +14,5 @@ template/**/.gitignore
 
 .prettierrc
 package.json
+pnpm-lock.yaml
 README.md

@@ -1,5 +1,8 @@
 {
   "scripts": {
     "clients:js:test": "zx ./scripts/client/test-js.mjs"
+  },
+  "devDependencies": {
+    "@kinobi-so/renderers-js": "^0.20.2"
   }
 }

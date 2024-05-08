@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.2.2
+
+### Patch Changes
+
+- [#37](https://github.com/solana-program/create-solana-program/pull/37) [`5fb78a5`](https://github.com/solana-program/create-solana-program/commit/5fb78a5ecffb00fae7271a446cb9b005a0c380ce) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Update Kinobi and pnpm
+
 ## 0.2.1
 
 ### Patch Changes

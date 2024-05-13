@@ -1,5 +1,13 @@
 # create-solana-program
 
+## 0.2.3
+
+### Patch Changes
+
+- [#39](https://github.com/solana-program/create-solana-program/pull/39) [`5a36fc9`](https://github.com/solana-program/create-solana-program/commit/5a36fc9b03797736413a4ab713cb1e287603c421) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Update License to Apache 2.0
+
+- [#40](https://github.com/solana-program/create-solana-program/pull/40) [`1e34b70`](https://github.com/solana-program/create-solana-program/commit/1e34b7082613380fb2c6f1fe6aea36e3a7cb8e6b) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Improve JS client build configurations
+
 ## 0.2.2
 
 ### Patch Changes

@@ -83,10 +83,8 @@ pub fn close_account<'a>(
         .unwrap();
     **target_account.lamports.borrow_mut() = 0;
 
-    let mut src_data = target_account.data.borrow_mut();
-    src_data.fill(0);
-
-    Ok(())
+    target_account.assign(&system_program::ID);
+    target_account.realloc(0, false)
 }
 
 /// Transfer lamports.

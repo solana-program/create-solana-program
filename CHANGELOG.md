@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.2.4
+
+### Patch Changes
+
+- [#42](https://github.com/solana-program/create-solana-program/pull/42) [`2d199b4`](https://github.com/solana-program/create-solana-program/commit/2d199b4a66933759dc252388582300f9e1788c98) Thanks [@samuelvanderwaal](https://github.com/samuelvanderwaal)! - Improve close account helper function performance in Rust client
+
 ## 0.2.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.2.5
+
+### Patch Changes
+
+- [#44](https://github.com/solana-program/create-solana-program/pull/44) [`312fb99`](https://github.com/solana-program/create-solana-program/commit/312fb9993c1ff94550ef82ef8252639f7f74a86a) Thanks [@febo](https://github.com/febo)! - Fix program env variable regex
+
 ## 0.2.4
 
 ### Patch Changes

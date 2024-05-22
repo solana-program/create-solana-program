@@ -21,6 +21,7 @@ kinobi.update(
   })
 );
 
+{% if programFramework === 'anchor' %}
 // Update accounts.
 kinobi.update(
   k.updateAccountsVisitor({
@@ -65,6 +66,7 @@ kinobi.update(
     counter: key("counter"),
   })
 );
+{% endif %}
 
 {% if jsClient %}
 // Render JavaScript.

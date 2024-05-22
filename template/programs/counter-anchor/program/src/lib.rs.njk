@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 declare_id!("{{ programAddress }}");
 
 #[program]
-mod {{ programName | snakeCase }} {
+mod {{ programCrateName | snakeCase }} {
     use super::*;
 
     pub fn create(ctx: Context<Create>, authority: Pubkey) -> Result<()> {

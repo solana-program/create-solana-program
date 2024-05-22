@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import * as path from 'node:path';
+import * as fs from 'node:fs';
 
 import { createOrEmptyTargetDirectory } from './utils/fsHelpers';
 import { getInputs } from './utils/getInputs';
@@ -85,22 +86,20 @@ import {
 function renderTemplates(ctx: RenderContext) {
   const render = (templateName: string) => {
     const directory = path.resolve(ctx.templateDirectory, templateName);
+    if (!fs.existsSync(directory)) return;
     renderTemplate(ctx, directory, ctx.targetDirectory);
   };
 
   render('base');
-
-  if (ctx.programFramework === 'anchor') {
-    render('programs/counter-anchor');
-  } else {
-    render('programs/counter-shank');
-  }
+  render(`${ctx.programFramework}/base`);
 
   if (ctx.clients.length > 0) {
     render('clients/base');
+    render(`${ctx.programFramework}/clients/base`);
   }
 
   ctx.clients.forEach((client) => {
     render(`clients/${client}`);
+    render(`${ctx.programFramework}/clients/${client}`);
   });
 }

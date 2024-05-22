@@ -10,6 +10,7 @@ import {
 import { toMinorSolanaVersion } from './solanaCli';
 
 export type RenderContext = Omit<Inputs, 'programAddress' | 'solanaVersion'> & {
+  anchorVersion: string;
   clientDirectory: string;
   clients: Client[];
   currentDirectory: string;
@@ -29,11 +30,13 @@ export function getRenderContext({
   language,
   programAddress,
   solanaVersionDetected,
+  anchorVersionDetected,
 }: {
   inputs: Inputs;
   language: Language;
   programAddress: string;
   solanaVersionDetected: string;
+  anchorVersionDetected?: string;
 }): RenderContext {
   const packageManager = getPackageManager();
   const clients = allClients.flatMap((client) =>
@@ -54,6 +57,7 @@ export function getRenderContext({
 
   return {
     ...inputs,
+    anchorVersion: anchorVersionDetected ?? '',
     clientDirectory,
     clients,
     currentDirectory,

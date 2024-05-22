@@ -24,6 +24,24 @@ export async function detectSolanaVersion(language: Language): Promise<string> {
   return version!;
 }
 
+export async function detectAnchorVersion(language: Language): Promise<string> {
+  const hasAnchorCli = await hasCommand('anchor');
+  if (!hasAnchorCli) {
+    throw new Error(
+      language.errors.solanaCliNotFound.replace('$command', 'anchor')
+    );
+  }
+
+  const child = spawnCommand('anchor', ['--version']);
+  const [stdout] = await Promise.all([
+    readStdout(child),
+    waitForCommand(child),
+  ]);
+
+  const version = stdout.join('').match(/(\d+\.\d+\.\d+)/)?.[1];
+  return version!;
+}
+
 export async function patchSolanaDependencies(
   targetDirectory: string,
   solanaVersion: string

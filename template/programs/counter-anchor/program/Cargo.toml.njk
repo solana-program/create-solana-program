@@ -1,0 +1,24 @@
+[package]
+name = "{{ programCrateName }}"
+version = "0.0.0"
+edition = "2021"
+readme = "./README.md"
+license-file = "../LICENSE"
+publish = false
+
+[package.metadata.solana]
+program-id = "{{ programAddress }}"
+program-dependencies = []
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "{{ anchorVersion }}"

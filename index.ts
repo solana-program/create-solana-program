@@ -9,6 +9,7 @@ import { logBanner, logDone, logStep } from './utils/getLogs';
 import { RenderContext, getRenderContext } from './utils/getRenderContext';
 import { renderTemplate } from './utils/renderTemplates';
 import {
+  detectAnchorVersion,
   detectSolanaVersion,
   generateKeypair,
   patchSolanaDependencies,
@@ -28,11 +29,20 @@ import {
     inputs.shouldOverride
   );
 
-  // Detect the solana version.
+  // Detect the Solana version.
   const solanaVersionDetected = await logStep(
     language.infos.detectSolanaVersion,
     () => detectSolanaVersion(language)
   );
+
+  // Detect the Anchor version.
+  let anchorVersionDetected: string | undefined;
+  if (inputs.programFramework === 'anchor') {
+    anchorVersionDetected = await logStep(
+      language.infos.detectAnchorVersion,
+      () => detectAnchorVersion(language)
+    );
+  }
 
   // Generate a keypair if needed.
   const programAddress =
@@ -53,6 +63,7 @@ import {
     inputs,
     programAddress,
     solanaVersionDetected,
+    anchorVersionDetected,
   });
 
   // Render the templates.

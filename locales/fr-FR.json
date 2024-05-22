@@ -50,6 +50,7 @@
     "message": "Ajouter TypeScript\u00a0?"
   },
   "errors": {
+    "anchorCliNotFound": "Commande `$command` indisponible. Veuillez installer Anchor dans votre terminal.",
     "cannotOverrideDirectory": "Impossible de remplacer le répertoire cible \"$targetDirectory\". Exécutez avec l'option --force pour remplacer.",
     "invalidSolanaVersion": "Version Solana invalide\u00a0: $version.",
     "operationCancelled": "Operation annulée",
@@ -65,6 +66,7 @@
     "multiselect": "[↑/↓]: Sélectionner / [espace]: Basculer la sélection / [a]: Basculer tout / [entrée]: Valider"
   },
   "infos": {
+    "detectAnchorVersion": "Détect la version d'Anchor",
     "detectSolanaVersion": "Détect la version de Solana",
     "generateKeypair": "Génére la paire de clés du program",
     "scaffold": "Génére le projet dans $targetDirectory",

@@ -51,7 +51,9 @@ export async function patchSolanaDependencies(
 ): Promise<void> {
   const isAnchor = ctx.programFramework === 'anchor';
   const patchMap: Record<string, string[]> = {
-    '1.17': isAnchor ? [] : ['-p ahash@0.8 --precise 0.8.6'],
+    '1.17': isAnchor
+      ? ['-p ahash@0.8 --precise 0.7.8']
+      : ['-p ahash@0.8 --precise 0.8.6'],
   };
 
   const patches = patchMap[ctx.solanaVersion] ?? [];

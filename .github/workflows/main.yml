@@ -36,7 +36,7 @@ jobs:
         project: ["counter-anchor", "counter-shank"]
         solana: ["1.17.24", "1.18.12"]
         include:
-          - anchor: "0.29.0"
+          - anchor: "0.30.0"
             project: "counter-anchor"
     steps:
       - name: Git checkout

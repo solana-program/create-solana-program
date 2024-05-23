@@ -75,7 +75,7 @@ import {
     ),
     async () => {
       renderTemplates(ctx);
-      await patchSolanaDependencies(ctx.targetDirectory, ctx.solanaVersion);
+      await patchSolanaDependencies(ctx);
     }
   );
 

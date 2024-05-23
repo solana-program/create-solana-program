@@ -38,8 +38,6 @@ jobs:
         include:
           - anchor: "0.29.0"
             project: "counter-anchor"
-          - anchor: "0.30.0"
-            project: "counter-anchor"
     steps:
       - name: Git checkout
         uses: actions/checkout@v4

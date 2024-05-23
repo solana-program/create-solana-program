@@ -86,7 +86,10 @@ test('it cannot increment a counter that belongs to another authority', async (t
   const counter = await createCounterForAuthority(client, authorityA);
 
   // When authority B tries to increment the counter account of authority A.
-  const incrementIx = getIncrementInstruction({ authority: authorityB, counter });
+  const incrementIx = getIncrementInstruction({
+    authority: authorityB,
+    counter,
+  });
   const transactionMessage = pipe(
     await createDefaultTransaction(client, authorityB),
     (tx) => appendTransactionMessageInstruction(incrementIx, tx)

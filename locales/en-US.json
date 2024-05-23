@@ -47,6 +47,7 @@
     "message": "Rust client crate name:"
   },
   "errors": {
+    "anchorCliNotFound": "Command `$command` unavailable. Please install the Anchor CLI.",
     "cannotOverrideDirectory": "Cannot override target directory \"$targetDirectory\". Run with option --force to override.",
     "invalidSolanaVersion": "Invalid Solana version: $version.",
     "operationCancelled": "Operation cancelled",
@@ -62,6 +63,7 @@
     "multiselect": "[↑/↓]: Select / [space]: Toggle selection / [a]: Toggle all / [enter]: Submit answer"
   },
   "infos": {
+    "detectAnchorVersion": "Detect Anchor version",
     "detectSolanaVersion": "Detect Solana version",
     "generateKeypair": "Generate program keypair",
     "scaffold": "Scaffold project in $targetDirectory",

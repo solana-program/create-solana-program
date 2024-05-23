@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import * as path from 'node:path';
+import * as fs from 'node:fs';
 
 import { createOrEmptyTargetDirectory } from './utils/fsHelpers';
 import { getInputs } from './utils/getInputs';
@@ -9,6 +10,7 @@ import { logBanner, logDone, logStep } from './utils/getLogs';
 import { RenderContext, getRenderContext } from './utils/getRenderContext';
 import { renderTemplate } from './utils/renderTemplates';
 import {
+  detectAnchorVersion,
   detectSolanaVersion,
   generateKeypair,
   patchSolanaDependencies,
@@ -28,11 +30,20 @@ import {
     inputs.shouldOverride
   );
 
-  // Detect the solana version.
+  // Detect the Solana version.
   const solanaVersionDetected = await logStep(
     language.infos.detectSolanaVersion,
     () => detectSolanaVersion(language)
   );
+
+  // Detect the Anchor version.
+  let anchorVersionDetected: string | undefined;
+  if (inputs.programFramework === 'anchor') {
+    anchorVersionDetected = await logStep(
+      language.infos.detectAnchorVersion,
+      () => detectAnchorVersion(language)
+    );
+  }
 
   // Generate a keypair if needed.
   const programAddress =
@@ -53,6 +64,7 @@ import {
     inputs,
     programAddress,
     solanaVersionDetected,
+    anchorVersionDetected,
   });
 
   // Render the templates.
@@ -63,7 +75,7 @@ import {
     ),
     async () => {
       renderTemplates(ctx);
-      await patchSolanaDependencies(ctx.targetDirectory, ctx.solanaVersion);
+      await patchSolanaDependencies(ctx);
     }
   );
 
@@ -74,22 +86,20 @@ import {
 function renderTemplates(ctx: RenderContext) {
   const render = (templateName: string) => {
     const directory = path.resolve(ctx.templateDirectory, templateName);
+    if (!fs.existsSync(directory)) return;
     renderTemplate(ctx, directory, ctx.targetDirectory);
   };
 
   render('base');
-
-  if (ctx.programFramework === 'anchor') {
-    render('programs/counter-anchor');
-  } else {
-    render('programs/counter-shank');
-  }
+  render(`${ctx.programFramework}/base`);
 
   if (ctx.clients.length > 0) {
     render('clients/base');
+    render(`${ctx.programFramework}/clients/base`);
   }
 
   ctx.clients.forEach((client) => {
     render(`clients/${client}`);
+    render(`${ctx.programFramework}/clients/${client}`);
   });
 }

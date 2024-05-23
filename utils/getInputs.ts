@@ -150,7 +150,6 @@ async function getInputsFromPrompts(
               title: language.programFramework.selectOptions!.anchor.title,
               description: language.programFramework.selectOptions!.anchor.desc,
               value: 'anchor',
-              disabled: true,
             },
           ],
         },

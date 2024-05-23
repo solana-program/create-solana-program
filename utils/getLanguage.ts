@@ -29,6 +29,7 @@ export interface Language {
   jsClientPackageName: LanguageItem;
   rustClientCrateName: LanguageItem;
   errors: {
+    anchorCliNotFound: string;
     cannotOverrideDirectory: string;
     invalidSolanaVersion: string;
     operationCancelled: string;
@@ -44,6 +45,7 @@ export interface Language {
     multiselect: string;
   };
   infos: {
+    detectAnchorVersion: string;
     detectSolanaVersion: string;
     generateKeypair: string;
     scaffold: string;

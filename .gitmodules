@@ -1,3 +1,7 @@
+[submodule "projects/counter-anchor"]
+path = projects/counter-anchor
+url = git@github.com:solana-program/counter-anchor.git
+
 [submodule "projects/counter-shank"]
 path = projects/counter-shank
 url = git@github.com:solana-program/counter-shank.git

@@ -1,14 +1,11 @@
 import {
   Account,
   appendTransactionMessageInstruction,
+  generateKeyPairSigner,
   pipe,
 } from '@solana/web3.js';
 import test from 'ava';
-import {
-  Counter,
-  fetchCounterFromSeeds,
-  getCreateInstructionAsync,
-} from '../src';
+import { Counter, fetchCounter, getCreateInstruction } from '../src';
 import {
   createDefaultSolanaClient,
   createDefaultTransaction,
@@ -19,10 +16,17 @@ import {
 test('it creates a new counter account', async (t) => {
   // Given an authority key pair with some SOL.
   const client = createDefaultSolanaClient();
-  const authority = await generateKeyPairSignerWithSol(client);
+  const [authority, counter] = await Promise.all([
+    generateKeyPairSignerWithSol(client),
+    generateKeyPairSigner(),
+  ]);
 
   // When we create a new counter account.
-  const createIx = await getCreateInstructionAsync({ authority });
+  const createIx = getCreateInstruction({
+    authority: authority.address,
+    counter,
+    payer: authority,
+  });
   await pipe(
     await createDefaultTransaction(client, authority),
     (tx) => appendTransactionMessageInstruction(createIx, tx),
@@ -30,13 +34,10 @@ test('it creates a new counter account', async (t) => {
   );
 
   // Then we expect the counter account to exist and have a value of 0.
-  const counter = await fetchCounterFromSeeds(client.rpc, {
-    authority: authority.address,
-  });
-  t.like(counter, <Account<Counter>>{
+  t.like(await fetchCounter(client.rpc, counter.address), <Account<Counter>>{
     data: {
       authority: authority.address,
-      value: 0,
+      count: 0n,
     },
   });
 });

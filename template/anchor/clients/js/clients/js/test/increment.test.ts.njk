@@ -1,6 +1,7 @@
 import {
   SOLANA_ERROR__JSON_RPC__SERVER_ERROR_SEND_TRANSACTION_PREFLIGHT_FAILURE,
   appendTransactionMessageInstruction,
+  generateKeyPairSigner,
   isProgramError,
   isSolanaError,
   lamports,
@@ -8,13 +9,10 @@ import {
 } from '@solana/web3.js';
 import test from 'ava';
 import {
-  {{ programName | snakeCase | upper }}_ERROR__INVALID_PDA,
-  {{ programName | snakeCase | upper }}_ERROR__INVALID_PROGRAM_OWNER,
+  {{ programName | snakeCase | upper }}_ERROR__INVALID_AUTHORITY,
   {{ programName | snakeCase | upper }}_PROGRAM_ADDRESS,
   fetchCounter,
-  findCounterPda,
   getIncrementInstruction,
-  getIncrementInstructionAsync,
 } from '../src';
 import {
   createCounterForAuthority,
@@ -25,15 +23,15 @@ import {
   signAndSendTransaction,
 } from './_setup';
 
-test('it increments an existing counter by 1 by default', async (t) => {
+test('it increments an existing counter by 1', async (t) => {
   // Given an authority key pair with an associated counter account of value 0.
   const client = createDefaultSolanaClient();
   const authority = await generateKeyPairSignerWithSol(client);
-  const [counterPda] = await createCounterForAuthority(client, authority);
-  t.is((await fetchCounter(client.rpc, counterPda)).data.value, 0);
+  const counter = await createCounterForAuthority(client, authority);
+  t.is((await fetchCounter(client.rpc, counter)).data.count, 0n);
 
   // When we increment the counter account.
-  const incrementIx = await getIncrementInstructionAsync({ authority });
+  const incrementIx = getIncrementInstruction({ authority, counter });
   await pipe(
     await createDefaultTransaction(client, authority),
     (tx) => appendTransactionMessageInstruction(incrementIx, tx),
@@ -41,42 +39,18 @@ test('it increments an existing counter by 1 by default', async (t) => {
   );
 
   // Then we expect the counter account to have a value of 1.
-  const counter = await fetchCounter(client.rpc, counterPda);
-  t.is(counter.data.value, 1);
-});
-
-test('it can increment an existing counter by a specified amount', async (t) => {
-  // Given an authority key pair with an associated counter account of value 0.
-  const client = createDefaultSolanaClient();
-  const authority = await generateKeyPairSignerWithSol(client);
-  const [counterPda] = await createCounterForAuthority(client, authority);
-  t.is((await fetchCounter(client.rpc, counterPda)).data.value, 0);
-
-  // When we increment the counter account by 5.
-  const incrementIx = await getIncrementInstructionAsync({
-    authority,
-    amount: 5,
-  });
-  await pipe(
-    await createDefaultTransaction(client, authority),
-    (tx) => appendTransactionMessageInstruction(incrementIx, tx),
-    (tx) => signAndSendTransaction(client, tx)
-  );
-
-  // Then we expect the counter account to have a value of 5.
-  const counter = await fetchCounter(client.rpc, counterPda);
-  t.is(counter.data.value, 5);
+  t.is((await fetchCounter(client.rpc, counter)).data.count, 1n);
 });
 
 test('it cannot increment a counter that does not exist', async (t) => {
   // Given an authority key pair with no associated counter account.
   const client = createDefaultSolanaClient();
   const authority = await generateKeyPairSignerWithSol(client);
-  const [counterPda] = await findCounterPda({ authority: authority.address });
-  t.is(await getBalance(client, counterPda), lamports(0n));
+  const counter = (await generateKeyPairSigner()).address;
+  t.is(await getBalance(client, counter), lamports(0n));
 
   // When we try to increment the inexistent counter account.
-  const incrementIx = await getIncrementInstructionAsync({ authority });
+  const incrementIx = getIncrementInstruction({ authority, counter });
   const transactionMessage = pipe(
     await createDefaultTransaction(client, authority),
     (tx) => appendTransactionMessageInstruction(incrementIx, tx)
@@ -96,7 +70,7 @@ test('it cannot increment a counter that does not exist', async (t) => {
       error.cause,
       transactionMessage,
       {{ programName | snakeCase | upper }}_PROGRAM_ADDRESS,
-      {{ programName | snakeCase | upper }}_ERROR__INVALID_PROGRAM_OWNER
+      3012 // Account not initialized.
     )
   );
 });
@@ -109,13 +83,10 @@ test('it cannot increment a counter that belongs to another authority', async (t
     generateKeyPairSignerWithSol(client),
     generateKeyPairSignerWithSol(client),
   ]);
-  const [counterPda] = await createCounterForAuthority(client, authorityA);
+  const counter = await createCounterForAuthority(client, authorityA);
 
   // When authority B tries to increment the counter account of authority A.
-  const incrementIx = getIncrementInstruction({
-    authority: authorityB,
-    counter: counterPda,
-  });
+  const incrementIx = getIncrementInstruction({ authority: authorityB, counter });
   const transactionMessage = pipe(
     await createDefaultTransaction(client, authorityB),
     (tx) => appendTransactionMessageInstruction(incrementIx, tx)
@@ -135,7 +106,7 @@ test('it cannot increment a counter that belongs to another authority', async (t
       error.cause,
       transactionMessage,
       {{ programName | snakeCase | upper }}_PROGRAM_ADDRESS,
-      {{ programName | snakeCase | upper }}_ERROR__INVALID_PDA
+      {{ programName | snakeCase | upper }}_ERROR__INVALID_AUTHORITY
     )
   );
 });

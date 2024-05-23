@@ -22,16 +22,16 @@ mod {{ programCrateName | snakeCase }} {
 
 #[derive(Accounts)]
 pub struct Create<'info> {
-    #[account(init, payer = user, space = 8 + 40)]
+    #[account(init, payer = payer, space = 8 + 40)]
     pub counter: Account<'info, Counter>,
     #[account(mut)]
-    pub user: Signer<'info>,
+    pub payer: Signer<'info>,
     pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
 pub struct Increment<'info> {
-    #[account(mut, has_one = authority)]
+    #[account(mut, has_one = authority @ CounterError::InvalidAuthority)]
     pub counter: Account<'info, Counter>,
     pub authority: Signer<'info>,
 }
@@ -40,4 +40,10 @@ pub struct Increment<'info> {
 pub struct Counter {
     pub authority: Pubkey,
     pub count: u64,
+}
+
+#[error_code]
+pub enum {{ programName | pascalCase }}Error {
+    #[msg("The provided authority doesn't match the counter account's authority")]
+    InvalidAuthority,
 }

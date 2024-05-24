@@ -38,6 +38,10 @@ jobs:
         include:
           - anchor: "0.30.0"
             project: "counter-anchor"
+            solana: "1.18.12"
+          - anchor: "0.29.0"
+            project: "counter-anchor"
+            solana: "1.17.24"
     steps:
       - name: Git checkout
         uses: actions/checkout@v4

@@ -1,5 +1,13 @@
 # create-solana-program
 
+## 0.2.6
+
+### Patch Changes
+
+- [#46](https://github.com/solana-program/create-solana-program/pull/46) [`baede97`](https://github.com/solana-program/create-solana-program/commit/baede97555ffc546deca6ce79e2dc508363d156a) Thanks [@febo](https://github.com/febo)! - Suppress node warnings when running ava
+
+- [#48](https://github.com/solana-program/create-solana-program/pull/48) [`6480919`](https://github.com/solana-program/create-solana-program/commit/64809195f471a27f8bf8dc4f7e136b615a73020f) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add support for Anchor
+
 ## 0.2.5
 
 ### Patch Changes

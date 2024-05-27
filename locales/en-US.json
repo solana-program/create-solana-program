@@ -23,7 +23,8 @@
         "desc": "Vanilla Solana program with Shank macros to generate IDLs"
       },
       "anchor": {
-        "title": "Anchor"
+        "title": "Anchor",
+        "desc": "Use Anchor for program development"
       }
     }
   },

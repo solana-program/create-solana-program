@@ -23,7 +23,8 @@
         "desc": "Solana program pure avec des macros Shank pour générer les IDLs"
       },
       "anchor": {
-        "title": "Anchor"
+        "title": "Anchor",
+        "desc": "Développez vos programs Solana avec Anchor"
       }
     }
   },

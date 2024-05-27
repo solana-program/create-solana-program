@@ -31,7 +31,7 @@ pub struct Create<'info> {
 
 #[derive(Accounts)]
 pub struct Increment<'info> {
-    #[account(mut, has_one = authority @ CounterError::InvalidAuthority)]
+    #[account(mut, has_one = authority @ {{ programName | pascalCase }}Error::InvalidAuthority)]
     pub counter: Account<'info, Counter>,
     pub authority: Signer<'info>,
 }

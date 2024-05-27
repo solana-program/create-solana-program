@@ -68,6 +68,28 @@ pnpm create solana-program --solana 1.18
 pnpm create solana-program --force
 ```
 
+## Existing Anchor programs
+
+If you already have an existing Solana program built with Anchor, you can use this tool to scaffold a new program repository and replace the generated program with your existing one. Here’s how you can do it:
+
+1. Ensure the installed Solana and Anchor versions are the same as the ones your existing program requires.
+2. Scaffold a new Solana program using Anchor. `pnpm create solana-program --anchor`.
+3. Replace the `program` folder with your existing program directory (not the workspace directory). If you have more than one program, add more folders to the root directory and update the `members` attribute of the top-level `Cargo.toml` accordingly.
+4. Ensure your program’s `Cargo.toml` contains the following metadata:
+   ```toml
+   [package.metadata.solana]
+   program-id = "YOUR_PROGRAM_ADDRESS"
+   program-dependencies = []
+   ```
+5. Build your program and clients.
+   ```sh
+   pnpm install
+   pnpm programs:build
+   pnpm generate
+   ```
+6. If you have a generated Rust client, update the `clients/rust/src/lib.rs` file so the `ID` alias points to the correct generated constant.
+7. If you have any generated clients, update the scaffolded tests so they work with your existing program.
+
 ## Contributing
 
 If you're interested in contributing to this project, please make sure to read our [contributing guide](./CONTRIBUTING.md).

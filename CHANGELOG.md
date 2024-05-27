@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.2.7
+
+### Patch Changes
+
+- [`33bf639`](https://github.com/solana-program/create-solana-program/commit/33bf63950cb8e5a39e21791f05fab11eabc1c576) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Fix Anchor error name
+
 ## 0.2.6
 
 ### Patch Changes

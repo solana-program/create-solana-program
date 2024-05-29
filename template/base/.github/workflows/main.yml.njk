@@ -9,9 +9,9 @@ on:
 env:
   NODE_VERSION: 18
   SOLANA_VERSION: 1.18.12
-  {% if programFramework === 'anchor' %}
+{% if programFramework === 'anchor' %}
   ANCHOR_VERSION: 0.30.0
-  {% endif %}
+{% endif %}
   CARGO_CACHE: |
     ~/.cargo/bin/
     ~/.cargo/registry/index/
@@ -31,9 +31,9 @@ jobs:
         with:
           node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
           solana: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
-          {% if programFramework === 'anchor' %}
+{% if programFramework === 'anchor' %}
           anchor: {% raw %}${{ env.ANCHOR_VERSION }}{% endraw %}
-          {% endif %}
+{% endif %}
       - name: Cache cargo dependencies
         uses: actions/cache@v4
         with:
@@ -65,9 +65,9 @@ jobs:
         with:
           node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
           solana: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
-          {% if programFramework === 'anchor' %}
+{% if programFramework === 'anchor' %}
           anchor: {% raw %}${{ env.ANCHOR_VERSION }}{% endraw %}
-          {% endif %}
+{% endif %}
       - name: Cache test cargo dependencies
         uses: actions/cache@v4
         with:
@@ -92,9 +92,9 @@ jobs:
         with:
           node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
           solana: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
-          {% if programFramework === 'anchor' %}
+{% if programFramework === 'anchor' %}
           anchor: {% raw %}${{ env.ANCHOR_VERSION }}{% endraw %}
-          {% endif %}
+{% endif %}
       - name: Cache cargo dependencies
         uses: actions/cache@v4
         with:
@@ -116,7 +116,7 @@ jobs:
       - name: Ensure working directory is clean
         run: test -z "$(git status --porcelain)"
 
-  {% if clients.length > 0 %}
+{% if clients.length > 0 %}
   generate_clients:
     name: Check client generation
     needs: build_programs
@@ -133,9 +133,9 @@ jobs:
         run: pnpm generate:clients
       - name: Ensure working directory is clean
         run: test -z "$(git status --porcelain)"
-  {% endif %}
+{% endif %}
 
-  {% if jsClient %}
+{% if jsClient %}
   test_js:
     name: Test JS client
     needs: build_programs
@@ -169,9 +169,9 @@ jobs:
           node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
       - name: Lint JS client
         run: pnpm clients:js:lint
-  {% endif %}
+{% endif %}
 
-  {% if rustClient %}
+{% if rustClient %}
   test_rust:
     name: Test Rust client
     needs: build_programs
@@ -211,4 +211,4 @@ jobs:
           node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
       - name: Lint Rust client
         run: pnpm clients:rust:lint
-  {% endif %}
+{% endif %}

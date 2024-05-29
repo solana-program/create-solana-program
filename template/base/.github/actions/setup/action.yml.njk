@@ -1,10 +1,10 @@
 name: Setup environment
 
 inputs:
-  {% if programFramework === 'anchor' %}
+{% if programFramework === 'anchor' %}
   anchor:
     description: The Anchor version to install
-  {% ending %}
+{% endif %}
   cache:
     description: Enable caching
     default: "true"
@@ -33,11 +33,11 @@ runs:
       with:
         version: {% raw %}${{ inputs.solana }}{% endraw %}
         cache: {% raw %}${{ inputs.cache }}{% endraw %}
-    {% if programFramework === 'anchor' %}
+ {% if programFramework === 'anchor' %}
     - name: Install Anchor
       if: {% raw %}${{ inputs.anchor != '' }}{% endraw %}
       uses: metaplex-foundation/actions/install-anchor-cli@v1
       with:
         version: {% raw %}${{ inputs.anchor }}{% endraw %}
         cache: {% raw %}${{ inputs.cache }}{% endraw %}
-    {% endif %}
+{% endif %}

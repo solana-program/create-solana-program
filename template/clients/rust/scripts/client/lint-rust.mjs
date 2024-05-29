@@ -1,7 +1,7 @@
 #!/usr/bin/env zx
-import "zx/globals";
-import { workingDirectory } from "../utils.mjs";
+import 'zx/globals';
+import { workingDirectory } from '../utils.mjs';
 
 // Check the client using Clippy.
-cd(path.join(workingDirectory, "clients", "rust"));
+cd(path.join(workingDirectory, 'clients', 'rust'));
 await $`cargo clippy ${argv._}`;

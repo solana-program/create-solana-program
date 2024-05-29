@@ -1,5 +1,13 @@
 # create-solana-program
 
+## 0.2.8
+
+### Patch Changes
+
+- [#53](https://github.com/solana-program/create-solana-program/pull/53) [`b7f957c`](https://github.com/solana-program/create-solana-program/commit/b7f957cac7981b733fe54e8092b96201c841f9d2) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add main CI workflow
+
+- [#51](https://github.com/solana-program/create-solana-program/pull/51) [`587286c`](https://github.com/solana-program/create-solana-program/commit/587286c94a8b2b06b1b40bd94a2874f479834591) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add lint scripts for generated clients
+
 ## 0.2.7
 
 ### Patch Changes

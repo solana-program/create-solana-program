@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "clients:rust:lint": "zx ./scripts/client/lint-rust.mjs",
     "clients:rust:test": "zx ./scripts/client/test-rust.mjs"
   },
   "devDependencies": {

@@ -79,23 +79,16 @@ for (const projectName of projects) {
     });
   }
 
-  // Test clients.
+  // Lint and test clients.
   for (const client of CLIENTS) {
     if (`clients:${client}:test` in pkg.scripts) {
+      await executeStep(`lint ${client} client`, async () => {
+        await $`pnpm clients:${client}:lint`;
+      });
       await executeStep(`test ${client} client`, async () => {
         await $`pnpm clients:${client}:test`;
       });
     }
-  }
-
-  // Additional JavaScript client tests.
-  if (`clients:js:test` in pkg.scripts) {
-    await executeStep(`lint js client`, async () => {
-      cd(path.join(projectDirectory, 'clients', 'js'));
-      await $`pnpm lint`;
-      await $`pnpm format`;
-      cd(projectDirectory);
-    });
   }
 
   // Add line break between projects.

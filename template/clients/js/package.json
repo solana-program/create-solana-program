@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "clients:js:lint": "zx ./scripts/client/lint-js.mjs",
     "clients:js:test": "zx ./scripts/client/test-js.mjs"
   },
   "devDependencies": {

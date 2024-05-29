@@ -1,0 +1,214 @@
+name: Main
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  NODE_VERSION: 18
+  SOLANA_VERSION: 1.18.12
+{% if programFramework === 'anchor' %}
+  ANCHOR_VERSION: 0.30.0
+{% endif %}
+  CARGO_CACHE: |
+    ~/.cargo/bin/
+    ~/.cargo/registry/index/
+    ~/.cargo/registry/cache/
+    ~/.cargo/git/db/
+    target/
+
+jobs:
+  build_programs:
+    name: Build programs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
+          solana: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
+{% if programFramework === 'anchor' %}
+          anchor: {% raw %}${{ env.ANCHOR_VERSION }}{% endraw %}
+{% endif %}
+      - name: Cache cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: {% raw %}${{ env.CARGO_CACHE }}{% endraw %}
+          key: {% raw %}${{ runner.os }}-cargo-programs-${{ hashFiles('**/Cargo.lock') }}{% endraw %}
+          restore-keys: {% raw %}${{ runner.os }}-cargo-programs{% endraw %}
+      - name: Build programs
+        run: pnpm programs:build
+      - name: Upload program builds
+        uses: actions/upload-artifact@v4
+        with:
+          name: program-builds
+          path: ./target/deploy/*.so
+          if-no-files-found: error
+      - name: Save all builds for clients
+        uses: actions/cache/save@v4
+        with:
+          path: ./**/*.so
+          key: {% raw %}${{ runner.os }}-builds-${{ github.sha }}{% endraw %}
+
+  test_programs:
+    name: Test programs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
+          solana: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
+{% if programFramework === 'anchor' %}
+          anchor: {% raw %}${{ env.ANCHOR_VERSION }}{% endraw %}
+{% endif %}
+      - name: Cache test cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: {% raw %}${{ env.CARGO_CACHE }}{% endraw %}
+          key: {% raw %}${{ runner.os }}-cargo-program-tests-${{ hashFiles('**/Cargo.lock') }}{% endraw %}
+          restore-keys: |
+            {% raw %}${{ runner.os }}-cargo-program-tests{% endraw %}
+            {% raw %}${{ runner.os }}-cargo-programs-${{ hashFiles('**/Cargo.lock') }}{% endraw %}
+            {% raw %}${{ runner.os }}-cargo-programs{% endraw %}
+      - name: Test programs
+        run: pnpm programs:test
+
+  generate_idls:
+    name: Check IDL generation
+    needs: build_programs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
+          solana: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
+{% if programFramework === 'anchor' %}
+          anchor: {% raw %}${{ env.ANCHOR_VERSION }}{% endraw %}
+{% endif %}
+      - name: Cache cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: {% raw %}${{ env.CARGO_CACHE }}{% endraw %}
+          key: {% raw %}${{ runner.os }}-cargo-programs-${{ hashFiles('**/Cargo.lock') }}{% endraw %}
+          restore-keys: {% raw %}${{ runner.os }}-cargo-programs{% endraw %}
+      - name: Cache local cargo dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .cargo/bin/
+            .cargo/registry/index/
+            .cargo/registry/cache/
+            .cargo/git/db/
+          key: {% raw %}${{ runner.os }}-cargo-local-${{ hashFiles('**/Cargo.lock') }}{% endraw %}
+          restore-keys: {% raw %}${{ runner.os }}-cargo-local{% endraw %}
+      - name: Generate IDLs
+        run: pnpm generate:idls
+      - name: Ensure working directory is clean
+        run: test -z "$(git status --porcelain)"
+
+{% if clients.length > 0 %}
+  generate_clients:
+    name: Check client generation
+    needs: build_programs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
+          solana: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
+      - name: Generate clients
+        run: pnpm generate:clients
+      - name: Ensure working directory is clean
+        run: test -z "$(git status --porcelain)"
+{% endif %}
+
+{% if jsClient %}
+  test_js:
+    name: Test JS client
+    needs: build_programs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
+          solana: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
+      - name: Restore all builds
+        uses: actions/cache/restore@v4
+        with:
+          path: ./**/*.so
+          key: {% raw %}${{ runner.os }}-builds-${{ github.sha }}{% endraw %}
+      - name: Test JS client
+        run: pnpm clients:js:test
+
+  lint_js:
+    name: Lint JS client
+    needs: build_programs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
+      - name: Lint JS client
+        run: pnpm clients:js:lint
+{% endif %}
+
+{% if rustClient %}
+  test_rust:
+    name: Test Rust client
+    needs: build_programs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
+          solana: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
+      - name: Cache Rust client dependencies
+        uses: actions/cache@v4
+        with:
+          path: {% raw %}${{ env.CARGO_CACHE }}{% endraw %}
+          key: {% raw %}${{ runner.os }}-cargo-rust-client-${{ hashFiles('**/Cargo.lock') }}{% endraw %}
+          restore-keys: {% raw %}${{ runner.os }}-cargo-rust-client{% endraw %}
+      - name: Restore all builds
+        uses: actions/cache/restore@v4
+        with:
+          path: ./**/*.so
+          key: {% raw %}${{ runner.os }}-builds-${{ github.sha }}{% endraw %}
+      - name: Test Rust client
+        run: pnpm clients:rust:test
+
+  lint_rust:
+    name: Lint Rust client
+    needs: build_programs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v4
+      - name: Setup environment
+        uses: ./.github/actions/setup
+        with:
+          node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
+      - name: Lint Rust client
+        run: pnpm clients:rust:lint
+{% endif %}

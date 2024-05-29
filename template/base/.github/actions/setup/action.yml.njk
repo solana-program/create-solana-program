@@ -1,0 +1,43 @@
+name: Setup environment
+
+inputs:
+  {% if programFramework === 'anchor' %}
+  anchor:
+    description: The Anchor version to install
+  {% ending %}
+  cache:
+    description: Enable caching
+    default: "true"
+  node:
+    description: The Node.js version to install
+    required: true
+  solana:
+    description: The Solana version to install
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v3
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: {% raw %}${{ inputs.node }}{% endraw %}
+        cache: "pnpm"
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+      shell: bash
+    - name: Install Solana
+      if: {% raw %}${{ inputs.solana != '' }}{% endraw %}
+      uses: metaplex-foundation/actions/install-solana@v1
+      with:
+        version: {% raw %}${{ inputs.solana }}{% endraw %}
+        cache: {% raw %}${{ inputs.cache }}{% endraw %}
+    {% if programFramework === 'anchor' %}
+    - name: Install Anchor
+      if: {% raw %}${{ inputs.anchor != '' }}{% endraw %}
+      uses: metaplex-foundation/actions/install-anchor-cli@v1
+      with:
+        version: {% raw %}${{ inputs.anchor }}{% endraw %}
+        cache: {% raw %}${{ inputs.cache }}{% endraw %}
+    {% endif %}

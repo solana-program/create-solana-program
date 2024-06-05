@@ -29,7 +29,7 @@ export function getExternalProgramAddresses() {
 export function getExternalAccountAddresses() {
   const addresses = getProgramFolders().flatMap(
     (folder) =>
-      getCargo(folder).package?.metadata?.solana?.["account-dependencies"] ?? []
+      getCargo(folder).package?.metadata?.solana?.['account-dependencies'] ?? []
   );
   return Array.from(new Set(addresses));
 }

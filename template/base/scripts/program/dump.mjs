@@ -1,6 +1,7 @@
 #!/usr/bin/env zx
 import 'zx/globals';
 import {
+  getExternalAccountAddresses,
   getExternalProgramAddresses,
   getExternalProgramOutputDir,
 } from '../utils.mjs';

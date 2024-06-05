@@ -10,11 +10,17 @@ const rpc = process.env.RPC ?? 'https://api.mainnet-beta.solana.com';
 const outputDir = getExternalProgramOutputDir();
 await dump();
 
-/** Dump external programs binaries if needed. */
+/** Dump external programs binaries and accounts if needed. */
 async function dump() {
-  // Ensure we have some external programs to dump.
-  const addresses = getExternalProgramAddresses();
-  if (addresses.length === 0) return;
+  // Ensure we have some external accounts to dump.
+  const programs = getExternalProgramAddresses();
+  const accounts = getExternalAccountAddresses();
+  const binaries = [
+    ...programs.map((program) => `${program}.so`),
+    ...accounts.map((account) => `${account}.json`),
+  ].flat();
+
+  if (binaries.length === 0) return;
   echo(`Dumping external accounts to '${outputDir}':`);
 
   // Create the output directory if needed.
@@ -22,8 +28,8 @@ async function dump() {
 
   // Copy the binaries from the chain or warn if they are different.
   await Promise.all(
-    addresses.map(async (address) => {
-      const binary = `${address}.so`;
+    binaries.map(async (binary) => {
+      const address = binaries.split('.')[0];
       const hasBinary = await fs.exists(`${outputDir}/${binary}`);
 
       if (!hasBinary) {
@@ -79,8 +85,8 @@ async function dump() {
 /** Helper function to copy external programs or accounts binaries from the chain. */
 async function copyFromChain(address, binary) {
   switch (binary.split('.').pop()) {
-    case 'bin':
-      return $`solana account -u ${rpc} ${address} -o ${outputDir}/${binary} >/dev/null`.quiet();
+    case 'json':
+      return $`solana account -u ${rpc} ${address} -o ${outputDir}/${binary} --output json >/dev/null`.quiet();
     case 'so':
       return $`solana program dump -u ${rpc} ${address} ${outputDir}/${binary} >/dev/null`.quiet();
     default:

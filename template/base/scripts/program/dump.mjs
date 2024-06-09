@@ -16,12 +16,12 @@ async function dump() {
   // Ensure we have some external accounts to dump.
   const programs = getExternalProgramAddresses();
   const accounts = getExternalAccountAddresses();
-  const binaries = [
-    ...programs.map((program) => `${program}.so`),
-    ...accounts.map((account) => `${account}.json`),
-  ].flat();
+  const external = [
+    ...programs.map((program) => [program, 'so']),
+    ...accounts.map((account) => [account, 'json']),
+  ];
 
-  if (binaries.length === 0) return;
+  if (external.length === 0) return;
   echo(`Dumping external accounts to '${outputDir}':`);
 
   // Create the output directory if needed.
@@ -29,12 +29,12 @@ async function dump() {
 
   // Copy the binaries from the chain or warn if they are different.
   await Promise.all(
-    binaries.map(async (binary) => {
-      const address = binaries.split('.')[0];
+    external.map(async (address, extension) => {
+      const binary = `${address}.${extension}`;
       const hasBinary = await fs.exists(`${outputDir}/${binary}`);
 
       if (!hasBinary) {
-        await copyFromChain(address, binary);
+        await copyFromChain(address, extension);
         echo(`Wrote account data to ${outputDir}/${binary}`);
         return;
       }
@@ -54,7 +54,7 @@ async function dump() {
       }
 
       if (hasShaChecksum) {
-        await copyFromChain(address, `onchain-${binary}`);
+        await copyFromChain(address, extension, 'onchain-');
         const [onChainHash, localHash] = await Promise.all([
           $`${sha} ${options} -b ${outputDir}/onchain-${binary} | cut -d ' ' -f 1`.quiet(),
           $`${sha} ${options} -b ${outputDir}/${binary} | cut -d ' ' -f 1`.quiet(),
@@ -84,8 +84,9 @@ async function dump() {
 }
 
 /** Helper function to copy external programs or accounts binaries from the chain. */
-async function copyFromChain(address, binary) {
-  switch (binary.split('.').pop()) {
+async function copyFromChain(address, extension, prefix = '') {
+  const binary = `${prefix}${address}.${extension}`;
+  switch (extension) {
     case 'json':
       return $`solana account -u ${rpc} ${address} -o ${outputDir}/${binary} --output json >/dev/null`.quiet();
     case 'so':

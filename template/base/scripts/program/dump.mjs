@@ -29,7 +29,7 @@ async function dump() {
 
   // Copy the binaries from the chain or warn if they are different.
   await Promise.all(
-    external.map(async (address, extension) => {
+    external.map(async ([address, extension]) => {
       const binary = `${address}.${extension}`;
       const hasBinary = await fs.exists(`${outputDir}/${binary}`);
 

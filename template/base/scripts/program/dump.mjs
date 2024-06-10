@@ -54,29 +54,36 @@ async function dump() {
       }
 
       if (hasShaChecksum) {
-        await copyFromChain(address, extension, 'onchain-');
-        const [onChainHash, localHash] = await Promise.all([
-          $`${sha} ${options} -b ${outputDir}/onchain-${binary} | cut -d ' ' -f 1`.quiet(),
-          $`${sha} ${options} -b ${outputDir}/${binary} | cut -d ' ' -f 1`.quiet(),
-        ]);
+        try {
+          await copyFromChain(address, extension, 'onchain-');
+          const [onChainHash, localHash] = await Promise.all([
+            $`${sha} ${options} -b ${outputDir}/onchain-${binary} | cut -d ' ' -f 1`.quiet(),
+            $`${sha} ${options} -b ${outputDir}/${binary} | cut -d ' ' -f 1`.quiet(),
+          ]);
 
-        if (onChainHash.toString() !== localHash.toString()) {
+          if (onChainHash.toString() !== localHash.toString()) {
+            echo(
+              chalk.yellow('[ WARNING ]'),
+              `on-chain and local binaries are different for '${address}'`
+            );
+          } else {
+            echo(
+              chalk.green('[ SKIPPED ]'),
+              `on-chain and local binaries are the same for '${address}'`
+            );
+          }
+
+          await $`rm ${outputDir}/onchain-${binary}`.quiet();
+        } catch (error) {
           echo(
             chalk.yellow('[ WARNING ]'),
-            `on-chain and local binaries are different for '${binary}'`
-          );
-        } else {
-          echo(
-            chalk.green('[ SKIPPED ]'),
-            `on-chain and local binaries are the same for '${binary}'`
+            `skipped check for '${address}' (error copying data from '${rpc}')`
           );
         }
-
-        await $`rm ${outputDir}/onchain-${binary}`.quiet();
       } else {
         echo(
           chalk.yellow('[ WARNING ]'),
-          `skipped check for '${binary}' (missing 'sha256sum' command)`
+          `skipped check for '${address}' (missing 'sha256sum' command)`
         );
       }
     })

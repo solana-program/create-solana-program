@@ -6,6 +6,6 @@ import { workingDirectory, getProgramFolders } from '../utils.mjs';
 await Promise.all(
   getProgramFolders().map(async (folder) => {
     await $`cd ${path.join(workingDirectory, folder)}`.quiet();
-    await $`cargo fmt ${argv._}`;
+    await $`cargo fmt ${process.argv.slice(3)}`;
   })
 );

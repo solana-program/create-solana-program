@@ -5,7 +5,7 @@ import { workingDirectory, getProgramFolders } from '../utils.mjs';
 // Lint the programs using clippy.
 await Promise.all(
   getProgramFolders().map(async (folder) => {
-    await $`cd ${path.join(workingDirectory, folder)}`.quiet();
+    cd(`${path.join(workingDirectory, folder)}`);
     await $`cargo clippy ${process.argv.slice(3)}`;
   })
 );

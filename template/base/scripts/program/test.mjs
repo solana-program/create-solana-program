@@ -8,7 +8,7 @@ import './dump.mjs';
 // Test the programs.
 await Promise.all(
   getProgramFolders().map(async (folder) => {
-    await $`cd ${path.join(workingDirectory, folder)}`.quiet();
+    cd(`${path.join(workingDirectory, folder)}`);
     const hasSolfmt = await which('solfmt', { nothrow: true });
 
     if (hasSolfmt) {

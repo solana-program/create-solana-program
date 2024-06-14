@@ -9,4 +9,4 @@ await $`pnpm validator:restart`;
 cd(path.join(workingDirectory, 'clients', 'js'));
 await $`pnpm install`;
 await $`pnpm build`;
-await $`pnpm test ${argv._}`;
+await $`pnpm test ${process.argv.slice(3)}`;

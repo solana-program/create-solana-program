@@ -12,9 +12,9 @@ await Promise.all(
     const hasSolfmt = await which('solfmt', { nothrow: true });
 
     if (hasSolfmt) {
-      await $`RUST_LOG=error cargo test-sbf ${argv._} 2>&1 | solfmt`;
+      await $`RUST_LOG=error cargo test-sbf ${process.argv.slice(3)} 2>&1 | solfmt`;
     } else {
-      await $`RUST_LOG=error cargo test-sbf ${argv._}`;
+      await $`RUST_LOG=error cargo test-sbf ${process.argv.slice(3)}`;
     }
   })
 );

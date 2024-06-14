@@ -6,6 +6,6 @@ import { workingDirectory, getProgramFolders } from '../utils.mjs';
 await Promise.all(
   getProgramFolders().map(async (folder) => {
     await $`cd ${path.join(workingDirectory, folder)}`.quiet();
-    await $`cargo clippy ${argv._}`;
+    await $`cargo clippy ${process.argv.slice(3)}`;
   })
 );

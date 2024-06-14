@@ -1,5 +1,17 @@
 # create-solana-program
 
+## 0.2.9
+
+### Patch Changes
+
+- [#57](https://github.com/solana-program/create-solana-program/pull/57) [`76ecd20`](https://github.com/solana-program/create-solana-program/commit/76ecd2056aab80e8dca1eb1d0e921d1309f9e52c) Thanks [@febo](https://github.com/febo)! - Switch to use cd function
+
+- [#58](https://github.com/solana-program/create-solana-program/pull/58) [`f6f6dfa`](https://github.com/solana-program/create-solana-program/commit/f6f6dfa572f8b335af40ca4e49317e5555d222c9) Thanks [@febo](https://github.com/febo)! - Use loop to build programs sequentially
+
+- [#56](https://github.com/solana-program/create-solana-program/pull/56) [`10a3345`](https://github.com/solana-program/create-solana-program/commit/10a33456e7d57c40042be9cb82044dc01bdcafed) Thanks [@febo](https://github.com/febo)! - Fix command-line args parsing on scripts
+
+- [#54](https://github.com/solana-program/create-solana-program/pull/54) [`289b39b`](https://github.com/solana-program/create-solana-program/commit/289b39bc28e5b58084cef62586cc8d6a35045128) Thanks [@febo](https://github.com/febo)! - Add support for external accounts
+
 ## 0.2.8
 
 ### Patch Changes

@@ -6,9 +6,7 @@ import { workingDirectory, getProgramFolders } from '../utils.mjs';
 import './dump.mjs';
 
 // Build the programs.
-await Promise.all(
-  getProgramFolders().map(async (folder) => {
-    cd(`${path.join(workingDirectory, folder)}`);
-    await $`cargo-build-sbf ${process.argv.slice(3)}`;
-  })
-);
+for (const folder of getProgramFolders()) {
+  cd(`${path.join(workingDirectory, folder)}`);
+  await $`cargo-build-sbf ${process.argv.slice(3)}`;
+}

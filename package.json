@@ -1,6 +1,6 @@
 {
   "name": "create-solana-program",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "An easy way to start a Solana program",
   "type": "module",
   "bin": {

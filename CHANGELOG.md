@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.1
+
+### Patch Changes
+
+- [`d5bdaa5`](https://github.com/solana-program/create-solana-program/commit/d5bdaa5cf56da9e15377b76d8296d65b11eb2487) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Fix README badges for generated projects
+
 ## 0.3.0
 
 ### Minor Changes

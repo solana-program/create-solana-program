@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.2
+
+### Patch Changes
+
+- [`ede1718`](https://github.com/solana-program/create-solana-program/commit/ede17186cc0b560fac8cc47c491b4eee498919ca) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Fix README version badge for shank generated projects
+
 ## 0.3.1
 
 ### Patch Changes

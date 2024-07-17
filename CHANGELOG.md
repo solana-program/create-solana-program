@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.0
+
+### Minor Changes
+
+- [#59](https://github.com/solana-program/create-solana-program/pull/59) [`c8f8831`](https://github.com/solana-program/create-solana-program/commit/c8f88318206142e2eca3e2d0c62e4632bbc85f1a) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Bump Kinobi to 0.21.0 and web3.js to tp4
+
 ## 0.2.9
 
 ### Patch Changes

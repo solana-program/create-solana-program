@@ -1,5 +1,17 @@
 # create-solana-program
 
+## 0.3.3
+
+### Patch Changes
+
+- [#63](https://github.com/solana-program/create-solana-program/pull/63) [`5780c84`](https://github.com/solana-program/create-solana-program/commit/5780c84ea5e1ee6b2dcedd5434eca263eb83d1cd) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Fix Prettier inconsistencies between generated scripts and JS client
+
+- [`7232fa8`](https://github.com/solana-program/create-solana-program/commit/7232fa83a4d3adf1815e40b586e156a28dcb9449) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Fix tsup version
+
+- [`5f51192`](https://github.com/solana-program/create-solana-program/commit/5f511926d1610f29d5739147b9ac6a36bfa1b86e) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Fix prettier option in JS renderer
+
+- [`fd72e33`](https://github.com/solana-program/create-solana-program/commit/fd72e33579881279ab38c6411b903acf946e281f) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Use double quotes in script folder
+
 ## 0.3.2
 
 ### Patch Changes

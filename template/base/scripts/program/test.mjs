@@ -1,11 +1,11 @@
 #!/usr/bin/env zx
-import 'zx/globals';
-import { workingDirectory, getProgramFolders } from '../utils.mjs';
+import "zx/globals";
+import { workingDirectory, getProgramFolders } from "../utils.mjs";
 
 // Save external programs binaries to the output directory.
-import './dump.mjs';
+import "./dump.mjs";
 
-const hasSolfmt = await which('solfmt', { nothrow: true });
+const hasSolfmt = await which("solfmt", { nothrow: true });
 // Test the programs.
 for (const folder of getProgramFolders()) {
   cd(`${path.join(workingDirectory, folder)}`);

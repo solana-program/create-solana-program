@@ -1,14 +1,14 @@
 #!/usr/bin/env zx
-import "zx/globals";
-import * as k from "kinobi";
-import { rootNodeFromAnchor } from "@kinobi-so/nodes-from-anchor";
+import 'zx/globals';
+import * as k from 'kinobi';
+import { rootNodeFromAnchor } from '@kinobi-so/nodes-from-anchor';
 {% if jsClient %}
-import { renderVisitor as renderJavaScriptVisitor } from "@kinobi-so/renderers-js";
+import { renderVisitor as renderJavaScriptVisitor } from '@kinobi-so/renderers-js';
 {% endif %}
 {% if rustClient %}
-import { renderVisitor as renderRustVisitor } from "@kinobi-so/renderers-rust";
+import { renderVisitor as renderRustVisitor } from '@kinobi-so/renderers-rust';
 {% endif %}
-import { getAllProgramIdls } from "./utils.mjs";
+import { getAllProgramIdls } from './utils.mjs';
 
 // Instanciate Kinobi.
 const [idl, ...additionalIdls] = getAllProgramIdls().map(idl => rootNodeFromAnchor(require(idl)))
@@ -17,7 +17,7 @@ const kinobi = k.createFromRoot(idl, additionalIdls);
 // Update programs.
 kinobi.update(
   k.updateProgramsVisitor({
-    "{{ programCrateName | camelCase }}": { name: "{{ programName | camelCase }}" },
+    '{{ programCrateName | camelCase }}': { name: '{{ programName | camelCase }}' },
   })
 );
 
@@ -27,11 +27,11 @@ kinobi.update(
   k.updateAccountsVisitor({
     counter: {
       seeds: [
-        k.constantPdaSeedNodeFromString("utf8", "counter"),
+        k.constantPdaSeedNodeFromString('utf8', 'counter'),
         k.variablePdaSeedNode(
-          "authority",
+          'authority',
           k.publicKeyTypeNode(),
-          "The authority of the counter account"
+          'The authority of the counter account'
         ),
       ],
     },
@@ -42,15 +42,15 @@ kinobi.update(
 kinobi.update(
   k.updateInstructionsVisitor({
     create: {
-      byteDeltas: [k.instructionByteDeltaNode(k.accountLinkNode("counter"))],
+      byteDeltas: [k.instructionByteDeltaNode(k.accountLinkNode('counter'))],
       accounts: {
-        counter: { defaultValue: k.pdaValueNode("counter") },
-        payer: { defaultValue: k.accountValueNode("authority") },
+        counter: { defaultValue: k.pdaValueNode('counter') },
+        payer: { defaultValue: k.accountValueNode('authority') },
       },
     },
     increment: {
       accounts: {
-        counter: { defaultValue: k.pdaValueNode("counter") },
+        counter: { defaultValue: k.pdaValueNode('counter') },
       },
       arguments: {
         amount: { defaultValue: k.noneValueNode() },
@@ -60,29 +60,29 @@ kinobi.update(
 );
 
 // Set account discriminators.
-const key = (name) => ({ field: "key", value: k.enumValueNode("Key", name) });
+const key = (name) => ({ field: 'key', value: k.enumValueNode('Key', name) });
 kinobi.update(
   k.setAccountDiscriminatorFromFieldVisitor({
-    counter: key("counter"),
+    counter: key('counter'),
   })
 );
 {% endif %}
 
 {% if jsClient %}
 // Render JavaScript.
-const jsClient = path.join(__dirname, "..", "clients", "js");
+const jsClient = path.join(__dirname, '..', 'clients', 'js');
 kinobi.accept(
-  renderJavaScriptVisitor(path.join(jsClient, "src", "generated"), { 
-    prettierOptions: require(path.join(jsClient, ".prettierrc.json"))
+  renderJavaScriptVisitor(path.join(jsClient, 'src', 'generated'), { 
+    prettierOptions: require(path.join(jsClient, '.prettierrc.json'))
   })
 );
 {% endif %}
 
 {% if rustClient %}
 // Render Rust.
-const rustClient = path.join(__dirname, "..", "clients", "rust");
+const rustClient = path.join(__dirname, '..', 'clients', 'rust');
 kinobi.accept(
-  renderRustVisitor(path.join(rustClient, "src", "generated"), {
+  renderRustVisitor(path.join(rustClient, 'src', 'generated'), {
     formatCode: true,
     crateFolder: rustClient,
   })

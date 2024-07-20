@@ -1,6 +1,6 @@
 #!/usr/bin/env zx
-import "zx/globals";
-import { workingDirectory, getProgramFolders } from "../utils.mjs";
+import 'zx/globals';
+import { workingDirectory, getProgramFolders } from '../utils.mjs';
 
 // Lint the programs using clippy.
 for (const folder of getProgramFolders()) {

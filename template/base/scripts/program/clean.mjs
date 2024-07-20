@@ -1,6 +1,6 @@
 #!/usr/bin/env zx
-import "zx/globals";
-import { getExternalProgramOutputDir } from "../utils.mjs";
+import 'zx/globals';
+import { getExternalProgramOutputDir } from '../utils.mjs';
 
 // Remove the programs output directories.
 const externalProgramOutput = getExternalProgramOutputDir();

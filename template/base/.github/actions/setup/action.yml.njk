@@ -3,41 +3,127 @@ name: Setup environment
 inputs:
 {% if programFramework === 'anchor' %}
   anchor:
-    description: The Anchor version to install
+    description: The Anchor version to install. Skips if not provided.
+    required: false
 {% endif %}
-  cache:
-    description: Enable caching
-    default: "true"
+  cargo-cache-key:
+    description: The key to cache cargo dependencies. Skips cargo caching if not provided.
+    required: false
+  cargo-cache-fallback-key:
+    description: The fallback key to use when caching cargo dependencies. Default to not using a fallback key.
+    required: false
+  cargo-cache-local-key:
+    description: The key to cache local cargo dependencies. Skips local cargo caching if not provided.
+    required: false
+  clippy:
+    description: Install Clippy if `true`. Defaults to `false`.
+    required: false
   node:
-    description: The Node.js version to install
+    description: The Node.js version to install. Required.
     required: true
+  rustfmt:
+    description: Install Rustfmt if `true`. Defaults to `false`.
+    required: false
   solana:
-    description: The Solana version to install
+    description: The Solana version to install. Skips if not provided.
+    required: false
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Setup pnpm
       uses: pnpm/action-setup@v3
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: {% raw %}${{ inputs.node }}{% endraw %}
-        cache: "pnpm"
-    - name: Install dependencies
+        cache: 'pnpm'
+
+    - name: Install Dependencies
       run: pnpm install --frozen-lockfile
       shell: bash
+
+    - name: Set Environment Variables
+      shell: bash
+      run: pnpm zx ./scripts/ci/set-env.mjs
+
+{% if solanaVersion === '2.0' %}
+    - name: Install Protobuf Compiler (Temporary Workaround for Solana 2.0)
+      if: {% raw %}${{ inputs.solana || inputs.rustfmt == 'true' || inputs.clippy == 'true' }}{% endraw %}
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y protobuf-compiler
+{% endif %}
+
+    - name: Install Rustfmt
+      if: {% raw %}${{ inputs.rustfmt == 'true' }}{% endraw %}
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: {% raw %}${{ env.RUSTFMT_NIGHTLY_VERSION }}{% endraw %}
+        components: rustfmt
+
+    - name: Install Clippy
+      if: {% raw %}${{ inputs.clippy == 'true' }}{% endraw %}
+      uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: {% raw %}${{ env.CLIPPY_NIGHTLY_VERSION }}{% endraw %}
+        components: clippy
+
     - name: Install Solana
-      if: {% raw %}${{ inputs.solana != '' }}{% endraw %}
+      if: {% raw %}${{ inputs.solana }}{% endraw %}
       uses: metaplex-foundation/actions/install-solana@v1
       with:
         version: {% raw %}${{ inputs.solana }}{% endraw %}
-        cache: {% raw %}${{ inputs.cache }}{% endraw %}
+        cache: true
+
 {% if programFramework === 'anchor' %}
     - name: Install Anchor
       if: {% raw %}${{ inputs.anchor != '' }}{% endraw %}
       uses: metaplex-foundation/actions/install-anchor-cli@v1
       with:
         version: {% raw %}${{ inputs.anchor }}{% endraw %}
-        cache: {% raw %}${{ inputs.cache }}{% endraw %}
+        cache: true
 {% endif %}
+
+    - name: Cache Cargo Dependencies
+      if: {% raw %}${{ inputs.cargo-cache-key && !inputs.cargo-cache-fallback-key }}{% endraw %}
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: {% raw %}${{ runner.os }}-${{ inputs.cargo-cache-key }}-${{ hashFiles('**/Cargo.lock') }}{% endraw %}
+        restore-keys: {% raw %}${{ runner.os }}-${{ inputs.cargo-cache-key }}{% endraw %}
+
+    - name: Cache Cargo Dependencies With Fallback
+      if: {% raw %}${{ inputs.cargo-cache-key && inputs.cargo-cache-fallback-key }}{% endraw %}
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: {% raw %}${{ runner.os }}-${{ inputs.cargo-cache-key }}-${{ hashFiles('**/Cargo.lock') }}{% endraw %}
+        restore-keys: |
+          {% raw %}${{ runner.os }}-${{ inputs.cargo-cache-key }}{% endraw %}
+          {% raw %}${{ runner.os }}-${{ inputs.cargo-cache-fallback-key }}-${{ hashFiles('**/Cargo.lock') }}{% endraw %}
+          {% raw %}${{ runner.os }}-${{ inputs.cargo-cache-fallback-key }}{% endraw %}
+
+    - name: Cache Local Cargo Dependencies
+      if: {% raw %}${{ inputs.cargo-cache-local-key }}{% endraw %}
+      uses: actions/cache@v4
+      with:
+        path: |
+          .cargo/bin/
+          .cargo/registry/index/
+          .cargo/registry/cache/
+          .cargo/git/db/
+        key: {% raw %}${{ runner.os }}-${{ inputs.cargo-cache-local-key }}-${{ hashFiles('**/Cargo.lock') }}{% endraw %}
+        restore-keys: {% raw %}${{ runner.os }}-${{ inputs.cargo-cache-local-key }}{% endraw %}

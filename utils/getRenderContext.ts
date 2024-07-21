@@ -23,6 +23,7 @@ export type RenderContext = Omit<Inputs, 'programAddress' | 'solanaVersion'> & {
   solanaVersionDetected: string;
   targetDirectory: string;
   templateDirectory: string;
+  toolchain: string;
 };
 
 export function getRenderContext({
@@ -44,6 +45,10 @@ export function getRenderContext({
   );
   const getNpmCommand: RenderContext['getNpmCommand'] = (...args) =>
     getPackageManagerCommand(packageManager, ...args);
+  const solanaVersion =
+    inputs.solanaVersion ??
+    toMinorSolanaVersion(language, solanaVersionDetected);
+  const toolchain = getToolchainFromSolanaVersion(solanaVersion);
 
   // Directories.
   const templateDirectory = path.resolve(__dirname, 'template');
@@ -66,11 +71,20 @@ export function getRenderContext({
     packageManager,
     programAddress,
     programDirectory,
-    solanaVersion:
-      inputs.solanaVersion ??
-      toMinorSolanaVersion(language, solanaVersionDetected),
+    solanaVersion,
     solanaVersionDetected,
     targetDirectory,
     templateDirectory,
+    toolchain,
   };
+}
+
+function getToolchainFromSolanaVersion(solanaVersion: string): string {
+  const map: Record<string, string> = {
+    '1.17': '1.68.0',
+    '1.18': '1.75.0',
+    '2.0': '1.75.0',
+  };
+
+  return map[solanaVersion] ?? '1.75.0';
 }

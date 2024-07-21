@@ -9,9 +9,9 @@ import {
 
 // Configure additional arguments here, e.g.:
 // ['--arg1', '--arg2', ...cliArguments()]
-const lintArgs = cliArguments();
+const formatArgs = cliArguments();
 
-const fix = popArgument(lintArgs, '--fix');
+const fix = popArgument(formatArgs, '--fix');
 const toolchain = getToolchainArgument('format');
 const manifestPath = path.join(
   workingDirectory,
@@ -20,9 +20,9 @@ const manifestPath = path.join(
   'Cargo.toml'
 );
 
-// Check the client using Clippy.
+// Format the client.
 if (fix) {
-  await $`cargo ${toolchain} clippy --manifest-path ${manifestPath} --fix ${lintArgs}`;
+  await $`cargo ${toolchain} fmt --manifest-path ${manifestPath} -- ${formatArgs}`;
 } else {
-  await $`cargo ${toolchain} clippy --manifest-path ${manifestPath} ${lintArgs}`;
+  await $`cargo ${toolchain} fmt --manifest-path ${manifestPath} -- --check ${formatArgs}`;
 }

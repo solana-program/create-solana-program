@@ -2,7 +2,7 @@
 import 'zx/globals';
 import { cliArguments, workingDirectory } from '../utils.mjs';
 
-// Check the client using ESLint.
+// Format the client using Prettier.
 cd(path.join(workingDirectory, 'clients', 'js'));
 await $`pnpm install`;
-await $`pnpm lint ${cliArguments()}`;
+await $`pnpm format ${cliArguments()}`;

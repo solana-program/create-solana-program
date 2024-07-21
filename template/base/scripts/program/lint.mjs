@@ -1,9 +1,29 @@
 #!/usr/bin/env zx
 import 'zx/globals';
-import { workingDirectory, getProgramFolders } from '../utils.mjs';
+import {
+  cliArguments,
+  getProgramFolders,
+  getToolchainArgument,
+  popArgument,
+  workingDirectory,
+} from '../utils.mjs';
+
+// Configure additional arguments here, e.g.:
+// ['--arg1', '--arg2', ...cliArguments()]
+const lintArgs = cliArguments();
+
+const fix = popArgument(lintArgs, '--fix');
+const toolchain = getToolchainArgument('format');
 
 // Lint the programs using clippy.
-for (const folder of getProgramFolders()) {
-  cd(`${path.join(workingDirectory, folder)}`);
-  await $`cargo clippy ${process.argv.slice(3)}`;
-}
+await Promise.all(
+  getProgramFolders().map(async (folder) => {
+    const manifestPath = path.join(workingDirectory, folder, 'Cargo.toml');
+
+    if (fix) {
+      await $`cargo ${toolchain} clippy --manifest-path ${manifestPath} --fix ${lintArgs}`;
+    } else {
+      await $`cargo ${toolchain} clippy --manifest-path ${manifestPath} ${lintArgs}`;
+    }
+  })
+);

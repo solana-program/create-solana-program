@@ -1,6 +1,15 @@
 [workspace]
 resolver = "2"
+{% if rustClient %}
+members = ["clients/rust", "program"]
+{% else %}
 members = ["program"]
+{% endif %}
+
+{% if programFramework === 'anchor' %}
+[profile.release]
+overflow-checks = true
+{% endif %}
 
 # Specify Rust toolchains for rustfmt, clippy, and build.
 # Any unprovided toolchains default to stable.

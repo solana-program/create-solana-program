@@ -82,6 +82,9 @@ for (const projectName of projects) {
   // Lint and test clients.
   for (const client of CLIENTS) {
     if (`clients:${client}:test` in pkg.scripts) {
+      await executeStep(`format ${client} client`, async () => {
+        await $`pnpm clients:${client}:format`;
+      });
       await executeStep(`lint ${client} client`, async () => {
         await $`pnpm clients:${client}:lint`;
       });

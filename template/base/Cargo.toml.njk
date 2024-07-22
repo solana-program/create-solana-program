@@ -1,0 +1,9 @@
+[workspace]
+resolver = "2"
+members = ["program"]
+
+# Specify Rust toolchains for rustfmt, clippy, and build.
+# Any unprovided toolchains default to stable.
+[workspace.metadata.toolchains]
+format = "{{ toolchain }}"
+lint = "{{ toolchain }}"

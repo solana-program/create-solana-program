@@ -85,6 +85,8 @@ export function getRenderContext({
 function getToolchainFromSolanaVersion(
   ctx: Pick<RenderContext, 'programFramework' | 'solanaVersion'>
 ): string {
+  return '1.75.0';
+
   if (ctx.programFramework === 'anchor') {
     return '1.75.0';
   }

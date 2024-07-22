@@ -50,17 +50,9 @@ export async function patchSolanaDependencies(
     '1.17': [
       '-p ahash@0.8.11 --precise 0.8.6',
       '-p bumpalo@3.16.0 --precise 3.14.0',
+      '-p proc-macro-crate@3.1.0 --precise 3.0.0',
     ],
   };
-
-  // const child = spawnCommand('ls', [ctx.targetDirectory]);
-  // const [stdout] = await Promise.all([
-  //   readStdout(child),
-  //   waitForCommand(child),
-  // ]);
-  // console.log('=== ls ===');
-  // console.log(stdout.join(''));
-  // console.log('==========');
 
   const patches = patchMap[ctx.solanaVersion] ?? [];
   await Promise.all(

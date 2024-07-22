@@ -38,7 +38,7 @@ jobs:
         solana: ["1.17.34", "1.18.18"]
         include:
           - solana: "1.17.34"
-            toolchain: "1.68.0"
+            toolchain: "1.75.0"
           - solana: "1.18.18"
             toolchain: "1.75.0"
           - anchor: "0.30.0"

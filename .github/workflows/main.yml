@@ -9,6 +9,7 @@ on:
 env:
   ANCHOR_VERSION: 0.30.0
   SOLANA_VERSION: 1.18.18
+  TOOLCHAIN: 1.75.0
 
 jobs:
   lint:
@@ -37,17 +38,12 @@ jobs:
         project: ["counter-anchor", "counter-shank"]
         solana: ["1.17.34", "1.18.18"]
         include:
-          - solana: "1.17.34"
-            toolchain: "1.75.0"
-          - solana: "1.18.18"
-            toolchain: "1.75.0"
           - anchor: "0.30.0"
             project: "counter-anchor"
             solana: "1.18.18"
           - anchor: "0.29.0"
             project: "counter-anchor"
             solana: "1.17.34"
-            toolchain: "1.75.0"
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
@@ -69,12 +65,12 @@ jobs:
       - name: Install Rustfmt
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: ${{ matrix.toolchain }}
+          toolchain: ${{ env.TOOLCHAIN }}
           components: rustfmt
       - name: Install Clippy
         uses: dtolnay/rust-toolchain@master
         with:
-          toolchain: ${{ matrix.toolchain }}
+          toolchain: ${{ env.TOOLCHAIN }}
           components: clippy
       - name: Install Anchor
         if: ${{ matrix.anchor }}

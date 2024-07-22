@@ -45,13 +45,12 @@ export function getRenderContext({
   );
   const getNpmCommand: RenderContext['getNpmCommand'] = (...args) =>
     getPackageManagerCommand(packageManager, ...args);
-  const solanaVersion =
-    inputs.solanaVersion ??
-    toMinorSolanaVersion(language, solanaVersionDetected);
-  const toolchain = getToolchainFromSolanaVersion({
-    solanaVersion,
-    programFramework: inputs.programFramework,
-  });
+  const solanaVersion = resolveSolanaVersion(
+    language,
+    inputs.solanaVersion,
+    solanaVersionDetected
+  );
+  const toolchain = getToolchainFromSolanaVersion(solanaVersion);
 
   // Directories.
   const templateDirectory = path.resolve(__dirname, 'template');
@@ -65,7 +64,7 @@ export function getRenderContext({
 
   return {
     ...inputs,
-    anchorVersion: anchorVersionDetected ?? '',
+    anchorVersion: resolveAnchorVersion(anchorVersionDetected),
     clientDirectory,
     clients,
     currentDirectory,
@@ -82,20 +81,24 @@ export function getRenderContext({
   };
 }
 
-function getToolchainFromSolanaVersion(
-  ctx: Pick<RenderContext, 'programFramework' | 'solanaVersion'>
-): string {
-  return '1.75.0';
-
-  if (ctx.programFramework === 'anchor') {
-    return '1.75.0';
-  }
-
+function getToolchainFromSolanaVersion(solanaVersion: string): string {
   const map: Record<string, string> = {
-    '1.17': '1.68.0',
+    '1.17': '1.75.0',
     '1.18': '1.75.0',
     '2.0': '1.75.0',
   };
 
-  return map[ctx.solanaVersion] ?? '1.75.0';
+  return map[solanaVersion] ?? '1.75.0';
+}
+
+function resolveSolanaVersion(
+  language: Language,
+  inputVersion: string | undefined,
+  detectedVersion: string
+): string {
+  return inputVersion ?? toMinorSolanaVersion(language, detectedVersion);
+}
+
+function resolveAnchorVersion(detectedVersion: string | undefined): string {
+  return detectedVersion ?? '';
 }

@@ -4,6 +4,7 @@ import {
   cliArguments,
   getProgramFolders,
   getToolchainArgument,
+  partitionArguments,
   popArgument,
   workingDirectory,
 } from '../utils.mjs';
@@ -13,6 +14,7 @@ import {
 const formatArgs = cliArguments();
 
 const fix = popArgument(formatArgs, '--fix');
+const [cargoArgs, fmtArgs] = partitionArguments(formatArgs, '--');
 const toolchain = getToolchainArgument('format');
 
 // Format the programs.
@@ -21,9 +23,9 @@ await Promise.all(
     const manifestPath = path.join(workingDirectory, folder, 'Cargo.toml');
 
     if (fix) {
-      await $`cargo ${toolchain} fmt --manifest-path ${manifestPath} -- ${formatArgs}`;
+      await $`cargo ${toolchain} fmt --manifest-path ${manifestPath} ${cargoArgs} -- ${fmtArgs}`;
     } else {
-      await $`cargo ${toolchain} fmt --manifest-path ${manifestPath} -- --check ${formatArgs}`;
+      await $`cargo ${toolchain} fmt --manifest-path ${manifestPath} ${cargoArgs} -- --check ${fmtArgs}`;
     }
   })
 );

@@ -104,3 +104,10 @@ export function popArgument(args, arg) {
   }
   return index >= 0;
 }
+
+export function partitionArguments(args, delimiter) {
+  const index = args.indexOf(delimiter);
+  return index >= 0
+    ? [args.slice(0, index), args.slice(index + 1)]
+    : [args, []];
+}

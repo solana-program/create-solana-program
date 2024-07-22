@@ -61,14 +61,14 @@ runs:
       if: {% raw %}${{ inputs.rustfmt == 'true' }}{% endraw %}
       uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: {% raw %}${{ env.RUSTFMT_NIGHTLY_VERSION }}{% endraw %}
+        toolchain: {% raw %}${{ env.TOOLCHAIN_FORMAT }}{% endraw %}
         components: rustfmt
 
     - name: Install Clippy
       if: {% raw %}${{ inputs.clippy == 'true' }}{% endraw %}
       uses: dtolnay/rust-toolchain@master
       with:
-        toolchain: {% raw %}${{ env.CLIPPY_NIGHTLY_VERSION }}{% endraw %}
+        toolchain: {% raw %}${{ env.TOOLCHAIN_LINT }}{% endraw %}
         components: clippy
 
     - name: Install Solana

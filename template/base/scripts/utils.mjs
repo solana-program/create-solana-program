@@ -85,7 +85,7 @@ export function getCargoMetadata(folder) {
 }
 
 export function getToolchain(operation) {
-  return getCargoMetadata()?.toolchain?.[operation];
+  return getCargoMetadata()?.toolchains?.[operation];
 }
 
 export function getToolchainArgument(operation) {

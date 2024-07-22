@@ -55,7 +55,7 @@ export function getRenderContext({
     language,
     solanaVersion
   );
-  const toolchain = getToolchainFromSolanaVersion(solanaVersion);
+  const toolchain = getToolchainFromSolanaVersion(solanaVersionWithoutPatch);
 
   // Directories.
   const templateDirectory = path.resolve(__dirname, 'template');
@@ -87,14 +87,16 @@ export function getRenderContext({
   };
 }
 
-function getToolchainFromSolanaVersion(solanaVersion: string): string {
+function getToolchainFromSolanaVersion(
+  solanaVersionWithoutPatch: string
+): string {
   const map: Record<string, string> = {
     '1.17': '1.75.0',
     '1.18': '1.75.0',
     '2.0': '1.75.0',
   };
 
-  return map[solanaVersion] ?? '1.75.0';
+  return map[solanaVersionWithoutPatch] ?? '1.75.0';
 }
 
 function resolveSolanaVersion(

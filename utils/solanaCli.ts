@@ -44,13 +44,13 @@ export async function detectAnchorVersion(language: Language): Promise<string> {
 }
 
 export async function patchSolanaDependencies(
-  ctx: Pick<RenderContext, 'solanaVersion' | 'targetDirectory'>
+  ctx: Pick<RenderContext, 'solanaVersionWithoutPatch' | 'targetDirectory'>
 ): Promise<void> {
   const patchMap: Record<string, string[]> = {
     '1.17': ['-p ahash@0.8.11 --precise 0.8.6'],
   };
 
-  const patches = patchMap[ctx.solanaVersion] ?? [];
+  const patches = patchMap[ctx.solanaVersionWithoutPatch] ?? [];
   await Promise.all(
     patches.map(async (patch) =>
       waitForCommand(

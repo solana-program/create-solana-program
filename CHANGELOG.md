@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.4
+
+### Patch Changes
+
+- [#65](https://github.com/solana-program/create-solana-program/pull/65) [`f3d5e88`](https://github.com/solana-program/create-solana-program/commit/f3d5e887d284f4ba338d5bf3ebe951c1bbc29fc5) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Improve generated CI from feedback
+
 ## 0.3.3
 
 ### Patch Changes

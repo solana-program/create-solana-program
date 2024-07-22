@@ -43,10 +43,6 @@ jobs:
           - anchor: "0.29.0"
             project: "counter-anchor"
             solana: "1.17.24"
-          - solana: "1.17.24"
-            toolchain: "1.68.0"
-          - solana: "1.18.12"
-            toolchain: "1.75.0"
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
@@ -65,16 +61,6 @@ jobs:
         uses: metaplex-foundation/actions/install-solana@v1
         with:
           version: ${{ matrix.solana }}
-      - name: Install Rustfmt
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ matrix.toolchain }}
-          components: rustfmt
-      - name: Install Clippy
-        uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ matrix.toolchain }}
-          components: clippy
       - name: Install Anchor
         if: ${{ matrix.anchor }}
         uses: metaplex-foundation/actions/install-anchor-cli@v1

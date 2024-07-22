@@ -19,7 +19,6 @@ export async function hasCommand(command: string): Promise<boolean> {
 
 export async function waitForCommand(child: ChildProcess): Promise<number> {
   return new Promise((resolve, reject) => {
-    console.log(child);
     const errorLogs: string[] = [];
     child.stderr?.on('data', (data) => {
       errorLogs.push(data.toString());
@@ -28,7 +27,7 @@ export async function waitForCommand(child: ChildProcess): Promise<number> {
     child.on('close', (code) => {
       if (code !== 0) {
         console.log(errorLogs.join(''));
-        const message = `$(${child}) exited with code ${code}`;
+        const message = `$(${child.spawnargs.join(' ')}) exited with code ${code}`;
         reject(new Error(message));
       } else {
         resolve(code);

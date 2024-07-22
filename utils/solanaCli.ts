@@ -52,13 +52,19 @@ export async function patchSolanaDependencies(
 
   const patches = patchMap[ctx.solanaVersion] ?? [];
   await Promise.all(
-    patches.map((patch) =>
-      waitForCommand(
-        spawnCommand('cargo', ['update', ...patch.split(' ')], {
-          cwd: ctx.targetDirectory,
-        })
-      )
-    )
+    patches.map(async (patch) => {
+      const child = spawnCommand('cargo', ['update', ...patch.split(' ')], {
+        cwd: ctx.targetDirectory,
+      });
+      const [stdout] = await Promise.all([
+        readStdout(child),
+        waitForCommand(child),
+      ]);
+
+      console.log('=========');
+      console.log(stdout);
+      console.log('=========');
+    })
   );
 }
 

@@ -21,11 +21,6 @@ export async function waitForCommand(child: ChildProcess): Promise<number> {
   return new Promise((resolve, reject) => {
     child.on('close', (code) => {
       if (code !== 0) {
-        console.log('=====================');
-        console.log('Error running command');
-        console.log('=====================');
-        console.log(child.stdout);
-        console.log('=====================');
         const message = `$(${child}) exited with code ${code}`;
         reject(new Error(message));
       } else {

@@ -44,7 +44,7 @@ export async function detectAnchorVersion(language: Language): Promise<string> {
 }
 
 export async function patchSolanaDependencies(
-  ctx: Pick<RenderContext, 'solanaVersion' | 'targetDirectory'>
+  ctx: Pick<RenderContext, 'solanaVersion' | 'targetDirectory' | 'toolchain'>
 ): Promise<void> {
   const patchMap: Record<string, string[]> = {
     '1.17': ['-p ahash@0.8 --precise 0.8.6'],
@@ -52,19 +52,15 @@ export async function patchSolanaDependencies(
 
   const patches = patchMap[ctx.solanaVersion] ?? [];
   await Promise.all(
-    patches.map(async (patch) => {
-      const child = spawnCommand('cargo', ['update', ...patch.split(' ')], {
-        cwd: ctx.targetDirectory,
-      });
-      const [stdout] = await Promise.all([
-        readStdout(child),
-        waitForCommand(child),
-      ]);
-
-      console.log('=========');
-      console.log(stdout);
-      console.log('=========');
-    })
+    patches.map(async (patch) =>
+      waitForCommand(
+        spawnCommand(
+          'cargo',
+          [`+${ctx.toolchain}`, 'update', ...patch.split(' ')],
+          { cwd: ctx.targetDirectory }
+        )
+      )
+    )
   );
 }
 

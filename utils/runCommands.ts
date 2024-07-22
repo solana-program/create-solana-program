@@ -21,8 +21,10 @@ export async function waitForCommand(child: ChildProcess): Promise<number> {
   return new Promise((resolve, reject) => {
     child.on('close', (code) => {
       if (code !== 0) {
-        // const message = `$(${child}) exited with code ${code}`;
-        reject(child);
+        child.stdout?.pipe(process.stdout);
+        child.stderr?.pipe(process.stdout);
+        const message = `$(${child}) exited with code ${code}`;
+        reject(new Error(message));
       } else {
         resolve(code);
       }

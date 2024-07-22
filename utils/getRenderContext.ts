@@ -48,7 +48,10 @@ export function getRenderContext({
   const solanaVersion =
     inputs.solanaVersion ??
     toMinorSolanaVersion(language, solanaVersionDetected);
-  const toolchain = getToolchainFromSolanaVersion(solanaVersion);
+  const toolchain = getToolchainFromSolanaVersion({
+    solanaVersion,
+    programFramework: inputs.programFramework,
+  });
 
   // Directories.
   const templateDirectory = path.resolve(__dirname, 'template');
@@ -79,12 +82,18 @@ export function getRenderContext({
   };
 }
 
-function getToolchainFromSolanaVersion(solanaVersion: string): string {
+function getToolchainFromSolanaVersion(
+  ctx: Pick<RenderContext, 'programFramework' | 'solanaVersion'>
+): string {
+  if (ctx.programFramework === 'anchor') {
+    return '1.75.0';
+  }
+
   const map: Record<string, string> = {
     '1.17': '1.68.0',
     '1.18': '1.75.0',
     '2.0': '1.75.0',
   };
 
-  return map[solanaVersion] ?? '1.75.0';
+  return map[ctx.solanaVersion] ?? '1.75.0';
 }

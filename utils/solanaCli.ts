@@ -47,8 +47,15 @@ export async function patchSolanaDependencies(
   ctx: Pick<RenderContext, 'solanaVersion' | 'targetDirectory'>
 ): Promise<void> {
   const patchMap: Record<string, string[]> = {
-    '1.17': ['-p ahash@0.8.* --precise 0.8.6'],
+    '1.17': ['-p ahash@0.8 --precise 0.8.6'],
   };
+
+  const child = spawnCommand('ls', [ctx.targetDirectory]);
+  const [stdout] = await Promise.all([
+    readStdout(child),
+    waitForCommand(child),
+  ]);
+  console.log(stdout);
 
   const patches = patchMap[ctx.solanaVersion] ?? [];
   await Promise.all(

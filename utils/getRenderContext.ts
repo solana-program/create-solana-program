@@ -21,6 +21,7 @@ export type RenderContext = Omit<Inputs, 'programAddress' | 'solanaVersion'> & {
   packageManager: PackageManager;
   solanaVersion: string;
   solanaVersionDetected: string;
+  solanaVersionWithoutPatch: string;
   targetDirectory: string;
   templateDirectory: string;
   toolchain: string;
@@ -50,6 +51,10 @@ export function getRenderContext({
     inputs.solanaVersion,
     solanaVersionDetected
   );
+  const solanaVersionWithoutPatch = toMinorSolanaVersion(
+    language,
+    solanaVersion
+  );
   const toolchain = getToolchainFromSolanaVersion(solanaVersion);
 
   // Directories.
@@ -75,6 +80,7 @@ export function getRenderContext({
     programDirectory,
     solanaVersion,
     solanaVersionDetected,
+    solanaVersionWithoutPatch,
     targetDirectory,
     templateDirectory,
     toolchain,
@@ -96,7 +102,23 @@ function resolveSolanaVersion(
   inputVersion: string | undefined,
   detectedVersion: string
 ): string {
-  return inputVersion ?? toMinorSolanaVersion(language, detectedVersion);
+  if (!inputVersion) {
+    return detectedVersion;
+  }
+  if (!inputVersion.match(/^\d+\.\d+(\.\d+)?$/)) {
+    throw new Error(
+      language.errors.invalidSolanaVersion.replace('$version', inputVersion)
+    );
+  }
+  const versionSegments = inputVersion.split('.');
+  if (versionSegments.length === 3) {
+    return inputVersion;
+  }
+  const map: Record<string, string> = {
+    '1.17': '1.17.34',
+    '1.18': '1.18.18',
+  };
+  return map[inputVersion] ?? `${inputVersion}.0`;
 }
 
 function resolveAnchorVersion(detectedVersion: string | undefined): string {

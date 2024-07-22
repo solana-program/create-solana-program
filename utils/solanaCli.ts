@@ -47,11 +47,11 @@ export async function patchSolanaDependencies(
   ctx: Pick<RenderContext, 'solanaVersion' | 'targetDirectory'>
 ): Promise<void> {
   const patchMap: Record<string, string[]> = {
-    // '1.17': [
-    //   '-p ahash@0.8.11 --precise 0.8.6',
-    //   '-p bumpalo@3.16.0 --precise 3.14.0',
-    //   '-p proc-macro-crate@3.1.0 --precise 3.0.0',
-    // ],
+    '1.17': [
+      '-p ahash@0.8.11 --precise 0.8.6',
+      '-p bumpalo@3.16.0 --precise 3.14.0',
+      '-p proc-macro-crate@3.1.0 --precise 3.0.0',
+    ],
   };
 
   const patches = patchMap[ctx.solanaVersion] ?? [];

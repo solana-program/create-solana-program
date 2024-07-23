@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.7
+
+### Patch Changes
+
+- [#71](https://github.com/solana-program/create-solana-program/pull/71) [`4a55c62`](https://github.com/solana-program/create-solana-program/commit/4a55c62e77f96382019b9ef42a83c9978f20996e) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Detect installed Rust version
+
 ## 0.3.6
 
 ### Patch Changes

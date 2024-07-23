@@ -147,6 +147,7 @@ jobs:
           cargo-cache-local-key: cargo-local
           node: {% raw %}${{ env.NODE_VERSION }}{% endraw %}
 {% if programFramework === 'anchor' %}
+          solana: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
           anchor: {% raw %}${{ env.ANCHOR_VERSION }}{% endraw %}
 {% endif %}
 

@@ -21,6 +21,7 @@ export type RenderContext = Omit<Inputs, 'programAddress' | 'solanaVersion'> & {
   packageManager: PackageManager;
   solanaVersion: string;
   solanaVersionDetected: string;
+  solanaVersionWithoutPatch: string;
   targetDirectory: string;
   templateDirectory: string;
   toolchain: string;
@@ -45,10 +46,16 @@ export function getRenderContext({
   );
   const getNpmCommand: RenderContext['getNpmCommand'] = (...args) =>
     getPackageManagerCommand(packageManager, ...args);
-  const solanaVersion =
-    inputs.solanaVersion ??
-    toMinorSolanaVersion(language, solanaVersionDetected);
-  const toolchain = getToolchainFromSolanaVersion(solanaVersion);
+  const solanaVersion = resolveSolanaVersion(
+    language,
+    inputs.solanaVersion,
+    solanaVersionDetected
+  );
+  const solanaVersionWithoutPatch = toMinorSolanaVersion(
+    language,
+    solanaVersion
+  );
+  const toolchain = getToolchainFromSolanaVersion(solanaVersionWithoutPatch);
 
   // Directories.
   const templateDirectory = path.resolve(__dirname, 'template');
@@ -62,7 +69,7 @@ export function getRenderContext({
 
   return {
     ...inputs,
-    anchorVersion: anchorVersionDetected ?? '',
+    anchorVersion: resolveAnchorVersion(anchorVersionDetected),
     clientDirectory,
     clients,
     currentDirectory,
@@ -73,18 +80,49 @@ export function getRenderContext({
     programDirectory,
     solanaVersion,
     solanaVersionDetected,
+    solanaVersionWithoutPatch,
     targetDirectory,
     templateDirectory,
     toolchain,
   };
 }
 
-function getToolchainFromSolanaVersion(solanaVersion: string): string {
+function getToolchainFromSolanaVersion(
+  solanaVersionWithoutPatch: string
+): string {
   const map: Record<string, string> = {
-    '1.17': '1.68.0',
+    '1.17': '1.75.0',
     '1.18': '1.75.0',
     '2.0': '1.75.0',
   };
 
-  return map[solanaVersion] ?? '1.75.0';
+  return map[solanaVersionWithoutPatch] ?? '1.75.0';
+}
+
+function resolveSolanaVersion(
+  language: Language,
+  inputVersion: string | undefined,
+  detectedVersion: string
+): string {
+  if (!inputVersion) {
+    return detectedVersion;
+  }
+  if (!inputVersion.match(/^\d+\.\d+(\.\d+)?$/)) {
+    throw new Error(
+      language.errors.invalidSolanaVersion.replace('$version', inputVersion)
+    );
+  }
+  const versionSegments = inputVersion.split('.');
+  if (versionSegments.length === 3) {
+    return inputVersion;
+  }
+  const map: Record<string, string> = {
+    '1.17': '1.17.34',
+    '1.18': '1.18.18',
+  };
+  return map[inputVersion] ?? `${inputVersion}.0`;
+}
+
+function resolveAnchorVersion(detectedVersion: string | undefined): string {
+  return detectedVersion ?? '';
 }

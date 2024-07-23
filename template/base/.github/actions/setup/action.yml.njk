@@ -48,7 +48,7 @@ runs:
       shell: bash
       run: pnpm zx ./scripts/ci/set-env.mjs
 
-{% if solanaVersion === '2.0' %}
+{% if solanaVersionWithoutPatch === '2.0' %}
     - name: Install Protobuf Compiler (Temporary Workaround for Solana 2.0)
       if: {% raw %}${{ inputs.solana || inputs.rustfmt == 'true' || inputs.clippy == 'true' }}{% endraw %}
       shell: bash

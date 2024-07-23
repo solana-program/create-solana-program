@@ -31,7 +31,7 @@ export interface Language {
   errors: {
     anchorCliNotFound: string;
     cannotOverrideDirectory: string;
-    invalidSolanaVersion: string;
+    invalidVersion: string;
     operationCancelled: string;
     solanaCliNotFound: string;
     solanaKeygenFailed: string;

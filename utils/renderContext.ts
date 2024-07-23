@@ -1,12 +1,12 @@
 import * as path from 'node:path';
 
-import { Client, Inputs, allClients } from './getInputs';
-import { Language } from './getLanguage';
+import { Client, Inputs, allClients } from './inputs';
+import { Language } from './localization';
 import {
   PackageManager,
   getPackageManager,
   getPackageManagerCommand,
-} from './getPackageManager';
+} from './packageManager';
 import { toMinorSolanaVersion } from './solanaCli';
 
 export type RenderContext = Omit<Inputs, 'programAddress' | 'solanaVersion'> & {
@@ -109,7 +109,9 @@ function resolveSolanaVersion(
   }
   if (!inputVersion.match(/^\d+\.\d+(\.\d+)?$/)) {
     throw new Error(
-      language.errors.invalidSolanaVersion.replace('$version', inputVersion)
+      language.errors.invalidVersion
+        .replace('$version', inputVersion)
+        .replace('$tool', 'Solana')
     );
   }
   const versionSegments = inputVersion.split('.');

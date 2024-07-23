@@ -3,11 +3,11 @@
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 
-import { createOrEmptyTargetDirectory } from './utils/fsHelpers';
-import { getInputs } from './utils/getInputs';
-import { getLanguage } from './utils/getLanguage';
-import { logBanner, logDone, logStep } from './utils/getLogs';
-import { RenderContext, getRenderContext } from './utils/getRenderContext';
+import { createOrEmptyTargetDirectory } from './utils/filesystem';
+import { getInputs } from './utils/inputs';
+import { getLanguage } from './utils/localization';
+import { logBanner, logDone, logStep } from './utils/logs';
+import { RenderContext, getRenderContext } from './utils/renderContext';
 import { renderTemplate } from './utils/renderTemplates';
 import {
   detectAnchorVersion,

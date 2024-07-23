@@ -1,11 +1,11 @@
-import { Language } from './getLanguage';
-import { RenderContext } from './getRenderContext';
+import { Language } from './localization';
+import { RenderContext } from './renderContext';
 import {
   hasCommand,
   readStdout,
   spawnCommand,
   waitForCommand,
-} from './runCommands';
+} from './commands';
 
 export async function detectSolanaVersion(language: Language): Promise<string> {
   const hasSolanaCli = await hasCommand('solana');
@@ -69,7 +69,9 @@ export function toMinorSolanaVersion(
   const validVersion = version.match(/^(\d+\.\d+)/);
   if (!validVersion) {
     throw new Error(
-      language.errors.invalidSolanaVersion.replace('$version', version)
+      language.errors.invalidVersion
+        .replace('$version', version)
+        .replace('$tool', 'Solana')
     );
   }
   return validVersion[0];

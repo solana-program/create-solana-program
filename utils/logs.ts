@@ -3,7 +3,7 @@ import chalk from 'chalk';
 // @ts-ignore
 import gradient from 'gradient-string';
 
-import type { RenderContext } from './getRenderContext';
+import type { RenderContext } from './renderContext';
 
 export function logBanner() {
   console.log(`\n${getBanner()}\n`);

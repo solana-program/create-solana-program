@@ -50,10 +50,10 @@
   "errors": {
     "anchorCliNotFound": "Command `$command` unavailable. Please install the Anchor CLI.",
     "cannotOverrideDirectory": "Cannot override target directory \"$targetDirectory\". Run with option --force to override.",
-    "invalidSolanaVersion": "Invalid Solana version: $version.",
-    "operationCancelled": "Operation cancelled",
+    "invalidVersion": "Invalid $tool version: $version.",
+    "operationCancelled": "Operation cancelled.",
     "solanaCliNotFound": "Command `$command` unavailable. Please install the Solana CLI.",
-    "solanaKeygenFailed": "Failed to generate program keypair"
+    "solanaKeygenFailed": "Failed to generate program keypair."
   },
   "defaultToggleOptions": {
     "active": "Yes",

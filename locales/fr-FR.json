@@ -53,10 +53,10 @@
   "errors": {
     "anchorCliNotFound": "Commande `$command` indisponible. Veuillez installer Anchor dans votre terminal.",
     "cannotOverrideDirectory": "Impossible de remplacer le répertoire cible \"$targetDirectory\". Exécutez avec l'option --force pour remplacer.",
-    "invalidSolanaVersion": "Version Solana invalide\u00a0: $version.",
-    "operationCancelled": "Operation annulée",
+    "invalidVersion": "Version de $tool invalide\u00a0: $version.",
+    "operationCancelled": "Operation annulée.",
     "solanaCliNotFound": "Commande `$command` indisponible. Veuillez installer Solana dans votre terminal.",
-    "solanaKeygenFailed": "La génération de la paire de clés a échoué"
+    "solanaKeygenFailed": "La génération de la paire de clés a échoué."
   },
   "defaultToggleOptions": {
     "active": "Oui",

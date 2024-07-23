@@ -52,6 +52,7 @@
     "cannotOverrideDirectory": "Cannot override target directory \"$targetDirectory\". Run with option --force to override.",
     "invalidVersion": "Invalid $tool version: $version.",
     "operationCancelled": "Operation cancelled.",
+    "rustVersionIncompatibleWithSolana": "Solana version $solanaVersion requires at least Rust $minimumRustVersion installed, found Rust $rustVersion.",
     "solanaCliNotFound": "Command `$command` unavailable. Please install the Solana CLI.",
     "solanaKeygenFailed": "Failed to generate program keypair."
   },

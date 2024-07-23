@@ -55,6 +55,7 @@
     "cannotOverrideDirectory": "Impossible de remplacer le répertoire cible \"$targetDirectory\". Exécutez avec l'option --force pour remplacer.",
     "invalidVersion": "Version de $tool invalide\u00a0: $version.",
     "operationCancelled": "Operation annulée.",
+    "rustVersionIncompatibleWithSolana": "La version de Solana $solanaVersion nécessite au moins Rust $minimumRustVersion installé, Rust $rustVersion trouvé.",
     "solanaCliNotFound": "Commande `$command` indisponible. Veuillez installer Solana dans votre terminal.",
     "solanaKeygenFailed": "La génération de la paire de clés a échoué."
   },

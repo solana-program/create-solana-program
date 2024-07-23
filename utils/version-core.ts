@@ -30,6 +30,10 @@ export function assertIsValidVersion(
   }
 }
 
+export function compareVersions(a: Version, b: Version): number {
+  return a.localeCompare(b, undefined, { numeric: true });
+}
+
 export function getVersionWithoutPatch(
   version: Version | VersionWithoutPatch
 ): VersionWithoutPatch {

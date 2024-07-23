@@ -33,6 +33,7 @@ export interface Language {
     cannotOverrideDirectory: string;
     invalidVersion: string;
     operationCancelled: string;
+    rustVersionIncompatibleWithSolana: string;
     solanaCliNotFound: string;
     solanaKeygenFailed: string;
   };

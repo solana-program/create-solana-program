@@ -46,6 +46,7 @@ export interface Language {
   };
   infos: {
     detectAnchorVersion: string;
+    detectRustVersion: string;
     detectSolanaVersion: string;
     generateKeypair: string;
     scaffold: string;

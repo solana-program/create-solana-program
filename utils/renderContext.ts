@@ -7,10 +7,16 @@ import {
   getPackageManager,
   getPackageManagerCommand,
 } from './packageManager';
-import { toMinorSolanaVersion } from './solanaCli';
+import { ResolvedVersion, Version } from './version-core';
+import { resolveRustVersion } from './version-rust';
+import { resolveAnchorVersion } from './version-anchor';
+import { resolveSolanaVersion } from './version-solana';
 
-export type RenderContext = Omit<Inputs, 'programAddress' | 'solanaVersion'> & {
-  anchorVersion: string;
+export type RenderContext = Omit<
+  Inputs,
+  'programAddress' | 'rustVersion' | 'solanaVersion'
+> & {
+  anchorVersion?: ResolvedVersion;
   clientDirectory: string;
   clients: Client[];
   currentDirectory: string;
@@ -19,9 +25,8 @@ export type RenderContext = Omit<Inputs, 'programAddress' | 'solanaVersion'> & {
   programAddress: string;
   programDirectory: string;
   packageManager: PackageManager;
-  solanaVersion: string;
-  solanaVersionDetected: string;
-  solanaVersionWithoutPatch: string;
+  rustVersion: ResolvedVersion;
+  solanaVersion: ResolvedVersion;
   targetDirectory: string;
   templateDirectory: string;
   toolchain: string;
@@ -32,13 +37,15 @@ export function getRenderContext({
   language,
   programAddress,
   solanaVersionDetected,
+  rustVersionDetected,
   anchorVersionDetected,
 }: {
   inputs: Inputs;
   language: Language;
   programAddress: string;
-  solanaVersionDetected: string;
-  anchorVersionDetected?: string;
+  solanaVersionDetected: Version;
+  rustVersionDetected?: Version;
+  anchorVersionDetected?: Version;
 }): RenderContext {
   const packageManager = getPackageManager();
   const clients = allClients.flatMap((client) =>
@@ -46,16 +53,20 @@ export function getRenderContext({
   );
   const getNpmCommand: RenderContext['getNpmCommand'] = (...args) =>
     getPackageManagerCommand(packageManager, ...args);
+
+  // Versions.
+  const anchorVersion = resolveAnchorVersion(anchorVersionDetected);
   const solanaVersion = resolveSolanaVersion(
     language,
     inputs.solanaVersion,
     solanaVersionDetected
   );
-  const solanaVersionWithoutPatch = toMinorSolanaVersion(
+  const rustVersion = resolveRustVersion(
     language,
-    solanaVersion
+    solanaVersion,
+    inputs.rustVersion,
+    rustVersionDetected
   );
-  const toolchain = getToolchainFromSolanaVersion(solanaVersionWithoutPatch);
 
   // Directories.
   const templateDirectory = path.resolve(__dirname, 'template');
@@ -69,7 +80,7 @@ export function getRenderContext({
 
   return {
     ...inputs,
-    anchorVersion: resolveAnchorVersion(anchorVersionDetected),
+    anchorVersion,
     clientDirectory,
     clients,
     currentDirectory,
@@ -78,53 +89,10 @@ export function getRenderContext({
     packageManager,
     programAddress,
     programDirectory,
+    rustVersion,
     solanaVersion,
-    solanaVersionDetected,
-    solanaVersionWithoutPatch,
     targetDirectory,
     templateDirectory,
-    toolchain,
+    toolchain: rustVersion.full,
   };
-}
-
-function getToolchainFromSolanaVersion(
-  solanaVersionWithoutPatch: string
-): string {
-  const map: Record<string, string> = {
-    '1.17': '1.75.0',
-    '1.18': '1.75.0',
-    '2.0': '1.75.0',
-  };
-
-  return map[solanaVersionWithoutPatch] ?? '1.75.0';
-}
-
-function resolveSolanaVersion(
-  language: Language,
-  inputVersion: string | undefined,
-  detectedVersion: string
-): string {
-  if (!inputVersion) {
-    return detectedVersion;
-  }
-  if (!inputVersion.match(/^\d+\.\d+(\.\d+)?$/)) {
-    throw new Error(
-      language.errors.invalidVersion
-        .replace('$version', inputVersion)
-        .replace('$tool', 'Solana')
-    );
-  }
-  const versionSegments = inputVersion.split('.');
-  if (versionSegments.length === 3) {
-    return inputVersion;
-  }
-  const map: Record<string, string> = {
-    '1.17': '1.17.34',
-    '1.18': '1.18.18',
-  };
-  return map[inputVersion] ?? `${inputVersion}.0`;
-}
-
-function resolveAnchorVersion(detectedVersion: string | undefined): string {
-  return detectedVersion ?? '';
 }

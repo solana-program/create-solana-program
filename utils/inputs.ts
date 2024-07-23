@@ -5,7 +5,6 @@ import prompts from 'prompts';
 
 import { Language } from './localization';
 import { kebabCase } from './strings';
-import { toMinorSolanaVersion } from './solanaCli';
 
 export const allClients = ['js', 'rust'] as const;
 export type Client = (typeof allClients)[number];
@@ -28,7 +27,7 @@ export type Inputs = {
 };
 
 export async function getInputs(language: Language): Promise<Inputs> {
-  const argInputs = getInputsFromArgs(language);
+  const argInputs = getInputsFromArgs();
   const defaultInputs = getDefaultInputs(argInputs);
 
   if (argInputs.useDefaults) {
@@ -213,7 +212,7 @@ async function getInputsFromPrompts(
   }
 }
 
-function getInputsFromArgs(language: Language): Partial<Inputs> {
+function getInputsFromArgs(): Partial<Inputs> {
   type ArgInputs = {
     address?: string;
     anchorProgram: boolean;
@@ -238,11 +237,7 @@ function getInputsFromArgs(language: Language): Partial<Inputs> {
     if (argInputs.programName)
       inputs.programName = kebabCase(argInputs.programName);
     if (argInputs.rustVersion) inputs.rustVersion = argInputs.rustVersion;
-    if (argInputs.solanaVersion)
-      inputs.solanaVersion = toMinorSolanaVersion(
-        language,
-        argInputs.solanaVersion
-      );
+    if (argInputs.solanaVersion) inputs.solanaVersion = argInputs.solanaVersion;
     if (argInputs.targetDirectoryName)
       inputs.targetDirectoryName = argInputs.targetDirectoryName;
     if (argInputs.force) inputs.shouldOverride = true;

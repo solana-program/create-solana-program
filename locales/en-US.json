@@ -65,6 +65,7 @@
   },
   "infos": {
     "detectAnchorVersion": "Detect Anchor version",
+    "detectRustVersion": "Detect Rust version",
     "detectSolanaVersion": "Detect Solana version",
     "generateKeypair": "Generate program keypair",
     "scaffold": "Scaffold project in $targetDirectory",

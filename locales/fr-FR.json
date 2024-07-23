@@ -67,8 +67,9 @@
     "multiselect": "[↑/↓]: Sélectionner / [espace]: Basculer la sélection / [a]: Basculer tout / [entrée]: Valider"
   },
   "infos": {
-    "detectAnchorVersion": "Détect la version d'Anchor",
-    "detectSolanaVersion": "Détect la version de Solana",
+    "detectAnchorVersion": "Détecte la version d'Anchor",
+    "detectRustVersion": "Détecte la version de Rust",
+    "detectSolanaVersion": "Détecte la version de Solana",
     "generateKeypair": "Génére la paire de clés du program",
     "scaffold": "Génére le projet dans $targetDirectory",
     "done": "Terminé. Exécutez maintenant\u00a0:"

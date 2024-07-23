@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.6
+
+### Patch Changes
+
+- [#69](https://github.com/solana-program/create-solana-program/pull/69) [`93f24f2`](https://github.com/solana-program/create-solana-program/commit/93f24f2165065450a7d486cbf9578fcc790fa2d9) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Install Solana in CI for Anchor IDL checks
+
 ## 0.3.5
 
 ### Patch Changes

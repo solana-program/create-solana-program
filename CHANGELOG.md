@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.5
+
+### Patch Changes
+
+- [#67](https://github.com/solana-program/create-solana-program/pull/67) [`8c09a9b`](https://github.com/solana-program/create-solana-program/commit/8c09a9bd521a4758865489a6a53c9f916c2764a7) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Fix workspace Cargo.toml and generated CI
+
 ## 0.3.4
 
 ### Patch Changes

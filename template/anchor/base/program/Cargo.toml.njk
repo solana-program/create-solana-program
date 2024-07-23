@@ -20,5 +20,5 @@ cpi = ["no-entrypoint"]
 idl-build = ["anchor-lang/idl-build"]
 
 [dependencies]
-anchor-lang = "{{ anchorVersion }}"
-solana-program = "~{{ solanaVersionWithoutPatch }}"
+anchor-lang = "{{ anchorVersion.full }}"
+solana-program = "~{{ solanaVersion.withoutPatch }}"

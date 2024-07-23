@@ -1,8 +1,8 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-import { Language } from './getLanguage';
-import { logErrorAndExit } from './getLogs';
+import { Language } from './localization';
+import { logErrorAndExit } from './logs';
 
 export function createOrEmptyTargetDirectory(
   language: Language,

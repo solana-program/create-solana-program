@@ -1,20 +1,19 @@
 #!/usr/bin/env node
 
-import * as path from 'node:path';
 import * as fs from 'node:fs';
+import * as path from 'node:path';
 
-import { createOrEmptyTargetDirectory } from './utils/fsHelpers';
-import { getInputs } from './utils/getInputs';
-import { getLanguage } from './utils/getLanguage';
-import { logBanner, logDone, logStep } from './utils/getLogs';
-import { RenderContext, getRenderContext } from './utils/getRenderContext';
+import { createOrEmptyTargetDirectory } from './utils/filesystem';
+import { getInputs } from './utils/inputs';
+import { getLanguage } from './utils/localization';
+import { logBanner, logDone, logStep } from './utils/logs';
+import { RenderContext, getRenderContext } from './utils/renderContext';
 import { renderTemplate } from './utils/renderTemplates';
-import {
-  detectAnchorVersion,
-  detectSolanaVersion,
-  generateKeypair,
-  patchSolanaDependencies,
-} from './utils/solanaCli';
+import { generateKeypair, patchSolanaDependencies } from './utils/solanaCli';
+import { detectAnchorVersion } from './utils/version-anchor';
+import { detectRustVersion } from './utils/version-rust';
+import { detectSolanaVersion } from './utils/version-solana';
+import { Version } from './utils/version-core';
 
 (async function init() {
   logBanner();
@@ -36,8 +35,14 @@ import {
     () => detectSolanaVersion(language)
   );
 
+  // Detect the Rust version.
+  const rustVersionDetected = await logStep(
+    language.infos.detectRustVersion,
+    () => detectRustVersion()
+  );
+
   // Detect the Anchor version.
-  let anchorVersionDetected: string | undefined;
+  let anchorVersionDetected: Version | undefined;
   if (inputs.programFramework === 'anchor') {
     anchorVersionDetected = await logStep(
       language.infos.detectAnchorVersion,
@@ -64,6 +69,7 @@ import {
     inputs,
     programAddress,
     solanaVersionDetected,
+    rustVersionDetected,
     anchorVersionDetected,
   });
 

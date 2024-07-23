@@ -31,8 +31,9 @@ export interface Language {
   errors: {
     anchorCliNotFound: string;
     cannotOverrideDirectory: string;
-    invalidSolanaVersion: string;
+    invalidVersion: string;
     operationCancelled: string;
+    rustVersionIncompatibleWithSolana: string;
     solanaCliNotFound: string;
     solanaKeygenFailed: string;
   };
@@ -46,6 +47,7 @@ export interface Language {
   };
   infos: {
     detectAnchorVersion: string;
+    detectRustVersion: string;
     detectSolanaVersion: string;
     generateKeypair: string;
     scaffold: string;

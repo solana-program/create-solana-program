@@ -1,56 +1,21 @@
-import { Language } from './getLanguage';
-import { RenderContext } from './getRenderContext';
+import { Language } from './localization';
+import { RenderContext } from './renderContext';
 import {
   hasCommand,
   readStdout,
   spawnCommand,
   waitForCommand,
-} from './runCommands';
-
-export async function detectSolanaVersion(language: Language): Promise<string> {
-  const hasSolanaCli = await hasCommand('solana');
-  if (!hasSolanaCli) {
-    throw new Error(
-      language.errors.solanaCliNotFound.replace('$command', 'solana')
-    );
-  }
-
-  const child = spawnCommand('solana', ['--version']);
-  const [stdout] = await Promise.all([
-    readStdout(child),
-    waitForCommand(child),
-  ]);
-
-  const version = stdout.join('').match(/(\d+\.\d+\.\d+)/)?.[1];
-  return version!;
-}
-
-export async function detectAnchorVersion(language: Language): Promise<string> {
-  const hasAnchorCli = await hasCommand('anchor');
-  if (!hasAnchorCli) {
-    throw new Error(
-      language.errors.solanaCliNotFound.replace('$command', 'anchor')
-    );
-  }
-
-  const child = spawnCommand('anchor', ['--version']);
-  const [stdout] = await Promise.all([
-    readStdout(child),
-    waitForCommand(child),
-  ]);
-
-  const version = stdout.join('').match(/(\d+\.\d+\.\d+)/)?.[1];
-  return version!;
-}
+} from './commands';
+import { VersionWithoutPatch } from './version-core';
 
 export async function patchSolanaDependencies(
-  ctx: Pick<RenderContext, 'solanaVersionWithoutPatch' | 'targetDirectory'>
+  ctx: Pick<RenderContext, 'solanaVersion' | 'targetDirectory'>
 ): Promise<void> {
-  const patchMap: Record<string, string[]> = {
+  const patchMap: Record<VersionWithoutPatch, string[]> = {
     '1.17': ['-p ahash@0.8.11 --precise 0.8.6'],
   };
 
-  const patches = patchMap[ctx.solanaVersionWithoutPatch] ?? [];
+  const patches = patchMap[ctx.solanaVersion.withoutPatch] ?? [];
   await Promise.all(
     patches.map(async (patch) =>
       waitForCommand(
@@ -60,19 +25,6 @@ export async function patchSolanaDependencies(
       )
     )
   );
-}
-
-export function toMinorSolanaVersion(
-  language: Language,
-  version: string
-): string {
-  const validVersion = version.match(/^(\d+\.\d+)/);
-  if (!validVersion) {
-    throw new Error(
-      language.errors.invalidSolanaVersion.replace('$version', version)
-    );
-  }
-  return validVersion[0];
 }
 
 export async function generateKeypair(

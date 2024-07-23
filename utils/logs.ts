@@ -3,7 +3,7 @@ import chalk from 'chalk';
 // @ts-ignore
 import gradient from 'gradient-string';
 
-import type { RenderContext } from './getRenderContext';
+import type { RenderContext } from './renderContext';
 
 export function logBanner() {
   console.log(`\n${getBanner()}\n`);
@@ -11,6 +11,10 @@ export function logBanner() {
 
 export function logSuccess(message: string) {
   console.log(chalk.green('✔︎') + ` ${message}`);
+}
+
+export function logWarning(message: string) {
+  console.log(chalk.yellow(`► ${message}`));
 }
 
 export function logError(message: string) {

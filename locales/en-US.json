@@ -50,10 +50,11 @@
   "errors": {
     "anchorCliNotFound": "Command `$command` unavailable. Please install the Anchor CLI.",
     "cannotOverrideDirectory": "Cannot override target directory \"$targetDirectory\". Run with option --force to override.",
-    "invalidSolanaVersion": "Invalid Solana version: $version.",
-    "operationCancelled": "Operation cancelled",
+    "invalidVersion": "Invalid $tool version: $version.",
+    "operationCancelled": "Operation cancelled.",
+    "rustVersionIncompatibleWithSolana": "Solana version $solanaVersion requires at least Rust $minimumRustVersion installed, found Rust $rustVersion.",
     "solanaCliNotFound": "Command `$command` unavailable. Please install the Solana CLI.",
-    "solanaKeygenFailed": "Failed to generate program keypair"
+    "solanaKeygenFailed": "Failed to generate program keypair."
   },
   "defaultToggleOptions": {
     "active": "Yes",
@@ -65,6 +66,7 @@
   },
   "infos": {
     "detectAnchorVersion": "Detect Anchor version",
+    "detectRustVersion": "Detect Rust version",
     "detectSolanaVersion": "Detect Solana version",
     "generateKeypair": "Generate program keypair",
     "scaffold": "Scaffold project in $targetDirectory",

@@ -8,9 +8,9 @@ on:
 
 env:
   NODE_VERSION: 18
-  SOLANA_VERSION: {{ solanaVersion }}
+  SOLANA_VERSION: {{ solanaVersion.full }}
 {% if programFramework === 'anchor' %}
-  ANCHOR_VERSION: {{ anchorVersion }}
+  ANCHOR_VERSION: {{ anchorVersion.full }}
 {% endif %}
 
 jobs:

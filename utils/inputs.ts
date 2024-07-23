@@ -3,9 +3,8 @@ import * as fs from 'node:fs';
 import { parseArgs } from 'node:util';
 import prompts from 'prompts';
 
-import { Language } from './getLanguage';
-import { kebabCase } from './stringHelpers';
-import { toMinorSolanaVersion } from './solanaCli';
+import { Language } from './localization';
+import { kebabCase } from './strings';
 
 export const allClients = ['js', 'rust'] as const;
 export type Client = (typeof allClients)[number];
@@ -20,6 +19,7 @@ export type Inputs = {
   programName: string;
   rustClient: boolean;
   rustClientCrateName: string;
+  rustVersion?: string;
   shouldOverride: boolean;
   solanaVersion?: string;
   targetDirectoryName: string;
@@ -27,7 +27,7 @@ export type Inputs = {
 };
 
 export async function getInputs(language: Language): Promise<Inputs> {
-  const argInputs = getInputsFromArgs(language);
+  const argInputs = getInputsFromArgs();
   const defaultInputs = getDefaultInputs(argInputs);
 
   if (argInputs.useDefaults) {
@@ -212,7 +212,7 @@ async function getInputsFromPrompts(
   }
 }
 
-function getInputsFromArgs(language: Language): Partial<Inputs> {
+function getInputsFromArgs(): Partial<Inputs> {
   type ArgInputs = {
     address?: string;
     anchorProgram: boolean;
@@ -221,6 +221,7 @@ function getInputsFromArgs(language: Language): Partial<Inputs> {
     noClients: boolean;
     organizationName?: string;
     programName?: string;
+    rustVersion?: string;
     shankProgram: boolean;
     solanaVersion?: string;
     useDefaults: boolean;
@@ -235,11 +236,8 @@ function getInputsFromArgs(language: Language): Partial<Inputs> {
       inputs.organizationName = kebabCase(argInputs.organizationName);
     if (argInputs.programName)
       inputs.programName = kebabCase(argInputs.programName);
-    if (argInputs.solanaVersion)
-      inputs.solanaVersion = toMinorSolanaVersion(
-        language,
-        argInputs.solanaVersion
-      );
+    if (argInputs.rustVersion) inputs.rustVersion = argInputs.rustVersion;
+    if (argInputs.solanaVersion) inputs.solanaVersion = argInputs.solanaVersion;
     if (argInputs.targetDirectoryName)
       inputs.targetDirectoryName = argInputs.targetDirectoryName;
     if (argInputs.force) inputs.shouldOverride = true;
@@ -273,6 +271,7 @@ function getInputsFromArgs(language: Language): Partial<Inputs> {
       force: { type: 'boolean' },
       'no-clients': { type: 'boolean' },
       org: { type: 'string' },
+      rust: { type: 'string' },
       shank: { type: 'boolean' },
       solana: { type: 'string' },
     },
@@ -287,6 +286,7 @@ function getInputsFromArgs(language: Language): Partial<Inputs> {
     noClients: options['no-clients'] ?? false,
     organizationName: options.org,
     programName: positionals[1],
+    rustVersion: options.rust,
     shankProgram: options.shank ?? false,
     solanaVersion: options.solana,
     useDefaults: options.default ?? false,

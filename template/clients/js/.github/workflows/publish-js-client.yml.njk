@@ -71,8 +71,8 @@ jobs:
 
       - name: Ensure NPM_TOKEN variable is set
         env:
-          token: ${{ secrets.NPM_TOKEN }}
-        if: ${{ env.token == '' }}
+          token: {% raw %}${{ secrets.NPM_TOKEN }}{% endraw %}
+        if: {% raw %}${{ env.token == '' }}{% endraw %}
         run: |
           echo "The NPM_TOKEN secret variable is not set"
           echo "Go to \"Settings\" -> \"Secrets and variables\" -> \"Actions\" -> \"New repository secret\"."
@@ -81,7 +81,7 @@ jobs:
       - name: NPM Authentication
         run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: {% raw %}${{ secrets.NPM_TOKEN }}{% endraw %}
 
       - name: Set Git Author
         run: |
@@ -90,7 +90,7 @@ jobs:
 
       - name: Publish JS Client
         id: publish
-        run: pnpm clients:js:publish ${{ inputs.level }} ${{ inputs.tag }}
+        run: pnpm clients:js:publish {% raw %}${{ inputs.level }} ${{ inputs.tag }}{% endraw %}
 
       - name: Push Commit and Tag
         run: git push origin --follow-tags
@@ -99,4 +99,4 @@ jobs:
         if: github.event.inputs.create_release == 'true'
         uses: ncipollo/release-action@v1
         with:
-          tag: js@v${{ steps.publish.outputs.new_version }}
+          tag: {% raw %}js@v${{ steps.publish.outputs.new_version }}{% endraw %}

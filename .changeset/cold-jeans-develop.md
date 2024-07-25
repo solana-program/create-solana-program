@@ -2,4 +2,4 @@
 "create-solana-program": patch
 ---
 
-Add script and CI for publishing Rust clients
+Add script and CI workflow for publishing Rust clients

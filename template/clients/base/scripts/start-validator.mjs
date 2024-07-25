@@ -10,6 +10,9 @@ import {
   getProgramFolders,
 } from './utils.mjs';
 
+// Check Solana version.
+await $`pnpm solana:check`;
+
 // Options and arguments.
 const restart = argv['restart'];
 

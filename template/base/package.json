@@ -6,7 +6,9 @@
     "programs:clean": "zx ./scripts/program/clean.mjs",
     "programs:format": "zx ./scripts/program/format.mjs",
     "programs:lint": "zx ./scripts/program/lint.mjs",
-    "generate:idls": "zx ./scripts/generate-idls.mjs"
+    "generate:idls": "zx ./scripts/generate-idls.mjs",
+    "solana:check": "zx ./scripts/check-solana-version.mjs",
+    "solana:link": "zx ./scripts/link-solana-version.mjs"
   },
   "devDependencies": {
     "@iarna/toml": "^2.2.5",

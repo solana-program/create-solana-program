@@ -1,0 +1,13 @@
+#!/usr/bin/env zx
+{% if programFramework === 'anchor' %}
+import { getCargoMetadata, getSolanaVersion, getToolchain } from '../utils.mjs';
+{% else %}
+import { getSolanaVersion, getToolchain } from '../utils.mjs';
+{% endif %}
+
+{% if programFramework === 'anchor' %}
+await $`echo "ANCHOR_VERSION=${getCargoMetadata()?.cli?.anchor}" >> $GITHUB_ENV`;
+{% endif %}
+await $`echo "SOLANA_VERSION=${getSolanaVersion()}" >> $GITHUB_ENV`;
+await $`echo "TOOLCHAIN_FORMAT=${getToolchain('format')}" >> $GITHUB_ENV`;
+await $`echo "TOOLCHAIN_LINT=${getToolchain('lint')}" >> $GITHUB_ENV`;

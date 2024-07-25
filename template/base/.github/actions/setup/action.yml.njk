@@ -3,7 +3,7 @@ name: Setup environment
 inputs:
 {% if programFramework === 'anchor' %}
   anchor:
-    description: The Anchor version to install. Skips if not provided.
+    description: Install Anchor if `true`. Defaults to `false`.
     required: false
 {% endif %}
   cargo-cache-key:
@@ -18,14 +18,11 @@ inputs:
   clippy:
     description: Install Clippy if `true`. Defaults to `false`.
     required: false
-  node:
-    description: The Node.js version to install. Required.
-    required: true
   rustfmt:
     description: Install Rustfmt if `true`. Defaults to `false`.
     required: false
   solana:
-    description: The Solana version to install. Skips if not provided.
+    description: Install Solana if `true`. Defaults to `false`.
     required: false
 
 runs:
@@ -37,7 +34,7 @@ runs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: {% raw %}${{ inputs.node }}{% endraw %}
+        node-version: 18
         cache: 'pnpm'
 
     - name: Install Dependencies
@@ -50,13 +47,13 @@ runs:
 
 {% if solanaVersion.withoutPatch === '2.0' %}
     - name: Install Protobuf Compiler (Temporary Workaround for Solana 2.0)
-      if: {% raw %}${{ inputs.solana || inputs.rustfmt == 'true' || inputs.clippy == 'true' }}{% endraw %}
+      if: {% raw %}${{ inputs.solana == 'true' || inputs.rustfmt == 'true' || inputs.clippy == 'true' }}{% endraw %}
       shell: bash
       run: |
         sudo apt-get update
         sudo apt-get install -y protobuf-compiler
-{% endif %}
 
+{% endif %}
     - name: Install Rustfmt
       if: {% raw %}${{ inputs.rustfmt == 'true' }}{% endraw %}
       uses: dtolnay/rust-toolchain@master
@@ -72,21 +69,21 @@ runs:
         components: clippy
 
     - name: Install Solana
-      if: {% raw %}${{ inputs.solana }}{% endraw %}
+      if: {% raw %}${{ inputs.solana == 'true' }}{% endraw %}
       uses: metaplex-foundation/actions/install-solana@v1
       with:
-        version: {% raw %}${{ inputs.solana }}{% endraw %}
+        version: {% raw %}${{ env.SOLANA_VERSION }}{% endraw %}
         cache: true
 
 {% if programFramework === 'anchor' %}
     - name: Install Anchor
-      if: {% raw %}${{ inputs.anchor != '' }}{% endraw %}
+      if: {% raw %}${{ inputs.anchor == 'true' }}{% endraw %}
       uses: metaplex-foundation/actions/install-anchor-cli@v1
       with:
-        version: {% raw %}${{ inputs.anchor }}{% endraw %}
+        version: {% raw %}${{ env.ANCHOR_VERSION }}{% endraw %}
         cache: true
-{% endif %}
 
+{% endif %}
     - name: Cache Cargo Dependencies
       if: {% raw %}${{ inputs.cargo-cache-key && !inputs.cargo-cache-fallback-key }}{% endraw %}
       uses: actions/cache@v4

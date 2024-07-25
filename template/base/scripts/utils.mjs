@@ -84,6 +84,10 @@ export function getCargoMetadata(folder) {
   return folder ? cargo?.package?.metadata : cargo?.workspace?.metadata;
 }
 
+export function getSolanaVersion() {
+  return getCargoMetadata()?.cli?.solana;
+}
+
 export function getToolchain(operation) {
   return getCargoMetadata()?.toolchains?.[operation];
 }
@@ -110,4 +114,17 @@ export function partitionArguments(args, delimiter) {
   return index >= 0
     ? [args.slice(0, index), args.slice(index + 1)]
     : [args, []];
+}
+
+export async function getInstalledSolanaVersion() {
+  try {
+    const { stdout } = await $`solana --version`.quiet();
+    return stdout.match(/(\d+\.\d+\.\d+)/)?.[1];
+  } catch (error) {
+    echo(
+      chalk.red('[ ERROR ]'),
+      `No Solana installation found. Please install Solana ${getSolanaVersion()} before proceeding.`
+    );
+    process.exit(1);
+  }
 }

@@ -11,6 +11,12 @@ members = ["program"]
 overflow-checks = true
 {% endif %}
 
+[workspace.metadata.cli]
+{% if programFramework === 'anchor' %}
+anchor = "{{ anchorVersion.full }}"
+{% endif %}
+solana = "{{ solanaVersion.full }}"
+
 # Specify Rust toolchains for rustfmt, clippy, and build.
 # Any unprovided toolchains default to stable.
 [workspace.metadata.toolchains]

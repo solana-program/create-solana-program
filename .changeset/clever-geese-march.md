@@ -2,4 +2,4 @@
 "create-solana-program": patch
 ---
 
-Add script and CI for publishing JS clients
+Add script and CI workflow for publishing JS clients

@@ -2,6 +2,7 @@
   "scripts": {
     "clients:rust:format": "zx ./scripts/client/format-rust.mjs",
     "clients:rust:lint": "zx ./scripts/client/lint-rust.mjs",
+    "clients:rust:publish": "zx ./scripts/client/publish-rust.mjs",
     "clients:rust:test": "zx ./scripts/client/test-rust.mjs"
   },
   "devDependencies": {

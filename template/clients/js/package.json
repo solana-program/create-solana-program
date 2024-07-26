@@ -6,6 +6,6 @@
     "clients:js:test": "zx ./scripts/client/test-js.mjs"
   },
   "devDependencies": {
-    "@kinobi-so/renderers-js": "^0.21.0"
+    "@kinobi-so/renderers-js": "^0.21.2"
   }
 }

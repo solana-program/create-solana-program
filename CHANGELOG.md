@@ -1,5 +1,17 @@
 # create-solana-program
 
+## 0.3.8
+
+### Patch Changes
+
+- [#76](https://github.com/solana-program/create-solana-program/pull/76) [`9039243`](https://github.com/solana-program/create-solana-program/commit/903924365df769cc8b34357b749c15f8089541fa) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add script and CI workflow for publishing JS clients
+
+- [#77](https://github.com/solana-program/create-solana-program/pull/77) [`0544bde`](https://github.com/solana-program/create-solana-program/commit/0544bdea0e706a49808798ef7f128927590e0f41) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add script and CI workflow for publishing Rust clients
+
+- [#75](https://github.com/solana-program/create-solana-program/pull/75) [`4adf466`](https://github.com/solana-program/create-solana-program/commit/4adf4662648f7a8c765980ab974c30ec4e493a21) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add CLI versions to workspace Cargo.toml and Solana check scripts
+
+- [#73](https://github.com/solana-program/create-solana-program/pull/73) [`2e17eb9`](https://github.com/solana-program/create-solana-program/commit/2e17eb9f5f0443faad2c1dbdee6293619b7055d6) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add description and repository to Rust client Cargo.toml
+
 ## 0.3.7
 
 ### Patch Changes

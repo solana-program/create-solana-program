@@ -10,10 +10,10 @@ import { logBanner, logDone, logStep } from './utils/logs';
 import { RenderContext, getRenderContext } from './utils/renderContext';
 import { renderTemplate } from './utils/renderTemplates';
 import { generateKeypair, patchSolanaDependencies } from './utils/solanaCli';
-import { detectAnchorVersion } from './utils/version-anchor';
-import { detectRustVersion } from './utils/version-rust';
-import { detectSolanaVersion } from './utils/version-solana';
-import { Version } from './utils/version-core';
+import { detectAnchorVersion } from './utils/versionAnchor';
+import { detectRustVersion } from './utils/versionRust';
+import { detectSolanaVersion } from './utils/versionSolana';
+import { Version } from './utils/versionCore';
 
 (async function init() {
   logBanner();

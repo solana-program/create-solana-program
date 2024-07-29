@@ -9,8 +9,8 @@ members = ["program"]
 {% if programFramework === 'anchor' %}
 [profile.release]
 overflow-checks = true
-{% endif %}
 
+{% endif %}
 [workspace.metadata.cli]
 {% if programFramework === 'anchor' %}
 anchor = "{{ anchorVersion.full }}"

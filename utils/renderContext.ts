@@ -7,10 +7,10 @@ import {
   getPackageManager,
   getPackageManagerCommand,
 } from './packageManager';
-import { ResolvedVersion, Version } from './version-core';
-import { resolveRustVersion } from './version-rust';
-import { resolveAnchorVersion } from './version-anchor';
-import { resolveSolanaVersion } from './version-solana';
+import { ResolvedVersion, Version } from './versionCore';
+import { resolveRustVersion } from './versionRust';
+import { resolveAnchorVersion } from './versionAnchor';
+import { resolveSolanaVersion } from './versionSolana';
 
 export type RenderContext = Omit<
   Inputs,

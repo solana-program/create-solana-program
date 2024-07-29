@@ -9,7 +9,7 @@ import {
   ResolvedVersion,
   Version,
   VersionWithoutPatch,
-} from './version-core';
+} from './versionCore';
 
 export async function detectRustVersion(): Promise<Version | undefined> {
   const hasRustc = await hasCommand('rustc');

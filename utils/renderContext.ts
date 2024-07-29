@@ -1,6 +1,6 @@
 import * as path from 'node:path';
 
-import { Client, Inputs, allClients } from './inputs';
+import { Client, Inputs, allClients } from './inputCore';
 import { Language } from './localization';
 import {
   PackageManager,

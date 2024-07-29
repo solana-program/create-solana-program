@@ -4,7 +4,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 import { createOrEmptyTargetDirectory } from './utils/filesystem';
-import { getInputs } from './utils/inputs';
+import { getInputs } from './utils/inputAll';
 import { getLanguage } from './utils/localization';
 import { logBanner, logDone, logStep } from './utils/logs';
 import { RenderContext, getRenderContext } from './utils/renderContext';

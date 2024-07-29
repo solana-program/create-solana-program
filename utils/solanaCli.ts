@@ -6,7 +6,7 @@ import {
   spawnCommand,
   waitForCommand,
 } from './commands';
-import { VersionWithoutPatch } from './version-core';
+import { VersionWithoutPatch } from './versionCore';
 
 export async function patchSolanaDependencies(
   ctx: Pick<RenderContext, 'solanaVersion' | 'targetDirectory'>

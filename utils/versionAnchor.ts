@@ -5,7 +5,7 @@ import {
   getVersionFromStdout,
   ResolvedVersion,
   Version,
-} from './version-core';
+} from './versionCore';
 
 export async function detectAnchorVersion(
   language: Language

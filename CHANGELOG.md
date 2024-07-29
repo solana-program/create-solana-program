@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.10
+
+### Patch Changes
+
+- [`d3c55ba`](https://github.com/solana-program/create-solana-program/commit/d3c55ba445a28ecd04551a95887242d032048314) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Fix typo in main workflow
+
 ## 0.3.9
 
 ### Patch Changes

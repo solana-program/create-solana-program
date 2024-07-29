@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.9
+
+### Patch Changes
+
+- [#78](https://github.com/solana-program/create-solana-program/pull/78) [`f360459`](https://github.com/solana-program/create-solana-program/commit/f360459b0bc274e859a2b80d7577e0c104a2b045) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add library names to CLI options
+
 ## 0.3.8
 
 ### Patch Changes

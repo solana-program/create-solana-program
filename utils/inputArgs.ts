@@ -8,9 +8,12 @@ type ArgInputs = {
   anchorProgram: boolean;
   clients: Array<'js' | 'rust'>;
   force: boolean;
+  jsClientPackageName?: string;
   noClients: boolean;
   organizationName?: string;
+  programCrateName?: string;
   programName?: string;
+  rustClientCrateName?: string;
   rustVersion?: string;
   shankProgram: boolean;
   solanaVersion?: string;
@@ -28,9 +31,12 @@ export function getInputsFromArgs(): Partial<Inputs> {
       client: { type: 'string', multiple: true },
       default: { type: 'boolean', short: 'd' },
       force: { type: 'boolean' },
+      jsClientPackageName: { type: 'string' },
       'no-clients': { type: 'boolean' },
       org: { type: 'string' },
+      programCrateName: { type: 'string' },
       rust: { type: 'string' },
+      rustClientCrateName: { type: 'string' },
       shank: { type: 'boolean' },
       solana: { type: 'string' },
     },
@@ -42,9 +48,12 @@ export function getInputsFromArgs(): Partial<Inputs> {
     anchorProgram: options.anchor ?? false,
     clients: options.client,
     force: options.force ?? false,
+    jsClientPackageName: options.jsClientPackageName,
     noClients: options['no-clients'] ?? false,
     organizationName: options.org,
+    programCrateName: options.programCrateName,
     programName: positionals[1],
+    rustClientCrateName: options.rustClientCrateName,
     rustVersion: options.rust,
     shankProgram: options.shank ?? false,
     solanaVersion: options.solana,
@@ -65,6 +74,12 @@ function parseArgInputs(argInputs: ArgInputs): Partial<Inputs> {
   if (argInputs.solanaVersion) inputs.solanaVersion = argInputs.solanaVersion;
   if (argInputs.targetDirectoryName)
     inputs.targetDirectoryName = argInputs.targetDirectoryName;
+  if (argInputs.jsClientPackageName)
+    inputs.jsClientPackageName = argInputs.jsClientPackageName;
+  if (argInputs.programCrateName)
+    inputs.programCrateName = argInputs.programCrateName;
+  if (argInputs.rustClientCrateName)
+    inputs.rustClientCrateName = argInputs.rustClientCrateName;
   if (argInputs.force) inputs.shouldOverride = true;
   if (argInputs.useDefaults) inputs.useDefaults = true;
 

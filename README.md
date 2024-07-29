@@ -67,6 +67,11 @@ pnpm create solana-program --solana 1.18
 
 # Force the creation of the program repository even if the directory is not empty.
 pnpm create solana-program --force
+
+# Override the library names.
+pnpm create solana-program --program-crate-name acme-counter
+pnpm create solana-program --rust-client-crate-name acme-counter-client
+pnpm create solana-program --js-client-package-name @acme/counter
 ```
 
 ## Existing Anchor programs

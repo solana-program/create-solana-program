@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.12
+
+### Patch Changes
+
+- [#85](https://github.com/solana-program/create-solana-program/pull/85) [`bd9a598`](https://github.com/solana-program/create-solana-program/commit/bd9a5985b0be2e5152e0a82a0929d1e20cd63790) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Bump web3.js version to `rc` in JS clients
+
 ## 0.3.11
 
 ### Patch Changes

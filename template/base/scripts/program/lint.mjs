@@ -13,7 +13,7 @@ import {
 const lintArgs = cliArguments();
 
 const fix = popArgument(lintArgs, '--fix');
-const toolchain = getToolchainArgument('format');
+const toolchain = getToolchainArgument('lint');
 
 // Lint the programs using clippy.
 await Promise.all(

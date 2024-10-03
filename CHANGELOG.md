@@ -1,5 +1,15 @@
 # create-solana-program
 
+## 0.3.13
+
+### Patch Changes
+
+- [#89](https://github.com/solana-program/create-solana-program/pull/89) [`1347315`](https://github.com/solana-program/create-solana-program/commit/13473159ddae78c3cc07bdbaf9ba70ba0bbd07bb) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add anchor as optional feature in Rust client
+
+- [#91](https://github.com/solana-program/create-solana-program/pull/91) [`399f593`](https://github.com/solana-program/create-solana-program/commit/399f5937089cac3f6dfa42a5b907af1179570c4f) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Bump Kinobi version
+
+- [#83](https://github.com/solana-program/create-solana-program/pull/83) [`afc1c6d`](https://github.com/solana-program/create-solana-program/commit/afc1c6d45d820a76b72b024eebef6feec645d029) Thanks [@buffalojoec](https://github.com/buffalojoec)! - Updates Rust linting scripts to use the proper toolchain.
+
 ## 0.3.12
 
 ### Patch Changes

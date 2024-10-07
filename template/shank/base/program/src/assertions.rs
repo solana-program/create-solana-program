@@ -4,6 +4,26 @@ use solana_program::{
     pubkey::Pubkey,
 };
 
+/// Assert that the given account is owned by the given program or one of the given owners.
+/// Useful for dealing with program interfaces.
+pub fn assert_program_owner_either(
+    account_name: &str,
+    account: &AccountInfo,
+    owners: &[Pubkey],
+) -> ProgramResult {
+    if !owners.iter().any(|owner| account.owner == owner) {
+        msg!(
+            "Account \"{}\" [{}] must be owned by either {:?}",
+            account_name,
+            account.key,
+            owners
+        );
+        Err(CounterError::InvalidProgramOwner.into())
+    } else {
+        Ok(())
+    }
+}
+
 /// Assert that the given account is owned by the given program.
 pub fn assert_program_owner(
     account_name: &str,
@@ -42,6 +62,27 @@ pub fn assert_pda(
         return Err(CounterError::InvalidPda.into());
     }
     Ok(bump)
+}
+
+/// Assert the derivation of the seeds plus bump against the given account.
+pub fn assert_pda_with_bump(
+    account_name: &str,
+    account: &AccountInfo,
+    program_id: &Pubkey,
+    seeds_with_bump: &[&[u8]],
+) -> ProgramResult {
+    let key = Pubkey::create_program_address(seeds_with_bump, program_id)?;
+    if *account.key != key {
+        msg!(
+            "Account \"{}\" [{}] is an invalid PDA. Expected the following valid PDA [{}]",
+            account_name,
+            account.key,
+            key,
+        );
+        Err(CounterError::InvalidPda.into())
+    } else {
+        Ok(())
+    }
 }
 
 /// Assert that the given account is empty.

@@ -7,7 +7,7 @@
     "validator:stop": "zx ./scripts/stop-validator.mjs"
   },
   "devDependencies": {
-    "kinobi": "^0.21.5",
-    "@kinobi-so/nodes-from-anchor": "^0.21.3"
+    "codama": "^1.0.0",
+    "@codama/nodes-from-anchor": "^1.0.0"
   }
 }

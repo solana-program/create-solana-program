@@ -8,6 +8,7 @@ on:
 
 env:
   ANCHOR_VERSION: 0.30.0
+  NODE_VERSION : 20
   SOLANA_VERSION: 1.18.18
   TOOLCHAIN: 1.75.0
 
@@ -23,7 +24,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -54,7 +55,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -113,7 +114,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile

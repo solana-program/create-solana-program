@@ -1,5 +1,17 @@
 # create-solana-program
 
+## 0.3.14
+
+### Patch Changes
+
+- [#93](https://github.com/solana-program/create-solana-program/pull/93) [`e5c620d`](https://github.com/solana-program/create-solana-program/commit/e5c620d05c494a4ce879580b5d9b15fb7f9a0a33) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Use Codama v1.0.0 (See https://github.com/codama-idl/codama/pull/234)
+
+- [#90](https://github.com/solana-program/create-solana-program/pull/90) [`2594fb8`](https://github.com/solana-program/create-solana-program/commit/2594fb891266e4aec0c5f9090ad40ee8d55eda12) Thanks [@kevinrodriguez-io](https://github.com/kevinrodriguez-io)! - Adds extra assertion helpers for shank programs
+
+- [#95](https://github.com/solana-program/create-solana-program/pull/95) [`380ec4f`](https://github.com/solana-program/create-solana-program/commit/380ec4f69a7eb8e2489c2f91a229bcc103851df7) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Use `2.0.0-rc.1` version of web3.js
+
+- [#94](https://github.com/solana-program/create-solana-program/pull/94) [`218cebf`](https://github.com/solana-program/create-solana-program/commit/218cebfbca361df26ff6d043bd70d8e69a52becf) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Use Node v20
+
 ## 0.3.13
 
 ### Patch Changes

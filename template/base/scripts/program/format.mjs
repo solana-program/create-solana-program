@@ -18,14 +18,12 @@ const [cargoArgs, fmtArgs] = partitionArguments(formatArgs, '--');
 const toolchain = getToolchainArgument('format');
 
 // Format the programs.
-await Promise.all(
-  getProgramFolders().map(async (folder) => {
-    const manifestPath = path.join(workingDirectory, folder, 'Cargo.toml');
+for (const folder of getProgramFolders()) {
+  const manifestPath = path.join(workingDirectory, folder, 'Cargo.toml');
 
-    if (fix) {
-      await $`cargo ${toolchain} fmt --manifest-path ${manifestPath} ${cargoArgs} -- ${fmtArgs}`;
-    } else {
-      await $`cargo ${toolchain} fmt --manifest-path ${manifestPath} ${cargoArgs} -- --check ${fmtArgs}`;
-    }
-  })
-);
+  if (fix) {
+    await $`cargo ${toolchain} fmt --manifest-path ${manifestPath} ${cargoArgs} -- ${fmtArgs}`;
+  } else {
+    await $`cargo ${toolchain} fmt --manifest-path ${manifestPath} ${cargoArgs} -- --check ${fmtArgs}`;
+  }
+}

@@ -16,14 +16,12 @@ const fix = popArgument(lintArgs, '--fix');
 const toolchain = getToolchainArgument('lint');
 
 // Lint the programs using clippy.
-await Promise.all(
-  getProgramFolders().map(async (folder) => {
-    const manifestPath = path.join(workingDirectory, folder, 'Cargo.toml');
+for (const folder of getProgramFolders()) {
+  const manifestPath = path.join(workingDirectory, folder, 'Cargo.toml');
 
-    if (fix) {
-      await $`cargo ${toolchain} clippy --manifest-path ${manifestPath} --fix ${lintArgs}`;
-    } else {
-      await $`cargo ${toolchain} clippy --manifest-path ${manifestPath} ${lintArgs}`;
-    }
-  })
-);
+  if (fix) {
+    await $`cargo ${toolchain} clippy --manifest-path ${manifestPath} --fix ${lintArgs}`;
+  } else {
+    await $`cargo ${toolchain} clippy --manifest-path ${manifestPath} ${lintArgs}`;
+  }
+}

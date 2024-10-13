@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.15
+
+### Patch Changes
+
+- [#96](https://github.com/solana-program/create-solana-program/pull/96) [`3487f44`](https://github.com/solana-program/create-solana-program/commit/3487f448781616bf1ed8b87da3addd0c939b42f8) Thanks [@febo](https://github.com/febo)! - Use loop on program scripts
+
 ## 0.3.14
 
 ### Patch Changes

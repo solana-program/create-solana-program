@@ -12,7 +12,7 @@ const sbfOutDir = path.join(workingDirectory, 'target', 'deploy');
 // Run the tests.
 cd(path.join(workingDirectory, 'clients', 'rust'));
 if (hasSolfmt) {
-  await $`SBF_OUT_DIR=${sbfOutDir} cargo test ${testArgs} 2>&1 | solfmt`;
+  await $`SBF_OUT_DIR=${sbfOutDir} cargo test --features "test-sbf" ${testArgs} 2>&1 | solfmt`;
 } else {
-  await $`SBF_OUT_DIR=${sbfOutDir} cargo test ${testArgs}`;
+  await $`SBF_OUT_DIR=${sbfOutDir} cargo test --features "test-sbf" ${testArgs}`;
 }

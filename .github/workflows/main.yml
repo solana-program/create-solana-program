@@ -60,7 +60,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Install Solana
-        uses: metaplex-foundation/actions/install-solana@v1
+        uses: solana-program/actions/install-solana@v1
         with:
           version: ${{ matrix.solana }}
       - name: Install Rustfmt
@@ -119,7 +119,7 @@ jobs:
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
       - name: Install Solana
-        uses: metaplex-foundation/actions/install-solana@v1
+        uses: solana-program/actions/install-solana@v1
         with:
           version: ${{ env.SOLANA_VERSION }}
       - name: Install Anchor

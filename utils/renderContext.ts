@@ -25,6 +25,7 @@ export type RenderContext = Omit<
   programAddress: string;
   programDirectory: string;
   packageManager: PackageManager;
+  repositoryUrl: string;
   rustVersion: ResolvedVersion;
   solanaVersion: ResolvedVersion;
   targetDirectory: string;
@@ -53,6 +54,7 @@ export function getRenderContext({
   );
   const getNpmCommand: RenderContext['getNpmCommand'] = (...args) =>
     getPackageManagerCommand(packageManager, ...args);
+  const repositoryUrl = `https://github.com/${inputs.organizationName}/${inputs.targetDirectoryName}`;
 
   // Versions.
   const anchorVersion = resolveAnchorVersion(anchorVersionDetected);
@@ -89,6 +91,7 @@ export function getRenderContext({
     packageManager,
     programAddress,
     programDirectory,
+    repositoryUrl,
     rustVersion,
     solanaVersion,
     targetDirectory,

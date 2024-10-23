@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.16
+
+### Patch Changes
+
+- [#101](https://github.com/solana-program/create-solana-program/pull/101) [`5f27fdf`](https://github.com/solana-program/create-solana-program/commit/5f27fdfaa93e8bf6065fcb071ed8e846542f1e0e) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Remove unused `@solana/webcrypto-ed25519-polyfill` dependency in JS client
+
 ## 0.3.15
 
 ### Patch Changes

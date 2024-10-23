@@ -1,5 +1,17 @@
 # create-solana-program
 
+## 0.3.15
+
+### Patch Changes
+
+- [#99](https://github.com/solana-program/create-solana-program/pull/99) [`938afd3`](https://github.com/solana-program/create-solana-program/commit/938afd3d0434d290a06dfc89cb5c1f6dcd3cac35) Thanks [@febo](https://github.com/febo)! - Use install-solana action from solana-program
+
+- [#100](https://github.com/solana-program/create-solana-program/pull/100) [`faa8768`](https://github.com/solana-program/create-solana-program/commit/faa87683239dfd63a30d8557670a9512b743ddb6) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Add repository URL to package.json of generated JS clients
+
+- [#96](https://github.com/solana-program/create-solana-program/pull/96) [`3487f44`](https://github.com/solana-program/create-solana-program/commit/3487f448781616bf1ed8b87da3addd0c939b42f8) Thanks [@febo](https://github.com/febo)! - Use loop on program scripts
+
+- [#98](https://github.com/solana-program/create-solana-program/pull/98) [`0e9c6bd`](https://github.com/solana-program/create-solana-program/commit/0e9c6bd3bb237df762afc93172b99bd6932cf23f) Thanks [@febo](https://github.com/febo)! - Use cargo test directly on Rust client script
+
 ## 0.3.14
 
 ### Patch Changes

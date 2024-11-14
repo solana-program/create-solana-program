@@ -98,6 +98,12 @@ jobs:
           path: ./**/*.so
           key: {% raw %}${{ runner.os }}-builds-${{ github.sha }}{% endraw %}
 
+      - name: Save Dumped Accounts For Client Jobs
+        uses: actions/cache/save@v4
+        with:
+          path: ./target/deploy/*.json
+          key: {% raw %}${{ runner.os }}-accounts-${{ github.sha }}{% endraw %}
+
   test_programs:
     name: Test Programs
     runs-on: ubuntu-latest
@@ -187,6 +193,12 @@ jobs:
         with:
           path: ./**/*.so
           key: {% raw %}${{ runner.os }}-builds-${{ github.sha }}{% endraw %}
+
+      - name: Restore Dumped Accounts For Client Jobs
+        uses: actions/cache/restore@v4
+        with:
+          path: ./target/deploy/*.json
+          key: {% raw %}${{ runner.os }}-accounts-${{ github.sha }}{% endraw %}
 
       - name: Test Client JS
         run: pnpm clients:js:test

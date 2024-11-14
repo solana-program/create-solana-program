@@ -92,17 +92,13 @@ jobs:
           path: ./target/deploy/*.so
           if-no-files-found: error
 
-      - name: Save Program Builds For Client Jobs
+      - name: Save Client Artifacts
         uses: actions/cache/save@v4
         with:
-          path: ./**/*.so
+          path: |
+            ./**/*.so
+            ./target/deploy/*.json
           key: {% raw %}${{ runner.os }}-builds-${{ github.sha }}{% endraw %}
-
-      - name: Save Dumped Accounts For Client Jobs
-        uses: actions/cache/save@v4
-        with:
-          path: ./target/deploy/*.json
-          key: {% raw %}${{ runner.os }}-accounts-${{ github.sha }}{% endraw %}
 
   test_programs:
     name: Test Programs
@@ -188,17 +184,13 @@ jobs:
         with:
           solana: true
 
-      - name: Restore Program Builds
+      - name: Restore Client Artifacts
         uses: actions/cache/restore@v4
         with:
-          path: ./**/*.so
+          path: |
+            ./**/*.so
+            ./target/deploy/*.json
           key: {% raw %}${{ runner.os }}-builds-${{ github.sha }}{% endraw %}
-
-      - name: Restore Dumped Accounts For Client Jobs
-        uses: actions/cache/restore@v4
-        with:
-          path: ./target/deploy/*.json
-          key: {% raw %}${{ runner.os }}-accounts-${{ github.sha }}{% endraw %}
 
       - name: Test Client JS
         run: pnpm clients:js:test

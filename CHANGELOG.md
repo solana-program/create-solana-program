@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.17
+
+### Patch Changes
+
+- [#105](https://github.com/solana-program/create-solana-program/pull/105) [`2898f0f`](https://github.com/solana-program/create-solana-program/commit/2898f0ffec356fd6e753dfb5831a36679e31f807) Thanks [@lorisleiva](https://github.com/lorisleiva)! - Update web3.js to ^2.0.0 (removes the RC tag)
+
 ## 0.3.16
 
 ### Patch Changes

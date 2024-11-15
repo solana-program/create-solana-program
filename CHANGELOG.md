@@ -1,5 +1,11 @@
 # create-solana-program
 
+## 0.3.18
+
+### Patch Changes
+
+- [#104](https://github.com/solana-program/create-solana-program/pull/104) [`b6115d0`](https://github.com/solana-program/create-solana-program/commit/b6115d02350f0980748c192808d58c0ac2a03cc8) Thanks [@samuelvanderwaal](https://github.com/samuelvanderwaal)! - Cache and restore external accounts
+
 ## 0.3.17
 
 ### Patch Changes

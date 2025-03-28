@@ -2,7 +2,7 @@ import {
   Account,
   appendTransactionMessageInstruction,
   pipe,
-} from '@solana/web3.js';
+} from '@solana/kit';
 import test from 'ava';
 import {
   Counter,

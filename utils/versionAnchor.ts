@@ -7,6 +7,8 @@ import {
   Version,
 } from './versionCore';
 
+export const FALLBACK_ANCHOR_VERSION: Version = '0.31.0';
+
 export async function detectAnchorVersion(
   language: Language
 ): Promise<Version> {
@@ -22,8 +24,8 @@ export async function detectAnchorVersion(
 export function resolveAnchorVersion(
   detectedVersion: Version | undefined
 ): ResolvedVersion | undefined {
-  if (!detectedVersion) return undefined;
-  const [full, withoutPatch] =
-    getVersionAndVersionWithoutPatch(detectedVersion);
+  const [full, withoutPatch] = getVersionAndVersionWithoutPatch(
+    detectedVersion ?? FALLBACK_ANCHOR_VERSION
+  );
   return { full, withoutPatch, detected: detectedVersion };
 }

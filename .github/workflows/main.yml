@@ -8,8 +8,8 @@ on:
 
 env:
   ANCHOR_VERSION: 0.30.0
-  NODE_VERSION : 20
-  SOLANA_VERSION: 1.18.18
+  NODE_VERSION : 22
+  SOLANA_VERSION: 2.1.9
   TOOLCHAIN: 1.81.0
 
 jobs:
@@ -37,14 +37,10 @@ jobs:
     strategy:
       matrix:
         project: ["counter-anchor", "counter-shank"]
-        solana: ["1.17.34", "1.18.18"]
+        solana: ["1.18.18", "2.1.9"]
         include:
           - anchor: "0.30.0"
             project: "counter-anchor"
-            solana: "1.18.18"
-          - anchor: "0.29.0"
-            project: "counter-anchor"
-            solana: "1.17.34"
     steps:
       - name: Git checkout
         uses: actions/checkout@v4

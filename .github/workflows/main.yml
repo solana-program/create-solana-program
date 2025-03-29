@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 env:
-  ANCHOR_VERSION: 0.30.0
+  ANCHOR_VERSION: 0.31.0
   NODE_VERSION : 22
   SOLANA_VERSION: 2.1.9
   TOOLCHAIN: 1.81.0
@@ -39,8 +39,12 @@ jobs:
         project: ["counter-anchor", "counter-shank"]
         solana: ["1.18.18", "2.1.9"]
         include:
+          - anchor: "0.31.0"
+            project: "counter-anchor"
+            solana: "2.1.9"
           - anchor: "0.30.0"
             project: "counter-anchor"
+            solana: "1.18.18"
     steps:
       - name: Git checkout
         uses: actions/checkout@v4

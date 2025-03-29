@@ -7,7 +7,7 @@ import {
   Version,
 } from './versionCore';
 
-export const FALLBACK_ANCHOR_VERSION: Version = '0.31.0';
+export const FALLBACK_ANCHOR_VERSION: Version = '0.30.0';
 
 export async function detectAnchorVersion(
   language: Language

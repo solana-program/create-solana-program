@@ -33,7 +33,7 @@
     "selectOptions": {
       "js": {
         "title": "Client JavaScript",
-        "desc": "Une librairie TypeScript compatible avec le nouveau web3.js"
+        "desc": "Une librairie TypeScript compatible avec @solana/kit"
       },
       "rust": {
         "title": "Client Rust",

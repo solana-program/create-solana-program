@@ -10,7 +10,7 @@ env:
   ANCHOR_VERSION: 0.30.0
   NODE_VERSION : 20
   SOLANA_VERSION: 1.18.18
-  TOOLCHAIN: 1.75.0
+  TOOLCHAIN: 1.81.0
 
 jobs:
   lint:
@@ -59,6 +59,19 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Cache cargo crates
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            ./projects/**/.cargo/
+            ./projects/**/target/
+          key: ${{ runner.os }}-crates-solana-v${{ matrix.solana }}-${{ hashFiles('projects/**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-crates-solana-v${{ matrix.solana }}
       - name: Install Solana
         uses: solana-program/actions/install-solana@v1
         with:
@@ -80,19 +93,6 @@ jobs:
           version: ${{ matrix.anchor }}
       - name: Pre-scaffold projects for caching purposes
         run: pnpm snapshot ${{ matrix.project }} --scaffold-only
-      - name: Cache cargo crates
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            ./projects/**/.cargo/
-            ./projects/**/target/
-          key: ${{ runner.os }}-crates-solana-v${{ matrix.solana }}-${{ hashFiles('projects/**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-crates-solana-v${{ matrix.solana }}
       - name: Build and run tests
         run: pnpm snapshot ${{ matrix.project }} --test
 
@@ -118,16 +118,6 @@ jobs:
           cache: "pnpm"
       - name: Install Dependencies
         run: pnpm install --frozen-lockfile
-      - name: Install Solana
-        uses: solana-program/actions/install-solana@v1
-        with:
-          version: ${{ env.SOLANA_VERSION }}
-      - name: Install Anchor
-        uses: metaplex-foundation/actions/install-anchor-cli@v1
-        with:
-          version: ${{ env.ANCHOR_VERSION }}
-      - name: Pre-scaffold projects for caching purposes
-        run: pnpm snapshot --scaffold-only
       - name: Cache cargo crates
         uses: actions/cache@v4
         with:
@@ -141,6 +131,16 @@ jobs:
           key: ${{ runner.os }}-crates-solana-v${{ env.SOLANA_VERSION }}-${{ hashFiles('projects/**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-crates-solana-v${{ env.SOLANA_VERSION }}
+      - name: Install Solana
+        uses: solana-program/actions/install-solana@v1
+        with:
+          version: ${{ env.SOLANA_VERSION }}
+      - name: Install Anchor
+        uses: metaplex-foundation/actions/install-anchor-cli@v1
+        with:
+          version: ${{ env.ANCHOR_VERSION }}
+      - name: Pre-scaffold projects for caching purposes
+        run: pnpm snapshot --scaffold-only
       - name: Setup git user
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"

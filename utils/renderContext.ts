@@ -57,11 +57,14 @@ export function getRenderContext({
   const repositoryUrl = `https://github.com/${inputs.organizationName}/${inputs.targetDirectoryName}`;
 
   // Versions.
-  const anchorVersion = resolveAnchorVersion(anchorVersionDetected);
   const solanaVersion = resolveSolanaVersion(
     language,
     inputs.solanaVersion,
     solanaVersionDetected
+  );
+  const anchorVersion = resolveAnchorVersion(
+    anchorVersionDetected,
+    solanaVersion
   );
   const rustVersion = resolveRustVersion(
     language,

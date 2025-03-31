@@ -29,9 +29,11 @@ export function resolveRustVersion(
     '1.17': '1.75.0',
     '1.18': '1.75.0',
     '2.0': '1.75.0',
+    '2.1': '1.79.0',
+    '2.2': '1.79.0',
   };
   const fallbackVersion =
-    solanaToRustMap[solanaVersion.withoutPatch] ?? '1.75.0';
+    solanaToRustMap[solanaVersion.withoutPatch] ?? '1.79.0';
 
   const version = inputVersion ?? detectedVersion ?? fallbackVersion;
   assertIsValidVersion(language, 'Rust', version);
@@ -53,6 +55,8 @@ function warnAboutSolanaRustVersionMismatch(
     '1.17': '1.68.0',
     '1.18': '1.75.0',
     '2.0': '1.75.0',
+    '2.1': '1.79.0',
+    '2.2': '1.79.0',
   };
   const minimumViableRustVersion: Version | undefined =
     minimumViableRustVersionPerSolanaVersion[solanaVersion.withoutPatch];

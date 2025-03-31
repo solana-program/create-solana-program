@@ -30,6 +30,7 @@ export function resolveSolanaVersion(
   const [full, withoutPatch] = getVersionAndVersionWithoutPatch(version, {
     '1.17': '1.17.34',
     '1.18': '1.18.18',
+    '2.1': '2.1.16',
   });
   return { full, withoutPatch, detected: detectedVersion };
 }

@@ -1,4 +1,5 @@
-<img src="https://badgen.net/npm/v/create-solana-program" alt="npm package"></a> <a href="https://nodejs.org/en/about/previous-releases"><img src="https://img.shields.io/node/v/create-solana-program" alt="node compatibility"></a>
+<a href="https://www.npmjs.com/package/create-solana-program"><img src="https://badgen.net/npm/v/create-solana-program" alt="npm package"></a> 
+<a href="https://nodejs.org/en/about/previous-releases"><img src="https://img.shields.io/node/v/create-solana-program" alt="node compatibility"></a>
 # create-solana-program <a href="https://npmjs.com/package/create-solana-program">
 
 The fastest way to get started with Solana program development.

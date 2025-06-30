@@ -12,7 +12,7 @@ export async function patchSolanaDependencies(
   ctx: Pick<RenderContext, 'solanaVersion' | 'targetDirectory'>
 ): Promise<void> {
   const patchMap: Record<VersionWithoutPatch, string[]> = {
-    '1.17': ['-p ahash@0.8.11 --precise 0.8.6'],
+    '1.17': ['-p ahash@0.8.12 --precise 0.8.6'],
   };
 
   const patches = patchMap[ctx.solanaVersion.withoutPatch] ?? [];

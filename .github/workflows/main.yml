@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 env:
-  ANCHOR_VERSION: 0.30.0
+  ANCHOR_VERSION: 0.30.1
   NODE_VERSION : 20
   SOLANA_VERSION: 1.18.18
   TOOLCHAIN: 1.81.0
@@ -39,7 +39,7 @@ jobs:
         project: ["counter-anchor", "counter-shank"]
         solana: ["1.17.34", "1.18.18"]
         include:
-          - anchor: "0.30.0"
+          - anchor: "0.30.1"
             project: "counter-anchor"
             solana: "1.18.18"
           - anchor: "0.29.0"
@@ -75,6 +75,7 @@ jobs:
       - name: Install Solana
         uses: solana-program/actions/install-solana@v1
         with:
+          base_url: "https://release.anza.xyz"
           version: ${{ matrix.solana }}
       - name: Install Rustfmt
         uses: dtolnay/rust-toolchain@master

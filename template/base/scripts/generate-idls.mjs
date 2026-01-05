@@ -9,6 +9,7 @@ getProgramFolders().forEach((folder) => {
   const cargo = getCargo(folder);
   const isShank = Object.keys(cargo.dependencies).includes('shank');
   const programDir = path.join(__dirname, '..', folder);
+  const extraArgs = process.argv.slice(3);
 
   generateIdl({
     generator: isShank ? 'shank' : 'anchor',
@@ -18,5 +19,6 @@ getProgramFolders().forEach((folder) => {
     idlName: 'idl',
     programDir,
     binaryInstallDir,
+    binaryExtraArgs: extraArgs,
   });
 });
